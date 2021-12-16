@@ -1,0 +1,632 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+	
+	<template id="project_compare_document">
+		<t t-call="ghss_hr_report.payslip_layout">
+			<div class="page">
+					<div class="row">
+						<div class="col-xs-4" style="border: 1px solid black;">
+							<table border="1" width="100%" style="font-familly: Times, serif;font-size:12px;">
+								<tr>
+									<td style="text-align:center;letter-spacing:2px;"><h4>REPUBLIC OF CAMEROON</h4></td>
+								</tr>
+								<tr>
+									<td style="text-align:center;letter-spacing:2px;">Information Document<br/>
+									Bank Transaction</td>
+								</tr>
+								<tr>
+									<td style="text-align:center;letter-spacing:2px;"><h4>PAYROLL COMPONENTS</h4></td>
+								</tr>
+								<tr>
+									<td style="text-align:center;letter-spacing:2px;"><h5>(<span t-field="o.project_id.name"/>)</h5></td>
+								</tr> 
+							</table>
+						</div>
+						<div class="col-xs-7 col-xs-offset-1">
+						<table border="0" width="100%" style="font-familly: Times, serif;font-size:12px;">
+							<tr>
+								<td width="25%"><![CDATA[&nbsp;]]></td>
+								<td width="25%"><![CDATA[&nbsp;]]></td>
+								<td width="25%"><![CDATA[&nbsp;]]></td>
+								<td width="25%"><![CDATA[&nbsp;]]></td>
+							</tr>
+							<tr>
+								<td><![CDATA[&nbsp;]]></td>
+								<td><![CDATA[&nbsp;]]></td>
+								<td><![CDATA[&nbsp;]]></td>
+								<td><![CDATA[&nbsp;]]></td>
+							</tr>
+							<tr>
+								<td style="letter-spacing:2px;"><b>Company Name</b></td>
+								<td style="letter-spacing:2px;" colspan="3"><span t-field="o.company_id.name"/></td>
+							</tr>
+							<tr>
+								<td style="letter-spacing:2px;"><b>Adsress</b></td>
+								<td style="letter-spacing:2px;" colspan="3">Mokindi Layout, Sonara Road</td>
+							</tr>
+							<tr>
+								<td style="letter-spacing:2px;"><b>P.O Box</b></td>
+								<td style="letter-spacing:2px;" colspan="3">P.O Box 732 Limbe</td>
+							</tr>
+							<tr>
+								<td style="letter-spacing:2px;"><b>Payroll Month</b></td>
+								<td style="letter-spacing:2px;" colspan="3"><span t-field="o.month"/></td>
+							</tr> 
+						</table>
+						</div>
+					</div>
+				<br/> 
+				<div class="row">
+				<div class="col-xs-12">
+				<div align="center" width="100%">
+				<table border="1" width="100%" style="border: 1px solid black;font-familly: Times, serif;font-size:12px;">
+					<tr style="border:1px solid black;padding: 5px;">
+						<th width="100%" scope="clogroup" colspan="4" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>Compare with previous month</b></th>
+					</tr>
+					<tr style="border:1px solid black;padding: 5px;">
+						<th width="40%" scope="col" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>Designation</b></th>
+						<t t-if="o.payroll_batch_id.previous_payslip_run_id">
+							<th width="20%" scope="col" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b><span t-field="o.previous_payroll_project_wizard_id.month"/></b></th>
+						</t>
+						<t t-if="not o.payroll_batch_id.previous_payslip_run_id">
+							<th width="20%" scope="col" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>N/A</b></th>
+						</t>
+						<th width="20%" scope="col" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b><span t-field="o.month"/></b></th>
+						<th width="20%" scope="col" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>Difference</b></th>
+					</tr>
+					
+				 	<tr style="padding: 5px;">
+						<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;">Basic Salary</td>
+						
+						<t t-if="o.payroll_batch_id.previous_payslip_run_id">
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.previous_payroll_project_wizard_id.total_basic"/></td>
+						</t>
+						<t t-if="not o.payroll_batch_id.previous_payslip_run_id">
+							<td style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:1px;">N/A</td>
+						</t>
+						
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.total_basic"/></td>
+						
+						<t t-set="basic_salary" t-value="o.total_basic"/>
+						<t t-if="o.payroll_batch_id.previous_payslip_run_id">
+							<t t-set="basic_salary" t-value="basic_salary - o.previous_payroll_project_wizard_id.total_basic"/>
+						</t>
+						
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-esc="'{0:,.1f}'.format(basic_salary)"/></td>
+						
+					</tr>
+					
+					<t t-foreach="o.allowance_set_ids" t-as="allowance">
+					
+						<t t-set="current_amount" t-value="0"/>
+						<t t-set="last_amount" t-value="0"/>
+						
+						<t t-foreach="o.payslip_ids" t-as="payslip">
+							<t t-foreach="payslip.line_ids" t-as="line">
+								<t t-if="line.salary_rule_id.id == allowance.rule_id.id">
+									<t t-set="current_amount" t-value="current_amount + line.total"/>
+								</t>
+							</t>
+						</t> 
+						
+						<t t-foreach="o.previous_payroll_project_wizard_id.payslip_ids" t-as="payslip">
+							<t t-foreach="payslip.line_ids" t-as="line">
+								<t t-if="line.salary_rule_id.id == allowance.rule_id.id">
+									<t t-set="last_amount" t-value="last_amount + line.total"/>
+								</t>
+							</t>
+						</t> 
+					
+					<tr style="padding: 5px;">
+						<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;"><span t-field="allowance.name"/></td>
+						
+						<t t-if="o.payroll_batch_id.previous_payslip_run_id">
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-esc="'{0:,.1f}'.format(last_amount)"/></td>
+						</t>
+						<t t-if="not o.payroll_batch_id.previous_payslip_run_id">
+							<td style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:1px;">N/A</td>
+						</t>
+						
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-esc="'{0:,.1f}'.format(current_amount)"/></td>
+						
+						<t t-set="difference" t-value="current_amount"/>
+						<t t-if="o.payroll_batch_id.previous_payslip_run_id">
+							<t t-set="difference" t-value="current_amount - last_amount"/>
+						</t> 
+						
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-esc="'{0:,.1f}'.format(difference)"/></td>
+						
+					</tr>
+					</t>
+					
+					<tr style="padding: 5px;">
+						<td style="border: 0.5px solid black;" colspan="4"><![CDATA[&nbsp;]]></td>
+					</tr>
+
+				 	<tr style="padding: 5px;">
+						<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;"><b>Gross Salary</b></td>
+						
+						<t t-if="o.payroll_batch_id.previous_payslip_run_id">
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><b><span t-field="o.previous_payroll_project_wizard_id.total_gross"/></b></td>
+						</t>
+						<t t-if="not o.payroll_batch_id.previous_payslip_run_id">
+							<td style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:1px;"><b>N/A</b></td>
+						</t>
+						
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><b><span t-field="o.total_gross"/></b></td>
+						
+						<t t-set="gross_salary" t-value="o.total_gross"/>
+						<t t-if="o.payroll_batch_id.previous_payslip_run_id">
+							<t t-set="gross_salary" t-value="gross_salary - o.previous_payroll_project_wizard_id.total_gross"/>
+						</t>
+						
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><b><span t-esc="'{0:,.1f}'.format(gross_salary)"/></b></td>
+						
+					</tr>
+					
+					<tr style="padding: 5px;">
+						<td style="border: 0.5px solid black;" colspan="4"><![CDATA[&nbsp;]]></td>
+					</tr>
+
+				 	<tr style="padding: 5px;">
+						<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;"><b>Taxable Salary</b></td>
+						
+						<t t-if="o.payroll_batch_id.previous_payslip_run_id">
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><b><span t-field="o.previous_payroll_project_wizard_id.total_taxable"/></b></td>
+						</t>
+						<t t-if="not o.payroll_batch_id.previous_payslip_run_id">
+							<td style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:1px;">N/A</td>
+						</t>
+						
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><b><span t-field="o.total_taxable"/></b></td>
+						
+						<t t-set="taxable_salary" t-value="o.total_taxable"/>
+						<t t-if="o.payroll_batch_id.previous_payslip_run_id">
+							<t t-set="taxable_salary" t-value="taxable_salary - o.previous_payroll_project_wizard_id.total_taxable"/>
+						</t>
+						
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><b><span t-esc="'{0:,.1f}'.format(taxable_salary)"/></b></td>
+						
+					</tr>
+
+					<tr style="padding: 5px;">
+						<td style="border: 0.5px solid black;" colspan="4"><![CDATA[&nbsp;]]></td>
+					</tr>
+					
+					<tr style="padding: 5px;">
+						<td style="border: 0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;" colspan="4"><b>Employee Deductions</b></td>
+					</tr>  
+					
+					<!-- PIT -->
+				 	<tr style="padding: 5px;">
+						<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;">PIT</td>
+						
+						<t t-if="o.payroll_batch_id.previous_payslip_run_id">
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.previous_payroll_project_wizard_id.total_pit"/></td>
+						</t>
+						<t t-if="not o.payroll_batch_id.previous_payslip_run_id">
+							<td style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:1px;">N/A</td>
+						</t>
+						
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.total_pit"/></td>
+						
+						<t t-set="total_pit" t-value="o.total_pit"/>
+						<t t-if="o.payroll_batch_id.previous_payslip_run_id">
+							<t t-set="total_pit" t-value="total_pit - o.previous_payroll_project_wizard_id.total_pit"/>
+						</t>
+						
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-esc="'{0:,.1f}'.format(total_pit)"/></td>	
+					</tr> 
+					
+					<!-- ACT -->
+					<tr style="padding: 5px;">
+						<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;">ACT</td>
+						
+						<t t-if="o.payroll_batch_id.previous_payslip_run_id">
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.previous_payroll_project_wizard_id.total_act"/></td>
+						</t>
+						<t t-if="not o.payroll_batch_id.previous_payslip_run_id">
+							<td style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:1px;">N/A</td>
+						</t>
+						
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.total_act"/></td>
+						
+						<t t-set="total_act" t-value="o.total_act"/>
+						<t t-if="o.payroll_batch_id.previous_payslip_run_id">
+							<t t-set="total_act" t-value="total_act - o.previous_payroll_project_wizard_id.total_act"/>
+						</t>
+						
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-esc="'{0:,.1f}'.format(total_act)"/></td>	
+					</tr> 
+					
+					<!-- CFC Employee - Land Bank Rate -->
+					<tr style="padding: 5px;">
+						<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;">Land Bank Rate</td>
+						
+						<t t-if="o.payroll_batch_id.previous_payslip_run_id">
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.previous_payroll_project_wizard_id.total_cfce"/></td>
+						</t>
+						<t t-if="not o.payroll_batch_id.previous_payslip_run_id">
+							<td style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:1px;">N/A</td>
+						</t>
+						
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.total_cfce"/></td>
+						
+						<t t-set="total_cfce" t-value="o.total_cfce"/>
+						<t t-if="o.payroll_batch_id.previous_payslip_run_id">
+							<t t-set="total_cfce" t-value="total_cfce - o.previous_payroll_project_wizard_id.total_cfce"/>
+						</t>
+						
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-esc="'{0:,.1f}'.format(total_cfce)"/></td>	
+					</tr> 
+					
+					<!-- CRTV -->
+					<tr style="padding: 5px;">
+						<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;">CRTV</td>
+						
+						<t t-if="o.payroll_batch_id.previous_payslip_run_id">
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.previous_payroll_project_wizard_id.total_crtv"/></td>
+						</t>
+						<t t-if="not o.payroll_batch_id.previous_payslip_run_id">
+							<td style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:1px;">N/A</td>
+						</t>
+						
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.total_crtv"/></td>
+						
+						<t t-set="total_crtv" t-value="o.total_crtv"/>
+						<t t-if="o.payroll_batch_id.previous_payslip_run_id">
+							<t t-set="total_crtv" t-value="total_crtv - o.previous_payroll_project_wizard_id.total_crtv"/>
+						</t>
+						
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-esc="'{0:,.1f}'.format(total_crtv)"/></td>	
+					</tr>
+					
+					<!-- Communal Tax -->
+					<tr style="padding: 5px;">
+						<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;">Communal Tax</td>
+						
+						<t t-if="o.payroll_batch_id.previous_payslip_run_id">
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.previous_payroll_project_wizard_id.total_ctax"/></td>
+						</t>
+						<t t-if="not o.payroll_batch_id.previous_payslip_run_id">
+							<td style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:1px;">N/A</td>
+						</t>
+						
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.total_ctax"/></td>
+						
+						<t t-set="total_ctax" t-value="o.total_ctax"/>
+						<t t-if="o.payroll_batch_id.previous_payslip_run_id">
+							<t t-set="total_ctax" t-value="total_ctax - o.previous_payroll_project_wizard_id.total_ctax"/>
+						</t>
+						
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-esc="'{0:,.1f}'.format(total_ctax)"/></td>	
+					</tr> 
+					
+					<!-- Old age Pension - Employee -->
+					<tr style="padding: 5px;">
+						<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;">Old Age Pension - Employee</td>
+						
+						<t t-if="o.payroll_batch_id.previous_payslip_run_id">
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.previous_payroll_project_wizard_id.total_cnpse"/></td>
+						</t>
+						<t t-if="not o.payroll_batch_id.previous_payslip_run_id">
+							<td style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:1px;">N/A</td>
+						</t>
+						
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.total_cnpse"/></td>
+						
+						<t t-set="total_cnpse" t-value="o.total_cnpse"/>
+						<t t-if="o.payroll_batch_id.previous_payslip_run_id">
+							<t t-set="total_cnpse" t-value="total_cnpse - o.previous_payroll_project_wizard_id.total_cnpse"/>
+						</t>
+						
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-esc="'{0:,.1f}'.format(total_cnpse)"/></td>	
+					</tr>
+					
+					<tr style="padding: 5px;">
+						<td style="border: 0.5px solid black;" colspan="4"><![CDATA[&nbsp;]]></td>
+					</tr> 
+					
+					<!-- Total Taxes Employee Deductions -->
+					<tr style="padding: 5px;">
+						<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;"><b>Total Employee Taxes Deductions</b></td>
+						
+						<t t-if="o.payroll_batch_id.previous_payslip_run_id">
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><b><span t-field="o.previous_payroll_project_wizard_id.total_taxes_employees_basic"/></b></td>
+						</t>
+						<t t-if="not o.payroll_batch_id.previous_payslip_run_id">
+							<td style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>N/A</b></td>
+						</t>
+						
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><span t-field="o.total_taxes_employees_basic"/></td>
+						
+						<t t-set="total_taxes_employee_basic" t-value="o.total_taxes_employees_basic"/>
+						<t t-if="o.payroll_batch_id.previous_payslip_run_id">
+							<t t-set="total_taxes_employee_basic" t-value="total_taxes_employee_basic - o.previous_payroll_project_wizard_id.total_taxes_employees_basic"/>
+						</t>
+						
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><b><span t-esc="'{0:,.1f}'.format(total_taxes_employee_basic)"/></b></td>	
+					</tr>
+					
+					<tr style="padding: 5px;">
+						<td style="border: 0.5px solid black;" colspan="4"><![CDATA[&nbsp;]]></td>
+					</tr>
+					
+					<!-- Other Deductions - Employee -->
+					<tr style="padding: 5px;">
+						<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;">Other Deductions</td>
+						
+						<t t-if="o.payroll_batch_id.previous_payslip_run_id">
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.previous_payroll_project_wizard_id.total_other_deductions"/></td>
+						</t>
+						<t t-if="not o.payroll_batch_id.previous_payslip_run_id">
+							<td style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:1px;">N/A</td>
+						</t>
+						
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.total_other_deductions"/></td>
+						
+						<t t-set="total_other_deductions" t-value="o.total_other_deductions"/>
+						<t t-if="o.payroll_batch_id.previous_payslip_run_id">
+							<t t-set="total_other_deductions" t-value="total_other_deductions - o.previous_payroll_project_wizard_id.total_other_deductions"/>
+						</t>
+						
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-esc="'{0:,.1f}'.format(total_other_deductions)"/></td>	
+					</tr> 
+					
+					<tr style="padding: 5px;">
+						<td style="border: 0.5px solid black;" colspan="4"><![CDATA[&nbsp;]]></td>
+					</tr> 
+					
+					<!-- Total Employee Deductions -->
+					<tr style="padding: 5px;">
+						<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;"><b>Total Employee Deductions</b></td>
+						
+						<t t-if="o.payroll_batch_id.previous_payslip_run_id">
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><b><span t-field="o.previous_payroll_project_wizard_id.total_taxes_employees"/></b></td>
+						</t>
+						<t t-if="not o.payroll_batch_id.previous_payslip_run_id">
+							<td style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>N/A</b></td>
+						</t>
+						
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><span t-field="o.total_taxes_employees"/></td>
+						
+						<t t-set="total_taxes_employee" t-value="o.total_taxes_employees"/>
+						<t t-if="o.payroll_batch_id.previous_payslip_run_id">
+							<t t-set="total_taxes_employee" t-value="total_taxes_employee - o.previous_payroll_project_wizard_id.total_taxes_employees"/>
+						</t>
+						
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><b><span t-esc="'{0:,.1f}'.format(total_taxes_employee)"/></b></td>	
+					</tr>
+					
+					<tr style="padding: 5px;">
+						<td style="border: 0.5px solid black;" colspan="4"><![CDATA[&nbsp;]]></td>
+					</tr>					
+					
+					<tr style="padding: 5px;">
+						<td style="border: 0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;" colspan="4"><b>Employer Deductions</b></td>
+					</tr> 
+					
+					<!-- CFC - Employer -->
+					<tr style="padding: 5px;">
+						<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;">CFC</td>
+						
+						<t t-if="o.payroll_batch_id.previous_payslip_run_id">
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.previous_payroll_project_wizard_id.total_cfcp"/></td>
+						</t>
+						<t t-if="not o.payroll_batch_id.previous_payslip_run_id">
+							<td style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:1px;">N/A</td>
+						</t>
+						
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.total_cfcp"/></td>
+						
+						<t t-set="total_cfcp" t-value="o.total_cfcp"/>
+						<t t-if="o.payroll_batch_id.previous_payslip_run_id">
+							<t t-set="total_cfcp" t-value="total_cfcp - o.previous_payroll_project_wizard_id.total_cfcp"/>
+						</t>
+						
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-esc="'{0:,.1f}'.format(total_cfcp)"/></td>	
+					</tr> 
+					
+					<!-- FNE - Employer -->
+					<tr style="padding: 5px;">
+						<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;">FNE</td>
+						
+						<t t-if="o.payroll_batch_id.previous_payslip_run_id">
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.previous_payroll_project_wizard_id.total_fne"/></td>
+						</t>
+						<t t-if="not o.payroll_batch_id.previous_payslip_run_id">
+							<td style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:1px;">N/A</td>
+						</t>
+						
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.total_fne"/></td>
+						
+						<t t-set="total_fne" t-value="o.total_fne"/>
+						<t t-if="o.payroll_batch_id.previous_payslip_run_id">
+							<t t-set="total_fne" t-value="total_fne - o.previous_payroll_project_wizard_id.total_fne"/>
+						</t>
+						
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-esc="'{0:,.1f}'.format(total_fne)"/></td>	
+					</tr> 
+					
+					<!-- Familly Contribution - Employer -->
+					<tr style="padding: 5px;">
+						<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;">Family Contribution</td>
+						
+						<t t-if="o.payroll_batch_id.previous_payslip_run_id">
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.previous_payroll_project_wizard_id.total_fcon"/></td>
+						</t>
+						<t t-if="not o.payroll_batch_id.previous_payslip_run_id">
+							<td style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:1px;">N/A</td>
+						</t>
+						
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.total_fcon"/></td>
+						
+						<t t-set="total_fcon" t-value="o.total_fcon"/>
+						<t t-if="o.payroll_batch_id.previous_payslip_run_id">
+							<t t-set="total_fcon" t-value="total_fcon - o.previous_payroll_project_wizard_id.total_fcon"/>
+						</t>
+						
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-esc="'{0:,.1f}'.format(total_fcon)"/></td>	
+					</tr>
+
+					<!-- Old age Pension - Employer -->
+					<tr style="padding: 5px;">
+						<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;">Old Age Pension</td>
+						
+						<t t-if="o.payroll_batch_id.previous_payslip_run_id">
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.previous_payroll_project_wizard_id.total_cnpsp"/></td>
+						</t>
+						<t t-if="not o.payroll_batch_id.previous_payslip_run_id">
+							<td style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:1px;">N/A</td>
+						</t>
+						
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.total_cnpsp"/></td>
+						
+						<t t-set="total_cnpsp" t-value="o.total_cnpsp"/>
+						<t t-if="o.payroll_batch_id.previous_payslip_run_id">
+							<t t-set="total_cnpsp" t-value="total_cnpsp - o.previous_payroll_project_wizard_id.total_cnpsp"/>
+						</t>
+						
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-esc="'{0:,.1f}'.format(total_cnpsp)"/></td>	
+					</tr>
+
+					<!-- Industrial and Profesional Accident- Employer -->
+					<tr style="padding: 5px;">
+						<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;">Industrial and Profesional Accident</td>
+						
+						<t t-if="o.payroll_batch_id.previous_payslip_run_id">
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.previous_payroll_project_wizard_id.total_ipa"/></td>
+						</t>
+						<t t-if="not o.payroll_batch_id.previous_payslip_run_id">
+							<td style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:1px;">N/A</td>
+						</t>
+						
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.total_ipa"/></td>
+						
+						<t t-set="total_ipa" t-value="o.total_ipa"/>
+						<t t-if="o.payroll_batch_id.previous_payslip_run_id">
+							<t t-set="total_ipa" t-value="total_ipa - o.previous_payroll_project_wizard_id.total_ipa"/>
+						</t>
+						
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-esc="'{0:,.1f}'.format(total_ipa)"/></td>	
+					</tr>
+
+					<tr style="padding: 5px;">
+						<td style="border: 0.5px solid black;" colspan="4"><![CDATA[&nbsp;]]></td>
+					</tr>
+					
+					<!-- Total Employer Deductions -->
+					<tr style="padding: 5px;">
+						<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;"><b>Total Employer Tax Deductions</b></td>
+						
+						<t t-if="o.payroll_batch_id.previous_payslip_run_id">
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><b><span t-field="o.previous_payroll_project_wizard_id.total_taxes_employer"/></b></td>
+						</t>
+						<t t-if="not o.payroll_batch_id.previous_payslip_run_id">
+							<td style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>N/A</b></td>
+						</t>
+						
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><span t-field="o.total_taxes_employer"/></td>
+						
+						<t t-set="total_taxes_employer" t-value="o.total_taxes_employer"/>
+						<t t-if="o.payroll_batch_id.previous_payslip_run_id">
+							<t t-set="total_taxes_employer" t-value="total_taxes_employer - o.previous_payroll_project_wizard_id.total_taxes_employer"/>
+						</t>
+						
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><b><span t-esc="'{0:,.1f}'.format(total_taxes_employer)"/></b></td>	
+					</tr>
+					
+					<tr style="padding: 5px;">
+						<td style="border: 0.5px solid black;" colspan="4"><![CDATA[&nbsp;]]></td>
+					</tr>
+					
+					<!-- Total Deductions -->
+					<tr style="padding: 5px;">
+						<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;"><b>Total Tax Deductions</b></td>
+						
+						<t t-if="o.payroll_batch_id.previous_payslip_run_id">
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><b><span t-field="o.previous_payroll_project_wizard_id.total_taxes_deductions"/></b></td>
+						</t>
+						<t t-if="not o.payroll_batch_id.previous_payslip_run_id">
+							<td style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>N/A</b></td>
+						</t>
+						
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><span t-field="o.total_taxes_deductions"/></td>
+						
+						<t t-set="total_taxes_deductions" t-value="o.total_taxes_deductions"/>
+						<t t-if="o.payroll_batch_id.previous_payslip_run_id">
+							<t t-set="total_taxes_deductions" t-value="total_taxes_deductions - o.previous_payroll_project_wizard_id.total_taxes_deductions"/>
+						</t>
+						
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><b><span t-esc="'{0:,.1f}'.format(total_taxes_deductions)"/></b></td>	
+					</tr>
+					
+					<tr style="padding: 5px;">
+						<td style="border: 0.5px solid black;" colspan="4"><![CDATA[&nbsp;]]></td>
+					</tr> 
+					
+					<!-- Net Payment -->
+					<tr style="padding: 5px;">
+						<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;"><b>Net Payment</b></td>
+						
+						<t t-if="o.payroll_batch_id.previous_payslip_run_id">
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><b><span t-field="o.previous_payroll_project_wizard_id.total_net"/></b></td>
+						</t>
+						<t t-if="not o.payroll_batch_id.previous_payslip_run_id">
+							<td style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>N/A</b></td>
+						</t>
+						
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><span t-field="o.total_net"/></td>
+						
+						<t t-set="total_net_payment" t-value="o.total_net"/>
+						<t t-if="o.payroll_batch_id.previous_payslip_run_id">
+							<t t-set="total_net_payment" t-value="total_net_payment - o.previous_payroll_project_wizard_id.total_net"/>
+						</t>
+						
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><b><span t-esc="'{0:,.1f}'.format(total_net_payment)"/></b></td>	
+					</tr>
+					
+					<tr style="padding: 5px;">
+						<td style="border: 0.5px solid black;" colspan="4"><![CDATA[&nbsp;]]></td>
+					</tr>
+					
+					<!-- Number of payslips -->
+					<tr style="padding: 5px;">
+						<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;"><b>Number of payslips</b></td>
+						
+						<t t-if="o.payroll_batch_id.previous_payslip_run_id">
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><b><span t-field="o.previous_payroll_project_wizard_id.nb_payslips"/></b></td>
+						</t>
+						<t t-if="not o.payroll_batch_id.previous_payslip_run_id">
+							<td style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>N/A</b></td>
+						</t>
+						
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><span t-field="o.nb_payslips"/></td>
+						
+						<t t-set="nb_payslips" t-value="o.nb_payslips"/>
+						<t t-if="o.payroll_batch_id.previous_payslip_run_id">
+							<t t-set="nb_payslips" t-value="nb_payslips - o.previous_payroll_project_wizard_id.nb_payslips"/>
+						</t>
+						
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><b><span t-esc="'{0:,.0f}'.format(nb_payslips)"/></b></td>	
+					</tr> 
+					
+ 					</table> 
+				</div>
+				</div>
+				</div>    
+			</div>
+		</t>	
+	</template> 
+	
+	<template id="project_compare_template">
+		<t t-call="report.html_container">
+			<t t-foreach="doc_ids" t-as="doc_id">
+				<t t-raw="translate_doc(doc_id,doc_model,'env.lang','hr_payroll_allowance.project_compare_document')"/>
+			</t>
+		</t>
+	</template>
+		
+    </data>
+</openerp>

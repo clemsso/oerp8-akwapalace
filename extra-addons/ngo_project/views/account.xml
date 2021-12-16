@@ -1,0 +1,128 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+	<!-- Journal Items -->
+	
+	<record model="ir.ui.view" id="view_move_line_tree_change">
+		<field name="name">account.move.line.tree2</field>
+		<field name="model">account.move.line</field>
+		<field name="inherit_id" ref="account.view_move_line_tree"/>
+		<field name="arch" type="xml">
+			<xpath expr="//field[@name='account_id']" position="after">
+				<field name="project_id"/>
+				<field name="check_project"/>
+				<!-- <field name="activity_id"/> -->
+			</xpath>
+			<xpath expr="//field[@name='account_tax_id']" position="replace">
+				<field name="account_tax_id" invisible="1"/>
+			</xpath>
+			<xpath expr="//field[@name='date_maturity']" position="replace">
+				<field name="date_maturity" invisible="1"/>
+			</xpath>
+		</field>
+	</record>
+
+	<record model="ir.ui.view" id="view_move_line_filter_change">
+		<field name="name">account.move.line.filter10</field>
+		<field name="model">account.move.line</field>
+		<field name="inherit_id" ref="account.view_account_move_line_filter"/>
+		<field name="arch" type="xml">
+			<xpath expr="//field[@name='name']" position="after">
+				<field name="project_id"/>
+			</xpath>
+		</field>
+	</record>
+
+	<!-- Journal Entries -->
+	
+	<record model="ir.ui.view" id="view_move_form_change">
+		<field name="name">account.move.form10</field>
+		<field name="model">account.move</field>
+		<field name="inherit_id" ref="account.view_move_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//field[@name='period_id']" position="after">
+				<field name="project"/>
+			</xpath> 
+			<xpath expr="//field[@name='line_id']/tree/field[@name='account_id']" position="after">
+				<field name="project_id"/>
+			</xpath>
+		</field>
+	</record>
+	
+	<record model="ir.ui.view" id="view_move_tree_change">
+		<field name="name">account.move.tree10</field>
+		<field name="model">account.move</field>
+		<field name="inherit_id" ref="account.view_move_tree"/>
+		<field name="arch" type="xml">
+			<xpath expr="//field[@name='period_id']" position="after">
+				<field name="project"/>
+				<field name="check_project"/>
+			</xpath>
+		</field>
+	</record> 
+	
+	<record model="ir.ui.view" id="view_move_filter_change">
+		<field name="name">account.move.filter10</field>
+		<field name="model">account.move</field>
+		<field name="inherit_id" ref="account.view_account_move_filter"/>
+		<field name="arch" type="xml">
+			<xpath expr="//field[@name='name']" position="after">
+				<field name="project"/>
+			</xpath>
+		</field>
+	</record>
+	
+	<!-- Analytic Lines -->
+	
+	<record model="ir.ui.view" id="view_analytic_move_tree_change">
+		<field name="name">account.analytic.line.tree1</field>
+		<field name="model">account.analytic.line</field>
+		<field name="inherit_id" ref="account.view_account_analytic_line_tree"/>
+		<field name="arch" type="xml">
+			<xpath expr="//field[@name='general_account_id']" position="after">
+				<field name="project_id"/>
+			</xpath>
+		</field>
+	</record>
+	
+	<record model="ir.ui.view" id="view_analytic_move_filter_change">
+		<field name="name">account.analytic.line.filter1</field>
+		<field name="model">account.analytic.line</field>
+		<field name="inherit_id" ref="account.view_account_analytic_line_filter"/>
+		<field name="arch" type="xml">
+			<xpath expr="//field[@name='name']" position="after">
+				<field name="project_id"/>
+			</xpath>
+		</field>
+	</record>
+	
+	<record model="ir.ui.view" id="view_analytic_move_form_change">
+		<field name="name">account.analytic.line.form1</field>
+		<field name="model">account.analytic.line</field>
+		<field name="inherit_id" ref="account.view_account_analytic_line_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//field[@name='ref']" position="after">
+				<field name="project_id"/>
+			</xpath>
+		</field>
+	</record>
+	
+	<record model="ir.actions.act_window" id="account.action_account_moves_all_a">
+		<field name="domain">[]</field>
+	</record>
+	
+	<record model="ir.actions.act_window" id="account.action_move_journal_line">
+		<field name="domain">[]</field>
+	</record> 
+	
+	<!-- <record model="ir.actions.act_window" id="account.action_account_moves_all_a">
+		<field name="domain">[('check_project','=',True)]</field>
+	</record>
+	
+	<record model="ir.actions.act_window" id="account.action_move_journal_line">
+		<field name="domain">[('check_project','=',True)]</field>
+	</record>  -->
+	
+    </data>
+</openerp>

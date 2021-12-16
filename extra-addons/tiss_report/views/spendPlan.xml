@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+		<record model="ir.ui.view" id="view_hr_payslip_form2">
+			<field name="name">budget.spendplan.form2</field>
+			<field name="model">budget.spendplan</field>
+			<field name="inherit_id" ref="tiss_ghss.view_budget_spendplan_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//button[@name='btn_upload']" position="before">
+					<button name="button_print_variance" string="Print Variance" type="object"/>
+				</xpath>
+			</field>
+		</record>
+	
+    </data>
+</openerp>

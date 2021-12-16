@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+<template id="report_spendPlan_document">
+    <div class="header">
+        <div class="row">
+            <div class="col-xs-3">
+                <img src='/tiss_report/static/src/img/hgss.png' style="height: 110px; width: 900px;"/>
+            </div>
+        </div>
+    </div>
+<!--     <t t-call="report.external_layout_header">
+	</t> -->
+		<!-- <xpath expr="//t[@t-call='report.external_layout']" position="replace"> -->
+		<!-- <t t-call="ghss_hr_report.payslip_layout"> -->
+			<div class="page">
+				<table border="1" width="100%" style="border: 3px double black;font-familly: Times, serif;font-size:11px;">
+					<tr>
+						<td style="border: 1px dotted black;letter-spacing:2px;padding: 4px;" width="30%">
+                            <strong>Printed at:</strong>
+							
+						</td>
+						<td style="border: 1px dotted black;letter-spacing:1px;padding: 4px;" width="40%"><![CDATA[&nbsp;]]><br/><span t-esc="datetime.datetime.now().strftime('%Y-%m-%d')"></span></td>
+						<td style="border: 1px dotted black;letter-spacing:1px;padding: 4px;" width="30%" rowspan="7">
+								Global Health<br/>
+								Systems Solutions<br/>
+								P.O Box 3918 Douala<br/>
+								DENVER Layout<br/>
+								Bonamoussadi<br/>
+								Tel. +237 233332262<br/>
+								Fax. +237 233332266<br/>
+								Website: www.ghsscm.org
+							<strong></strong></td>
+					</tr>
+					<tr>
+						<td style="border: 1px dotted black;letter-spacing:2px;padding: 4px;" width="30%"><strong>START DATE</strong></td>
+						<td style="border: 1px dotted black;letter-spacing:1px;padding: 4px;" width="40%"><span t-field="o.date_start"/></td>
+					</tr>
+					<tr>
+						<td style="border: 1px dotted black;letter-spacing:2px;padding: 4px;" width="30%"><strong>END DATE</strong></td>
+						<td style="border: 1px dotted black;letter-spacing:1px;padding: 4px;" width="40%"><span t-field="o.date_end"/></td>
+					</tr>
+					<tr>
+						<td style="border: 1px dotted black;letter-spacing:2px;padding: 4px;"><strong>SPEND PLAN</strong></td>
+						<td style="border: 1px dotted black;letter-spacing:1px;padding: 4px;"><span t-field="o.name"/></td>
+					</tr>
+					<tr>
+						<td style="border: 1px dotted black;letter-spacing:2px;padding: 4px;"><strong>RELATED BUDGET</strong></td>
+						<td style="border: 1px dotted black;letter-spacing:1px;padding: 4px;"><span t-field="o.budget_id.name"/></td>
+					</tr>
+					<tr>
+						<td style="border: 1px dotted black;letter-spacing:2px;padding: 4px;"><strong>RELATED PROJECT</strong></td>
+						<td style="border: 1px dotted black;letter-spacing:1px;padding: 4px;"><span t-field="o.budget_id.project_id.name"/></td>
+					</tr>
+					<tr>
+						<td style="border: 1px dotted black;letter-spacing:2px;padding: 4px;"><strong>RESPONSIBLE</strong></td>
+						<td style="border: 1px dotted black;letter-spacing:1px;padding: 4px;"><span t-field="o.user_id.name"/></td>
+					</tr>
+				</table>
+				<span style="font-familly:Calibri;font-size:6px;"><![CDATA[&nbsp;]]></span>
+				<table border="1" width="100%" style="border: 3px double black;font-familly: Times, serif;font-size:11px;">
+					<!-- Entete -->
+					<tr style="background-color:92A2B7;">
+						<th width="55%" style="vertical-align: middle;border: 1px solid black;letter-spacing:2px;" class="text-center">ACTIVITIES</th>
+						<th width="15%" style="vertical-align: middle;border: 1px solid black;letter-spacing:2px;" class="text-center">PLANNED AMT</th>
+						<th width="15%" style="vertical-align: middle;border: 1px solid black;letter-spacing:2px;" class="text-center">CONSUMMED AMT</th>
+						<th width="15%" style="vertical-align: middle;border: 1px solid black;letter-spacing:2px;" class="text-center">VARIANCE AMT</th>
+					</tr>
+					<!-- Personnel -->
+					<tr style="background-color:72A2B7;">
+						<td class="text-left" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><strong>PERSONNEL</strong></td>
+                        <td class="text-right" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="o.personnel_plan_amt"/></td>
+						<td class="text-right" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="o.personnel_consu_amt"/></td>
+						<td class="text-right" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="o.personnel_consu_amt"/></td>
+					</tr>
+					<tr style="background-color:goldenrod;" t-foreach="o.spendplan_personnel_activities_ids" t-as="personnal_line">
+						<td class="text-left" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="personnal_line.budget_poste_id.name"/></td>
+                        <td class="text-right" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="personnal_line.planned_amt"/></td>
+						<td class="text-right" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="personnal_line.consummed_amt"/></td>
+						<td class="text-right" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="personnal_line.requested_amt"/></td>
+						<tr t-foreach="personnal_line.spendplan_personnel_ids" t-as="line">
+							<td class="text-left" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="line.employee_id.name"/></td>
+							<td class="text-right" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="line.basic_salary_effort"/></td>
+							<td class="text-right" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="line.consummed_amt"/></td>
+							<td class="text-right" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="line.consummed_amt"/></td>
+						</tr>
+					</tr>
+					
+					<!-- Fringe -->
+					<tr style="background-color:72A2B7;">
+						<td class="text-left" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><strong>FRINGE</strong></td>
+                        <td class="text-right" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="o.fringe_plan_amt"/></td>
+						<td class="text-right" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="o.fringe_consu_amt"/></td>
+						<td class="text-right" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="o.fringe_consu_amt"/></td>
+					</tr>
+					<tr style="background-color:goldenrod;" t-foreach="o.spendplan_fringe_activities_ids" t-as="fringe_line">
+						<td class="text-left" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="fringe_line.budget_poste_id.name"/></td>
+                        <td class="text-right" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="fringe_line.planned_amt"/></td>
+						<td class="text-right" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="fringe_line.consummed_amt"/></td>
+						<td class="text-right" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="fringe_line.requested_amt"/></td>
+						<tr t-foreach="fringe_line.spendplan_fringe_ids" t-as="line">
+							<td class="text-left" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="line.name"/></td>
+							<td class="text-right" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="line.basic_salary_effort"/></td>
+							<td class="text-right" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="line.consummed_amt"/></td>
+							<td class="text-right" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="line.consummed_amt"/></td>
+						</tr>
+					</tr>
+					
+					<!-- Supplier -->
+					<tr style="background-color:72A2B7;">
+						<td class="text-left" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><strong>SUPPLIER</strong></td>
+                        <td class="text-right" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="o.supplier_plan_amt"/></td>
+						<td class="text-right" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="o.supplier_consu_amt"/></td>
+						<td class="text-right" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="o.supplier_consu_amt"/></td>
+					</tr>
+					<tr style="background-color:goldenrod;" t-foreach="o.spendplan_supplier_activities_ids" t-as="supplier_line">
+						<td class="text-left" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="supplier_line.budget_poste_id.name"/></td>
+                        <td class="text-right" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="supplier_line.planned_amt"/></td>
+						<td class="text-right" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="supplier_line.consummed_amt"/></td>
+						<td class="text-right" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="supplier_line.requested_amt"/></td>
+						<tr t-foreach="supplier_line.spendplan_supplier_ids" t-as="line">
+							<td class="text-left" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="line.name"/></td>
+							<td class="text-right" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="line.amount_subtotal"/></td>
+							<td class="text-right" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="line.consummed_amt"/></td>
+							<td class="text-right" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="line.consummed_amt"/></td>
+						</tr>
+					</tr>
+
+					<!-- Travel -->
+					<tr style="background-color:72A2B7;">
+						<td class="text-left" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><strong>TRAVEL</strong></td>
+                        <td class="text-right" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="o.travel_plan_amt"/></td>
+						<td class="text-right" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="o.travel_consu_amt"/></td>
+						<td class="text-right" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="o.travel_consu_amt"/></td>
+					</tr>
+					<tr style="background-color:goldenrod;" t-foreach="o.spendplan_travel_activities_ids" t-as="travel_line">
+						<td class="text-left" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="travel_line.budget_poste_id.name"/></td>
+                        <td class="text-right" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="travel_line.planned_amt"/></td>
+						<td class="text-right" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="travel_line.consummed_amt"/></td>
+						<td class="text-right" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="travel_line.requested_amt"/></td>
+						<tr t-foreach="travel_line.spendplan_travel_ids" t-as="line">
+							<td class="text-left" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="line.name"/></td>
+							<td class="text-right" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="line.total_price"/></td>
+							<td class="text-right" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="line.consummed_amt"/></td>
+							<td class="text-right" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="line.consummed_amt"/></td>
+						</tr>
+					</tr>
+					
+					<!-- Others activity -->
+					<tr style="background-color:72A2B7;">
+						<td class="text-left" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><strong>OTHERS ACTIVITY</strong></td>
+                        <td class="text-right" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="o.others_plan_amt"/></td>
+						<td class="text-right" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="o.others_consu_amt"/></td>
+						<td class="text-right" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="o.others_consu_amt"/></td>
+					</tr>
+					<tr style="background-color:goldenrod;" t-foreach="o.spendplan_other_activities_ids" t-as="other_line">
+						<td class="text-left" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="other_line.budget_poste_id.name"/></td>
+                        <td class="text-right" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="other_line.planned_amt"/></td>
+						<td class="text-right" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="other_line.consummed_amt"/></td>
+						<td class="text-right" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="other_line.requested_amt"/></td>
+						<tr t-foreach="other_line.spendplan_other_ids" t-as="line">
+							<td class="text-left" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="line.name"/></td>
+							<td class="text-right" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="line.total_price"/></td>
+							<td class="text-right" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="line.consummed_amt"/></td>
+							<td class="text-right" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="line.consummed_amt"/></td>
+						</tr>
+					</tr>
+					
+					<!-- Consultancy -->
+					<tr style="background-color:72A2B7;">
+						<td class="text-left" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><strong>CONSULTANCY</strong></td>
+                        <td class="text-right" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="o.consul_plan_amt"/></td>
+						<td class="text-right" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="o.consul_consu_amt"/></td>
+						<td class="text-right" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="o.consul_consu_amt"/></td>
+					</tr>
+					<tr style="background-color:goldenrod;" t-foreach="o.spendplan_consultancy_activities_ids" t-as="consultancy_line">
+						<td class="text-left" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="consultancy_line.budget_poste_id.name"/></td>
+                        <td class="text-right" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="consultancy_line.planned_amt"/></td>
+						<td class="text-right" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="consultancy_line.consummed_amt"/></td>
+						<td class="text-right" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="consultancy_line.requested_amt"/></td>
+						<tr t-foreach="consultancy_line.spendplan_consultancy_ids" t-as="line">
+							<td class="text-left" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="line.name"/></td>
+							<td class="text-right" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="line.price"/></td>
+							<td class="text-right" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="line.consummed_amt"/></td>
+							<td class="text-right" style="border: 1px solid black;padding: 4px;letter-spacing:1px;"><span t-field="line.consummed_amt"/></td>
+						</tr>
+					</tr>
+				</table>
+			</div>
+		<!-- </xpath> -->
+		<!-- </t> -->
+</template>
+
+<template id="report_spendPlan">
+    <t t-call="report.html_container">
+        <t t-foreach="doc_ids" t-as="doc_id">
+            <t t-raw="translate_doc(doc_id, doc_model, 'user_id.lang', 'tiss_report.report_spendPlan_document')"/>
+        </t>
+    </t>
+</template>
+
+</data>
+</openerp>

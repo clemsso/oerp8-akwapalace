@@ -1,0 +1,156 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+	<record model="ir.ui.view" id="hr_dipe_info_form_view">
+		<field name="name">hr.dipe.info.form</field>
+		<field name="model">hr.dipe.info</field>
+		<field name="arch" type="xml">
+			<form string="DIPE Info">
+				<header>
+					<button name="confirm" type="object" string="Confirm" class="oe_highlight" states="draft"/>
+					<field name="state" widget="statusbar"/>
+				</header>
+				<sheet>
+					<label for="name"/>
+					<h2>
+						<field name="name" attrs="{'invisible':[('state','=','draft')]}"/>
+					</h2>
+					<label for="number" attrs="{'invisible':[('state','=','confirmed')]}"/>
+					<h3>
+						<field name="number" attrs="{'invisible':[('state','=','confirmed')]}"/>
+					</h3>
+					<label for="key" attrs="{'invisible':[('state','=','confirmed')]}"/>
+					<h3>
+						<field name="key" attrs="{'invisible':[('state','=','confirmed')]}"/>
+					</h3>
+					<group string="DIPE Lines" attrs="{'invisible':[('state','=','draft')]}">
+						<field name="line_ids" nolabel="1">
+							<tree string="DIPE Lines" editable="bottom" delete="false" create="false">
+								<field name="seq" readonly="1"/>
+								<field name="employee_id"/>
+							</tree>
+						</field>
+					</group>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+	<record model="ir.ui.view" id="hr_dipe_info_tree_view">
+		<field name="name">hr.dipe.info.tree</field>
+		<field name="model">hr.dipe.info</field>
+		<field name="arch" type="xml">
+			<tree string="DIPE info">
+				<!-- <field name="name"/> -->
+				<field name="number"/>
+				<field name="key"/>
+			</tree>
+		</field>
+	</record>
+
+	<record model="ir.actions.act_window" id="hr_dipe_info_action">
+		<field name="name">DIPE Info</field>
+		<field name="res_model">hr.dipe.info</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+		<field name="help" type="html">
+			<p class="oe_view_nocontent_create">Manage DIPE Information about CNPS sheets
+			</p>
+		</field>
+	</record>	
+
+		<menuitem action="hr_dipe_info_action" id="hr_dipe_info_menu" parent="hr_payroll.payroll_configure" sequence="60" groups="hr_payroll_allowance.group_dipe_manager"/>
+	
+		<record model="ir.ui.view" id="hr_payroll.hr_payslip_run_form2">
+			<field name="name">hr.payslip.run.form2</field>
+			<field name="model">hr.payslip.run</field>
+			<field name="inherit_id" ref="hr_payroll.hr_payslip_run_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//button[@string='Close']" position="replace">
+					<field name="generated" invisible="1"/>
+					<button name="close_payslip_run" type="object" string="Close"  class="oe_highlight" attrs="{'invisible':['|',('generated','=',False),('state','=','close')]}"/>
+				</xpath>
+				<xpath expr="//button[@string='Set to Draft']" position="replace">
+					<button string="Set to Draft" name="draft_payslip_run" type="object" attrs="{'invisible':['|',('confirmed','=',True),('state','!=','close')]}" groups="hr_payroll_allowance.group_dipe_manager"/>
+				</xpath>
+				<xpath expr="//button[@string='Generate Payslips']" position="after">
+					<button name="generate_dipe" type="object" string="Generate DIPE" class="oe_highlight" attrs="{'invisible':['|',('generated','=',True),('state','=','close')]}" groups="hr_payroll_allowance.group_dipe_manager"/>
+					<button name="cancel_dipe" type="object" string="Cancel DIPE" attrs="{'invisible':['|',('generated','=',False),('state','=','close')]}" groups="hr_payroll_allowance.group_dipe_manager"/>
+				</xpath>
+				<xpath expr="//button[@string='Set to Draft']" position="after">
+					<field name="confirmed" invisible="1"/>
+					<button name="confirm_all_payslip" type="object" string="Confirm All Payslips" class="oe_highlight" attrs="{'invisible':['|',('confirmed','=',True),('state','=','draft')]}" groups="hr_payroll_allowance.group_dipe_manager"/>
+					<button name="report_dipe_cnps" type="object" string="DIPE CNPS" states="close" class="oe_highlight"/>
+					<button name="get_dipe_file" type="object" string="DIPE txt File" states="close" class="oe_highlight"/>
+					<button name="report_dipe_pit" type="object" string="DIPE PIT" states="close" class="oe_highlight"/>
+					<button name="report_dipe_compare" type="object" string="Compare with previous month (Global)" states="close" class="oe_highlight"/>
+					<button name="report_payroll_compare" type="object" string="Compare with previous month (Detail)" states="close" class="oe_highlight"/>
+				</xpath>
+				<xpath expr="//separator[@string='Payslips']" position="attributes">
+					<attribute name="invisible">True</attribute>
+				</xpath>
+				<xpath expr="//field[@name='slip_ids']" position="replace">
+					<notebook>
+						<page string="Payslips">
+							<field name="slip_ids"/>
+						</page>
+						<page string="DIPE sheets" attrs="{'invisible':[('generated','=',False)]}">
+							<separator string="Download DIPE"/>
+							<field name="dipe_name" invisible="1"/>
+							<field name="monthly_dipe" widget="binary" filename="dipe_name" states="close"/>
+							<separator string="DIPE Details"/>
+							<field name="dipe_ids">
+								<tree>
+									<field name="name"/>
+									<field name="info_id"/>
+									<field name="nb_lines"/>
+								</tree>
+							</field>
+						</page>
+						<page string="Extra Information">
+							<group>
+								<group>
+									<field name="penalities" attrs="{'readonly':[('state','=','close')]}"/> 
+									<field name="previous_payslip_run_id" readonly="1"/> 
+								</group>
+							</group>
+						</page>
+					</notebook>
+				</xpath>
+			</field>
+		</record>
+		
+		<record model="ir.ui.view" id="hr_payslip_confirm_view">
+		<field name="name">hr.payslip.confirme.form</field>
+		<field name="model">hr.payslip.confirm</field>
+		<field name="arch" type="xml">
+			<form string="Payslip Confirmation">
+				<group>
+					<h3>Do you want to confirm all payslips in the current payslip batch ?</h3>
+				</group>
+				<footer>
+					<button string="Yes" 
+						name="confirm_all_payslip"
+						type="object"
+						class="oe_highlight"  />
+					<button string="No" 
+						class="btn-default" 
+						special="cancel" />
+				</footer>
+			</form>
+		</field>
+	</record>
+	
+	<record model="ir.actions.act_window" id="hr_payslip_confirm_action">
+		<field name="name">PT Wizard</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">hr.payslip.confirm</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="view_id" ref="hr_payslip_confirm_view"/>
+		<field name="target">new</field>
+	</record>
+		
+    </data>
+</openerp>

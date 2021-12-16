@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="hr_contract_view_form" model="ir.ui.view">
+            <field name="name">hr.contract.view.form</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+            <field name="arch" type="xml">
+                <sheet position="before">
+					<header>
+						<button name="done" states="draft" string="Done"
+							class="oe_highlight" groups="base.group_user" type="object" />
+
+						<field name="state" widget="statusbar" statusbar_visible="draft,done,cancel"
+							statusbar_colors='{"cancel":"red","done":"blue"}' />
+					</header>
+                </sheet>
+                <field name="job_id" position="replace">
+                    <field name="job_id" readonly="1"/>
+                </field>
+				<field name="wage" position="replace">
+					<field name="wage_visible" invisible="0"/>
+					<field name="wage" invisible="0"/>
+				</field>
+				<xpath expr="//page[@string='Information']" position="after">
+					<page string="Jobs Details" name="jobsdetails">
+						<field name="contract_job_ids" colspan="2" nolabel="1">
+							<tree editable="bottom">
+								<field name="project_id"/>
+								<field name="job_id"/>
+								<field name="wage"/>
+								<field name="percentage"/>
+								<field name="is_main_job"/>
+								<field name="start_date"/>
+								<field name="end_date"/>
+								<button name="confirm" type="object" string="Confirm"/>
+							</tree>
+						</field>
+					</page>
+				</xpath>
+<!--                 <field name="wage" position="after">
+                    <label for="contract_job_ids" string="Job Positions" colspan="2"/>
+                    <field name="contract_job_ids" colspan="2" nolabel="1">
+                        <tree editable="bottom">
+							<field name="project_id"/>
+                            <field name="job_id"/>
+							<field name="wage"/>
+							<field name="percentage"/>
+                            <field name="is_main_job"/>
+							<field name="start_date"/>
+							<field name="end_date"/>
+                        </tree>
+                    </field>
+                </field> -->
+
+           </field>
+        </record>
+    </data>
+</openerp>

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+    <record id="view_bank_reconciliation_form" model="ir.ui.view">
+        <field name="name">bank.reconciliation.form</field>
+        <field name="model">bank.reconciliation</field>
+        <field name="arch" type="xml">
+            <form string="Bank Reconciliation" version="7.0" delete="0" duplicate="0">
+			<header>
+<!-- 				<button name="button_to_prepared"
+						states="draft"
+						string="To Prepare"
+						type="object"
+						class="oe_highlight"
+						groups="account.group_account_user"/>
+				<button name="button_prepared"
+						states="send"
+						string="Prepare"
+						type="object"
+						class="oe_highlight"
+						groups="account.group_account_user"/>
+				<button name="button_approved"
+						states="valide"
+						string="Approved"
+						type="object"
+						class="oe_highlight"
+						groups="tiss_ghss.group_fo_manager"/>  -->       
+				<field name="state" widget="statusbar"
+					   statusbar_visible="draft,valide,review,approve"
+					   statusbar_colors='{"open":"blue"}'/>
+			</header>
+		    <sheet>
+				<label for="name" string="Name" />
+				<h1>
+					<field name="name" class="oe_inline" readonly="0"/>
+				</h1>
+			    <group>
+				    <group >
+						<field name='company_id' widget="selection" groups="base.group_multi_company" />
+						<label for="date" string="Date / Period"/>
+						<div>
+							<field name="date" attrs="{'readonly':[('state','!=','draft')]}" class="oe_inline"/>
+							<field name="period_id" required="1" attrs="{'readonly':[('state','!=','draft')]}" class="oe_inline"/>
+						</div>
+					   <field name="months" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+					   <field name="year" attrs="{'readonly':[('state','!=','draft')]}" class="oe_inline"/>
+					   
+				    </group>
+				    <group>
+                        <field name="pj" attrs="{'required':[('state','!=','draft')],'invisible':[('state','=','draft')],'readonly':[('state','in',('approve','done'))]}"/>
+					    <field name="abs_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,}"/>
+					    <field name="bank_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,}"/>
+					</group>
+			    </group>
+			    <group>
+					<group>
+						<field name="prepared_by_id" attrs="{'readonly':[('state','!=','draft')]}" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,}"/>
+						<field name="reviewed_by_id" attrs="{'readonly':[('state','in',['valide'])],'invisible':[('state','in',['draft'])]}" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,}"/>
+						<field name="approved_by_id" attrs="{'readonly':[('state','in',['review'])],'invisible':[('state','in',['draft','valide'])]}" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,}"/>
+					</group>
+				</group>
+				<group>
+					<group string="Company Account In Bank">
+						<field name="reconcile_acc_bank_ids" attrs="{'readonly':[('state','!=','draft')]}" nolabel="1">
+							<tree editable="bottom" >
+								<field name="date"/>
+								<field name="name"/>
+								<field name="debit"/>
+								<field name="credit"/>
+								<field name="balance"/>
+							</tree>
+							<form>
+								<group>
+									<field name="date" />
+									<field name="name"/>
+								</group>
+								<group>
+									<field name="debit" />
+									<field name="credit"/>
+									<field name="balance"/>
+								</group>
+							</form>
+						</field>
+					</group>
+					<group string="Bank Account In Company">
+						<field name="reconcile_acc_company_ids" attrs="{'readonly':[('state','!=','draft')]}" nolabel="1">
+							<tree editable="bottom" >
+								<field name="date"/>
+								<field name="name"/>
+								<field name="debit"/>
+								<field name="credit"/>
+								<field name="balance"/>
+							</tree>
+							<form>
+								<group>
+									<field name="date" />
+									<field name="name"/>
+								</group>
+								<group>
+									<field name="debit" />
+									<field name="credit"/>
+									<field name="balance"/>
+								</group>
+							</form>
+						</field>
+					</group>
+				</group>
+			</sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_bank_reconciliation_list" model="ir.ui.view">
+        <field name="name">bank.reconciliation.list</field>
+        <field name="model">bank.reconciliation</field>
+        <field name="arch" type="xml">
+            <tree string="Bank Reconciliation">
+				<field name="name"/>
+                <field name="date"/>
+				<field name="prepared_by_id"/>
+                <field name="reviewed_by_id"/>
+				<field name="approved_by_id"/>
+            </tree>
+        </field>
+    </record>
+    <record id="action_bank_reconciliation" model="ir.actions.act_window">
+        <field name="name">Bank Reconciliation</field>
+		<field name="type">ir.actions.act_window</field>
+        <field name="res_model">bank.reconciliation</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <!-- <field name="search_view_id" ref="view_petty_cash_search"/> -->
+        <field name="view_id" ref="view_bank_reconciliation_list"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Create a new Bank Reconciliation
+            </p>
+        </field>
+    </record>
+    <menuitem name="Bank Reconciliation" parent="account.menu_finance_bank_and_cash" 
+    id="menu_bank_reconciliation" sequence="55" action="action_bank_reconciliation"/>
+</data>
+</openerp>

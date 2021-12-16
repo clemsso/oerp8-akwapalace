@@ -1,0 +1,314 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+	<menuitem id="school_fees_menu" parent="school.main_school_menu" name="Fees" sequence="4" groups="school_fees.group_school_fee_operator"/>
+
+	<record model="ir.ui.view" id="school_template_fee_form_view">
+		<field name="name">school.fee.template.fee.form</field>
+		<field name="model">school.fee.template.fee</field>
+		<field name="arch" type="xml">
+			<form string="Template Fee">
+				<sheet>
+					<label for="name" class="oe_edit_only"/>
+					<h1>
+						<field name="display_name"/>
+					</h1>
+					
+					<group>
+						<field name="code"/>
+					</group>
+					<group>
+						<field name="deadline1" class="oe_edit_only oe_online" attrs="{'readonly':[('type_fee','==','view')]}"/>
+						<field name="deadline" class="oe_read_only oe_inline" attrs="{'readonly':[('type_fee','==','view')]}"/>
+					</group>
+					
+					<group col="4">
+						<group>
+							<field name="is_view_and_has_children" invisible="1"/>
+							<field name="type_fee" attrs="{'readonly':[('is_view_and_has_children','==',True)]}"/>
+						</group>
+					
+						<group>
+							<field name="amount"  attrs="{'invisible':[('type_fee','==','view')]}"/>
+							<field name="fee_parent_id"  attrs="{'invisible':[('type_fee','==','view')]}"/>
+							<field name="amount1"  attrs="{'invisible':[('type_fee','==','normal')]}"/>
+						</group>
+					</group>
+					
+					<notebook>
+						<page string="Structure Items">
+							<field name="fee_item_ids" readonly="1">
+								<field name="name"/>
+								<field name="type"/>
+							</field>
+						</page>
+<!--						<page string="Account">
+							<group>
+								<field name="account_id"/>
+							</group>
+						</page> -->
+						<page string="Fees Included" attrs="{'invisible':[('type_fee','==','normal')]}">
+							<field name="fee_children_ids" readonly="1">
+								<field name="display_name"/>
+								<field name="code"/>
+								<field name="type_fee"/>
+							</field>
+						</page>
+					</notebook>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+	<record model="ir.ui.view" id="school_template_fee_tree_view">
+		<field name="name">school.fee.template.fee.tree</field>
+		<field name="model">school.fee.template.fee</field>
+		<field name="arch" type="xml">
+			<tree string="Template Fees">
+				<field name="code"/>
+				<field name="name"/>
+				<field name="type_fee"/>
+				<field name="amount1"/>
+				<field name="deadline"/>
+			</tree>
+		</field>
+	</record>
+
+	<record model="ir.actions.act_window" id="school_template_fee_action">
+		<field name="name">Template Fees</field>
+		<field name="res_model">school.fee.template.fee</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+		<field name="help" type="html">
+			<p class="oe_view_nocontent_create">Create Template Fees
+			</p>
+		</field>
+	</record>	
+
+	<menuitem action="school_template_fee_action" id="school_template_fee_menu" parent="school_fees_menu" sequence="1" groups="school_fees.group_school_fee_manager"/>
+
+	<record model="ir.ui.view" id="school_template_item_form_view">
+		<field name="name">school.fee.template.structure.item.form</field>
+		<field name="model">school.fee.template.structure.item</field>
+		<field name="arch" type="xml">
+			<form string="Stucture Item">
+				<sheet>
+					<h1>
+						<field name="name"/>
+					</h1>
+					<label for="template_fee_id"/>
+					<h3>
+						<field name="template_fee_id"/>
+					</h3>
+					<label for="type"/>
+					<h3>
+						<field name="type"/>
+					</h3>
+					<group string="Specific Information">
+						<group>
+							<field name="student_type" string="Type"/>
+						</group>
+						<group>
+							<field name="student_sex" string="Sex"/>
+						</group>
+					</group>
+					<!-- <label for="student_type"/>
+					<h3>
+						<field name="student_type"/>
+					</h3> -->
+					<notebook>
+						<page string="Structure Fees Assigned">
+							<field name="fee_structure_ids" readonly="1" widget="many2many_tags">
+								<field name="code"/>
+								<field name="name"/>
+							</field>
+						</page>
+					</notebook>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+	<record model="ir.ui.view" id="school_template_item_tree_view">
+		<field name="name">school.fee.template.structure.item.tree</field>
+		<field name="model">school.fee.template.structure.item</field>
+		<field name="arch" type="xml">
+			<tree string="Structure Items">
+				<field name="name"/>
+				<field name="type"/>
+				<field name="student_type"/>
+				<field name="student_sex"/>
+				<field name="amount"/>
+				<field name="deadline"/>
+			</tree>
+		</field>
+	</record>
+
+	<record model="ir.actions.act_window" id="school_template_item_action">
+		<field name="name">Template Items</field>
+		<field name="res_model">school.fee.template.structure.item</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+		<field name="help" type="html">
+			<p class="oe_view_nocontent_create">Create Template Items
+			</p>
+		</field>
+	</record>	
+
+	<menuitem action="school_template_item_action" id="school_template_item_menu" name="Template Items" parent="school_fees_menu" sequence="2" groups="school_fees.group_school_fee_manager"/>
+
+	<record model="ir.ui.view" id="school_template_structure_form_view">
+		<field name="name">school.fee.template.structure.form</field>
+		<field name="model">school.fee.template.structure</field>
+		<field name="arch" type="xml">
+			<form string="Stucture">
+				<sheet>
+					<div name="buttons" class="oe_right oe_button_box">
+						<div>
+							<button class="oe_inline oe_stat_button" type="action" icon="fa-star">
+								<field string="New Boy" name="amount_new_boy" widget="statinfo"/>
+							</button>
+							<button class="oe_inline oe_stat_button" type="action" icon="fa-star-o">
+								<field string="New Girl" name="amount_new_girl" widget="statinfo"/>
+							</button>
+						</div>
+						<div>
+							<button class="oe_inline oe_stat_button" type="action" icon="fa-star">
+								<field string="Old Boy" name="amount_old_boy" widget="statinfo"/>
+							</button>
+							<button class="oe_inline oe_stat_button" type="action" icon="fa-star-o">
+								<field string="Old Girl" name="amount_old_girl" widget="statinfo"/>
+							</button>
+						</div>
+					</div>
+					<label for="name" class="oe_edit_only"/>
+					<h1>
+						<field name="name"/>
+					</h1>
+					<label for="code"/>
+					<h3>
+						<field name="code"/>
+					</h3>
+					
+					<notebook>
+						<page string="Structure Items">
+							<field name="fee_structure_item_ids">
+								<tree>
+									<field name="name"/>
+									<field name="type"/>
+									<field name="student_type"/>
+									<field name="amount"/>
+									<field name="deadline"/>
+								</tree>
+							</field>
+						</page>
+						<page string="Section Assigned">
+							<field name="section_ids" readonly="1">
+								<field name="name"/>
+							</field>
+						</page>
+						<page string="Cycle Assigned">
+							<field name="cycle_ids" readonly="1">
+								<field name="name"/>
+							</field>
+						</page>
+						<page string="Level Assigned">
+							<field name="level_ids" readonly="1">
+								<field name="name"/>
+							</field>
+						</page>
+					</notebook>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+	<record model="ir.ui.view" id="school_template_structure_tree_view">
+		<field name="name">school.fee.template.structure.tree</field>
+		<field name="model">school.fee.template.structure</field>
+		<field name="arch" type="xml">
+			<tree string="Structures">
+				<field name="code"/>
+				<field name="name"/>
+				<!-- <field name="amount_new"/>
+				<field name="amount_old"/> -->
+				<field name="amount_new_boy"/>
+				<field name="amount_new_girl"/>
+				<field name="amount_old_boy"/>
+				<field name="amount_old_girl"/>
+			</tree>
+		</field>
+	</record>
+
+	<record model="ir.actions.act_window" id="school_template_structure_action">
+		<field name="name">Template Structures</field>
+		<field name="res_model">school.fee.template.structure</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+		<field name="help" type="html">
+			<p class="oe_view_nocontent_create">Create Template Structures
+			</p>
+		</field>
+	</record>	
+
+	<menuitem action="school_template_structure_action" id="school_template_structure_menu" parent="school_fees_menu" sequence="3" groups="school_fees.group_school_fee_manager"/>
+	
+	<record model="ir.ui.view" id="school_academic_section1_form_view">
+		<field name="name">school.academic.section1.form</field>
+		<field name="model">school.academic.section</field>
+		<field name="inherit_id" ref="school.school_academic_section_form_view"/>
+		<field name="arch" type="xml">
+			<xpath expr="//notebook" position="before">
+				<label for="fee_structure_id"/>
+				<field name="fee_structure_id"/>
+			</xpath>
+		</field>
+	</record>	
+	
+	<record model="ir.ui.view" id="school_academic_cycle1_form_view">
+		<field name="name">school.academic.cycle1.form</field>
+		<field name="model">school.academic.cycle</field>
+		<field name="inherit_id" ref="school.school_academic_cycle_form_view"/>
+		<field name="arch" type="xml">
+			<xpath expr="//notebook" position="before">
+				<label for="fee_structure_id"/>
+				<field name="fee_structure_id"/>
+			</xpath>
+		</field>
+	</record>
+
+	<record model="ir.ui.view" id="school_academic_level1_form_view">
+		<field name="name">school.academic.level1.form</field>
+		<field name="model">school.academic.level</field>
+		<field name="inherit_id" ref="school.school_academic_level_form_view"/>
+		<field name="arch" type="xml">
+			<xpath expr="//label[@for='name']" position="before">
+				<div name="buttons" class="oe_right oe_button_box">
+					<div>
+						<button name="dummy" class="oe_inline oe_stat_button" type="object" icon="fa-file">
+							<field string="New Boy" name="amount_new_boy" widget="statinfo"/>
+						</button>
+						<button name="dummy" class="oe_inline oe_stat_button" type="object" icon="fa-file">
+							<field string="New Girl" name="amount_new_girl" widget="statinfo"/>
+						</button>
+					</div>
+					<div>
+						<button name="dummy" class="oe_inline oe_stat_button" type="object" icon="fa-file">
+							<field string="Old Boy" name="amount_old_boy" widget="statinfo"/>
+						</button>
+						<button name="dummy" class="oe_inline oe_stat_button" type="object" icon="fa-file">
+							<field string="Old Girl" name="amount_old_girl" widget="statinfo"/>
+						</button>
+					</div>
+				</div> 
+			</xpath> 
+			<xpath expr="//notebook" position="before">
+				<label for="fee_structure_id"/>
+				<field name="fee_structure_id"/>
+			</xpath>
+		</field>
+	</record>
+	
+    </data>
+</openerp>

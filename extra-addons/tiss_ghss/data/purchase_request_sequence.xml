@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="0">
+        <!-- Sequences for purchase.order --> 
+        <record id="seq_type_purchase_request" model="ir.sequence.type">
+            <field name="name">Purchase Request</field>
+            <field name="code">purchase.request</field>
+        </record>
+        <record id="seq_purchase_request" model="ir.sequence">
+            <field name="name">Purchase Request</field>
+            <field name="code">purchase.request</field>
+            <field name="prefix">PR</field>
+            <field name="padding">5</field>
+        </record>
+		
+		<!-- Sequences for petty Cash -->
+        <record id="seq_type_petty_cash" model="ir.sequence.type">
+            <field name="name">Petty Cash Fund</field>
+            <field name="code">ghss.pettycash.fund</field>
+        </record>
+        <record id="seq_petty_cash" model="ir.sequence">
+            <field name="name">Petty Cash Fund</field>
+            <field name="code">ghss.pettycash.fund</field>
+            <field name="prefix">PC/%(year)s/</field>
+            <field name="padding">3</field>
+        </record>
+		
+        <record id="seq_type_petty_cash_voucher" model="ir.sequence.type">
+            <field name="name">Petty Cash Voucher</field>
+            <field name="code">ghss.pettycash.voucher</field>
+        </record>
+        <record id="seq_petty_cash_voucher" model="ir.sequence">
+            <field name="name">Petty Cash Voucher</field>
+            <field name="code">ghss.pettycash.voucher</field>
+            <field name="prefix">PCV/%(year)s/%(month)s/</field>
+            <field name="padding">3</field>
+        </record>
+		
+        <record id="seq_type_cash_receipt" model="ir.sequence.type">
+            <field name="name">Cash Receipt Ackwnoledge</field>
+            <field name="code">ghss.cash.receipt</field>
+        </record>
+        <record id="seq_cash_receipt" model="ir.sequence">
+            <field name="name">Cash Receipt Ackwnoledge</field>
+            <field name="code">ghss.cash.receipt</field>
+            <field name="prefix">CRA/%(year)s/%(month)s/</field>
+            <field name="padding">3</field>
+        </record>
+        
+        <record id="seq_type_petty_cash_line" model="ir.sequence.type">
+            <field name="name">Petty Cash Line</field>
+            <field name="code">ghss.pettycash.fund.line</field>
+        </record>
+        <record id="seq_petty_cash_line" model="ir.sequence">
+            <field name="name">Petty Cash Line</field>
+            <field name="code">ghss.pettycash.fund.line</field>
+            <field name="prefix">PCL/%(year)s/%(month)s/</field>
+            <field name="padding">3</field>
+        </record>
+		
+        <record id="seq_type_petty_cash_count_line" model="ir.sequence.type">
+            <field name="name">Petty Cash Count Line</field>
+            <field name="code">ghss.pettycash.count.line</field>
+        </record>
+        <record id="seq_petty_cash_count_line" model="ir.sequence">
+            <field name="name">Petty Cash Count Line</field>
+            <field name="code">ghss.pettycash.count.line</field>
+            <field name="prefix">PCL/%(year)s/%(month)s/</field>
+            <field name="padding">3</field>
+        </record>
+        
+        <!-- Sequences for account.bank.transfert --> 
+        <record id="seq_type_account_bank_transfert" model="ir.sequence.type">
+            <field name="name">account bank transfert</field>
+            <field name="code">account.bank.transfert</field>
+        </record>
+        <record id="seq_account_bank_transfert" model="ir.sequence">
+            <field name="name">account bank transfert</field>
+            <field name="code">account.bank.transfert</field>
+            <field name="prefix">ABT/%(year)s/%(month)s/</field>
+            <field name="padding">3</field>
+        </record>
+        
+        <!-- Sequences for cheque.request.form --> 
+        <record id="seq_type_cheque_request_form" model="ir.sequence.type">
+            <field name="name">Cheque request Form</field>
+            <field name="code">cheque.request.form</field>
+        </record>
+        <record id="seq_cheque_request_form" model="ir.sequence">
+            <field name="name">Cheque request Form</field>
+            <field name="code">cheque.request.form</field>
+            <field name="prefix">RCF/%(year)s/%(month)s/</field>
+            <field name="padding">3</field>
+        </record>
+		
+        <!-- Sequences for payment.voucher --> 
+        <record id="seq_type_payment_voucher_form" model="ir.sequence.type">
+            <field name="name">Payment Voucher</field>
+            <field name="code">payment.voucher</field>
+        </record>
+        <record id="seq_payment_voucher" model="ir.sequence">
+            <field name="name">Payment Voucher</field>
+            <field name="code">payment.voucher</field>
+            <field name="prefix">PV/%(year)s/%(month)s/</field>
+            <field name="padding">3</field>
+        </record>
+    </data>
+</openerp>

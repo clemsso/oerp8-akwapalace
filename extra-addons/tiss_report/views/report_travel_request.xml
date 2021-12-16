@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+<template id="travel_request_form">    
+    <t t-call="report.external_layout_header">
+    </t>
+        <div class="page">
+
+            <t t-foreach = "docs" t-as = "o">
+                <div style="text-align:center"><h4><b>TRAVEL REQUEST FORM</b></h4></div>
+
+                <div style="float:left;width:100%;height:5px;"> </div>
+                                
+                <div style="float:left;width:40%;height:30px;"> 
+                    <div style="text-align:left"><b>Transaction Code: _____________________</b></div>
+                </div> 
+                <div style="float:left;width:30%;height:30px;"> 
+                    <div style="text-align:left"><b>Project: _____________________</b></div>
+                </div> 
+                <div style="float:left;width:30%;height:30px;"> 
+                    <div style="text-align:left"><b>Date: _____________________</b></div>
+                </div>
+                <div style="float:left;width:70%;height:30px;"> 
+                    <div style="text-align:left"><b>Travel Requested by  _____________________</b></div>
+                </div>
+                <div style="float:left;width:30%;height:30px;"> 
+                    <div style="text-align:left"><b>Post:  _____________________</b></div>
+                </div>
+                <div style="float:left;width:100%;height:30px;"> 
+                    <div style="text-align:left"><b>Purpose of Travel  __________________________________________________________________________________________</b></div>
+                </div>
+                <div class="row zero_min_height; text-center">
+                    <div class="col-xs-12">
+                        <div style="border-bottom: 1px solid black;"/>
+                    </div>
+                </div> 
+                <div style="float:left;width:100%;height:15px;"> </div>
+
+                <div style="float:left;width:50%;height:30px;"> 
+                    <div style="text-align:left"><b>Your Habitual Place of Work  _________________________</b></div>
+                </div> 
+                <div style="float:left;width:50%;height:30px;"> 
+                    <div style="text-align:left"><b>Emergency Phone Contact  ___________________</b></div>
+                </div>
+                <div style="float:left;width:50%;height:15px;"></div>
+                <div class="row zero_min_height; text-center">
+                    <div class="col-xs-12">
+                        <div style="border-bottom: 4px solid black;"/>
+                    </div>
+                </div>
+                <div style="text-align:center"><h4><b>ITINERARY</b></h4></div>
+                <div style="float:left;width:100%;height:15px;"> </div>                
+                <table class="table table-condensed table-bordered" style="padding-top:7px;  padding-bottom:7px;border: 2px solid #000011;" >                 
+                    <thead style="padding-bottom:7px;border: 1px solid #000011;">
+                        <th class="text-center" style="width: 20%; padding-bottom:7px;border: 1px solid #000011;">Date </th>
+                        <th class="text-center" style="width: 30%; padding-bottom:7px;border: 1px solid #000011;">Form</th>      
+                        <th class="text-center" style="width: 25%; padding-bottom:7px;border: 1px solid #000011;"> To</th>      
+                    </thead>
+                    <tbody style="padding-top:7px;  padding-bottom:7px;border: 1px solid #000011;">    
+                                     
+                        <tr style="padding-bottom:7px;border: 1px solid #000011; text-align:left" >
+                           <td style="padding-bottom:7px;border: 1px solid #000011;"> </td>
+                           <td style="padding-bottom:7px;border: 1px solid #000011;"> </td>
+                           <td style="padding-bottom:7px;border: 1px solid #000011;"> </td>
+                        </tr>
+                        <tr style="padding-bottom:7px;border: 1px solid #000011; text-align:left" >
+                           <td style="padding-bottom:7px;border: 1px solid #000011;"> </td>
+                           <td style="padding-bottom:7px;border: 1px solid #000011;"> </td>
+                           <td style="padding-bottom:7px;border: 1px solid #000011;"> </td>
+                        </tr>                        
+                                         
+                    </tbody>
+                </table>
+                <div style="float:left;width:100%;height:30px;"> 
+                <div style="text-align:left"><b>Estimate hours of work for this travel: __________________________________</b></div>
+                </div>
+                <div style="float:left;width:100%;height:10px;"> </div>
+                <div class="row zero_min_height; text-center">
+                    <div class="col-xs-12">
+                        <div style="border-bottom: 4px solid black;"></div>
+                    </div>
+                </div>   
+                <div style="text-align:center"><h4><b>MODE OF TRAVEL</b></h4></div>
+                <div style="float:left;width:100%;height:10px;"> </div>
+                <div style="float:left;width:15%;height:30px;">
+                    <input type="checkbox" id="horns" name="horns">
+                    <label for="horns">  </label>
+                    <label for="horns">Air Flight</label>
+                    </input>
+                </div>
+                <div style="float:left;width:35%;height:30px;">
+                    <input type="checkbox" id="horns" name="horns">
+                    <label for="horns">  </label>
+                    <label for="horns">Official Vehicule Reg No: ______</label>
+                    </input>
+                </div>
+                <div style="float:left;width:30%;height:30px;">
+                    <input type="checkbox" id="horns" name="horns">
+                    <label for="horns">  </label>
+                    <label for="horns">Public Transport__________</label>
+                    </input>
+                </div>
+                <div style="float:left;width:20%;height:30px;">
+                    <input type="checkbox" id="horns" name="horns">
+                    <label for="horns">  </label>
+                    <label for="horns">Others</label>
+                    </input>
+                </div>                
+                <div class="row zero_min_height; text-center">
+                    <div class="col-xs-12">
+                        <div style="border-bottom: 4px solid black;"/>
+                    </div>
+                <div style="float:left;width:100%;height:15px;"> </div>                   
+                </div>   
+                <div style="text-align:center"><h4><b>TRAVEL ENTITLEMENTS/EXPRENSES</b></h4></div>
+                <table class="table table-condensed table-bordered" style="padding-top:7px;  padding-bottom:7px;border: 2px solid #000011;" >                 
+                    <thead style="padding-bottom:7px;border: 1px solid #000011;">
+                        <th class="text-center" style="width: 20%; padding-bottom:7px;border: 1px solid #000011;"><b>In- Country Travel</b> </th>
+                        <th class="text-center" style="width: 30%; padding-bottom:7px;border: 1px solid #000011;"><b>International Travel</b></th>      
+                            
+                    </thead>
+                    <tbody style="padding-top:7px;  padding-bottom:7px;border: 1px solid #000011;">    
+                                          
+                        <tr style="padding-bottom:7px;border: 1px solid #000011; text-align:left" >
+                            <td style="padding-bottom:7px;border: 1px solid #000011;height:30px;">
+                                <div>
+                                    <label for="horns">Per diem</label>
+                                    <input type="checkbox" id="per" name="per">      
+                                    </input>                              
+                                </div>
+                                <div>
+                                    <label for="horns">Fuel</label>
+                                    <input type="checkbox" id="fuel" name="fuel">    
+                                    </input>                                
+                                </div>
+                                <div>
+                                    <label for="horns">lodging</label>
+                                    <input type="checkbox" id="log" name="log">  
+                                    </input>                                  
+                                </div>
+                                <div>
+                                    <label for="horns">Inter-urban Fare</label>
+                                    <input type="checkbox" id="int" name="int">    
+                                    </input>                                
+                                </div>
+                                <div>
+                                    <label for="horns">Travel insurance</label>
+                                    <input type="checkbox" id="ins" name="ins">  
+                                    </input>                                  
+                                </div>
+                                <div>
+                                    <label for="horns">Others</label>
+                                    <input type="checkbox" id="oth" name="oth">                                      
+                                    </input> 
+                                    <label for="horns">_________________</label>                                 
+                                </div>
+                                <div>
+                                    <label for="horns">None of the above</label>
+                                    <input type="checkbox" id="abov" name="abov">  
+                                    </input>                                  
+                                </div>                           
+                            </td>
+                           <td style="padding-bottom:7px;border: 1px solid #000011;height:30px;"> 
+                                <div>
+                                    <label for="horns">Air fare</label>
+                                    <input type="checkbox" id="af" name="af"> 
+                                    </input>                                   
+                                </div>
+                                <div>
+                                    <label for="horns">Per diem</label>
+                                    <input type="checkbox" id="diem" name="diem">    
+                                    </input>                                
+                                </div>
+                                <div>
+                                    <label for="horns">Transit Allowance</label>
+                                    <input type="checkbox" id="tran" name="tran">
+                                    </input>                                    
+                                </div>
+                                <div>
+                                    <label for="horns">Travel insurance</label>
+                                    <input type="checkbox" id="tra" name="tra">
+                                    </input>                                    
+                                </div>
+                                <div>
+                                    <label for="horns">Boarding Pass</label>
+                                    <input type="checkbox" id="boa" name="boa">  
+                                    </input>                                  
+                                </div>
+                                <div>
+                                    <label for="horns">Air freight</label>
+                                    <input type="checkbox" id="air" name="air"> 
+                                    </input>                                   
+                                </div>
+                                <div>
+                                    <label for="horns">Others</label>
+                                    <input type="checkbox" id="other" name="other">     
+                                    </input>  
+                                    <label for="horns">_________________</label>                              
+                                </div>
+                            </td>
+                        </tr>                                               
+                                         
+                    </tbody>
+                </table>
+
+                <div style="float:left;width:100%;height:15px;"></div>
+                <div style="float:center;width:100%;height:20px;">
+                    <div style="text-align: center"><b> Signature___________________________</b></div>
+                </div>
+                <div style="float:left;width:100%;height:20px;"></div>
+                <div style="text-align: left"><b><u>NOTE:</u></b></div>
+                <div style="text-align: left"><b>1. For in-country travels, a maximum of five (05) working days are required to preocess travel authorizations and fourteen(14) working days for international travels. </b></div>
+                <div style="text-align: left"><b>2. All funds received for fuel, transport, transit allowance and contingency must be accounted for with valid receipts/invoices wiithin two (02) working days after return. </b></div>
+                <div style="text-align: left"><b>3. Your travel request must not be processed if the Travel Request Form is not signed by the authorizing officer and submitted to the Administrative and Account Office of GHSS. </b></div>
+
+                <div style="float:left;width:100%;height:5px;"> </div>
+
+                <div style="width: 100%;  padding-top:7px; height:70px; padding-bottom:7px;border: 2px solid #000011;">
+                <div style="float:center;width:100%;height:20px;"></div>
+                    <div style="float:left;width:50%;"> 
+                        <b>Authorized by:________________________</b>
+                    </div>  
+                    <div style="float:left;width:25%;">
+                        <b>Signature ________________</b>
+                    </div>                                                       
+                    <div style="float:left;width:25%;">                     
+                        <b> Date:________________</b>
+                    </div>
+                    
+                </div>
+            </t>
+        </div>
+    <t t-call="report.external_layout_footer">
+    </t> 
+</template>
+</data>
+</openerp>

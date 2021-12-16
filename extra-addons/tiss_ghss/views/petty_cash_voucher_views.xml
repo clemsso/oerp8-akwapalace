@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+    <record id="view_petty_cash_voucher_form" model="ir.ui.view">
+        <field name="name">ghss.pettycash.voucher.form</field>
+        <field name="model">ghss.pettycash.voucher</field>
+        <field name="arch" type="xml">
+            <form string="Petty Cash Voucher" version="7.0">
+			<header>
+				<button name="button_send"
+						states="draft"
+						string="Send"
+						type="object"
+						class="oe_highlight"
+						/>
+				<button name="button_check"
+						states="send"
+						string="Check Spend Plan"
+						type="object"
+						groups="account.group_account_manager"/>
+				<button name="button_valid"
+						states="send"
+						string="Validate"
+						type="object"
+						class="oe_highlight"
+						groups="account.group_account_manager"/>
+				<button name="button_approve"
+						states="valid"
+						string="Approve"
+						type="object"
+						class="oe_highlight"
+						groups="tiss_ghss.group_fo_manager"/>
+				<button name="acc_button_reject"
+						states="send"
+						string="Reject"
+						type="object"
+						class="oe_highlight"
+						groups="account.group_account_manager"/>
+				<button name="fo_button_reject"
+						states="approve,reject"
+						string="Reject"
+						type="object"
+						class="oe_highlight"
+						groups="account.group_fo_manager"/>						
+<!-- 				<button name="button_closed"
+						states="open"
+						string="Closed"
+						type="object"
+						class="oe_highlight"
+						groups="account.group_account_user"/> -->
+				<field name="state" widget="statusbar"
+					   statusbar_visible="draft,send,valid,approve,paid,receive,cancel,reject"
+					   statusbar_colors='{"open":"blue"}'/>
+			</header>
+		    <sheet>
+				<label for="name" string="Transaction Code" />
+				<h1>
+					<field name="name" class="oe_inline" readonly="1"/>
+				</h1>
+				<group>
+				   <group name="data">
+						<field name="project_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,}"/>
+						<field name="user_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,}"
+						attrs="{'readonly':[('state','!=','draft')]}"/>
+                        <field name="employee_id" attrs="{'readonly':[('state','!=','draft')]}"/>
+						<field name="petty_fund_id" groups="base.group_erp_manager" />
+					</group>
+				   <group>
+                        <field name="pj" attrs="{'readonly':[('state','!=','draft')]}"/>
+						<field name="budget_id" groups="account.group_account_manager"  attrs="{'required':[('state','=','send')]}" 
+						options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,}" domain="[('project_id','=',project_id)]"/>
+						<field name="date"/>
+						<field name="amount" string="FCFA Amount :"/>
+				   </group>
+				</group>
+                <group attrs="{'invisible':[('state','=','draft')]}" groups="account.group_account_manager">
+                    <group>
+                        <field name="spendplan_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,}"
+						attrs="{'readonly':[('state','!=','send')]}"/>
+                        <field name="find_selection" invisible="0"/>
+                        <field name="budget_post_id" domain="[('code','=',find_selection)]" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,}"
+                        attrs="{'readonly':[('state','!=','send')]}"/>                        
+
+                        <field name="sp_supplier_activities_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,}"
+                        domain="[('budget_poste_id','=',budget_post_id),('spendplan_id','=',spendplan_id)]"
+                        attrs="{'invisible':[('find_selection','!=','2600')]}"/>
+                        <field name="sp_supplier_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,}"
+                        domain="[('sp_supplier_id','=',sp_supplier_activities_id)]" attrs="{'invisible':[('find_selection','!=','2600')]}" />
+                        
+                        <field name="sp_fringe_activities_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,}"
+                            domain="[('budget_poste_id','=',budget_post_id),('spendplan_id','=',spendplan_id)]"
+                            attrs="{'invisible':[('find_selection','!=','1200')]}"/>
+                        <field name="sp_fringe_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,}"
+                            domain="[('sp_fringe_id','=',sp_fringe_activities_id)]" attrs="{'invisible':[('find_selection','!=','1200')]}" />                            
+                            
+                        <field name="sp_travel_activities_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,}"
+                            domain="[('budget_poste_id','=',budget_post_id),('spendplan_id','=',spendplan_id)]"
+                            attrs="{'invisible':[('find_selection','!=','2100')]}"/>
+                        <field name="sp_travel_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,}"
+                            domain="[('sp_travel_id','=',sp_travel_activities_id)]" attrs="{'invisible':[('find_selection','!=','2100')]}" />                            
+                            
+                        <field name="sp_other_activities_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,}"
+                            domain="[('budget_poste_id','=',budget_post_id),('spendplan_id','=',spendplan_id)]"
+                            attrs="{'invisible':[('find_selection','!=','4100')]}"/>
+                        <field name="sp_other_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,}"
+                        domain="[('sp_other_id','=',sp_other_activities_id)]" attrs="{'invisible':[('find_selection','!=','4100')]}" />
+                                    
+                    </group>
+                    <group>
+                        <field name="analytic_account_id" attrs="{'readonly':[('state','!=','send')]}" 
+                        options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,}"/>
+                        
+<!--                         <field name="product_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,}"
+                        attrs="{'readonly':[('state','!=','send')]}"/> --> 
+                        <field name="planned_amount"/>
+                        <!-- <field name="theoritical_amount"/> -->
+                    </group>
+                </group>
+			   <group>
+					<field name="amount_to_text" nolabel="1"/>
+				</group>
+			   <group>
+				   <group>
+						<field name="purpose" />
+					</group>
+					<group string="Reject Reason">
+						<field name="rejet_reaseon" placeholder="Accountant Reject Reason ..." attrs="{'invisible':[('state','=','draft')],'readonly':[('state','!=','send')]}"/>
+						<field name="dfi_rejet_reaseon" attrs="{'invisible':[('state','in',('draft','send'))]}"/>
+					</group>
+				</group>
+
+			</sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_petty_cash_voucher_list" model="ir.ui.view">
+        <field name="name">ghss.pettycash.voucher.list</field>
+        <field name="model">ghss.pettycash.voucher</field>
+        <field name="arch" type="xml">
+            <tree string="Petty Cash Voucher">
+                <field name="name"/>
+				<field name="project_id"/>
+                <field name="user_id"/>
+				<field name="state"/>
+				<field name="date"/>
+                <field name="amount" string="FCFA Amount"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_petty_cash_voucher_search" model="ir.ui.view">
+        <field name="name">ghss.pettycash.voucher.search</field>
+        <field name="model">ghss.pettycash.voucher</field>
+        <field name="arch" type="xml">
+            <search string="Petty Cash Voucher">
+                <group expand="0" string="Group By"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_petty_cash_voucher" model="ir.actions.act_window">
+        <field name="name">Petty Cash Voucher</field>
+		<field name="type">ir.actions.act_window</field>
+        <field name="res_model">ghss.pettycash.voucher</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_petty_cash_voucher"
+              name="Petty Cash Voucher"
+              action="action_petty_cash_voucher"
+              parent="tiss_ghss.menu_petty_cash_form"
+			  groups="tiss_ghss.group_petty_user"
+			  sequence="3"/>
+</data>
+</openerp>

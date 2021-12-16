@@ -1,0 +1,471 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+	
+	<template id="allowances_project_history_document">
+		<t t-call="ghss_hr_report.payslip_layout">
+			<div class="page">
+					<div class="row">
+						<div class="col-xs-4" style="border: 1px solid black;">
+							<table border="1" width="100%" style="font-familly: Times, serif;font-size:12px;">
+								<tr>
+									<td style="text-align:center;letter-spacing:2px;"><h4>REPUBLIC OF CAMEROON</h4></td>
+								</tr>
+								<tr>
+									<td style="text-align:center;letter-spacing:2px;">Information Document<br/>
+									Bank Transaction</td>
+								</tr>
+								<tr>
+									<td style="text-align:center;letter-spacing:2px;"><h4>PAYROLL COMPONENTS</h4></td>
+								</tr>
+								<tr>
+									<td style="text-align:center;letter-spacing:2px;"><h5>(<span t-field="o.project_id.name"/>)</h5></td>
+								</tr>
+							</table>
+						</div>
+						<div class="col-xs-7 col-xs-offset-1">
+						<table border="0" width="100%" style="font-familly: Times, serif;font-size:12px;">
+							<tr>
+								<td width="25%"><![CDATA[&nbsp;]]></td>
+								<td width="25%"><![CDATA[&nbsp;]]></td>
+								<td width="25%"><![CDATA[&nbsp;]]></td>
+								<td width="25%"><![CDATA[&nbsp;]]></td>
+							</tr>
+							<tr>
+								<td><![CDATA[&nbsp;]]></td>
+								<td><![CDATA[&nbsp;]]></td>
+								<td><![CDATA[&nbsp;]]></td>
+								<td><![CDATA[&nbsp;]]></td>
+							</tr>
+							<tr>
+								<td style="letter-spacing:2px;"><b>Company Name</b></td>
+								<td style="letter-spacing:2px;" colspan="3"><span t-field="o.company_id.name"/></td>
+							</tr>
+							<tr>
+								<td style="letter-spacing:2px;"><b>Adsress</b></td>
+								<td style="letter-spacing:2px;" colspan="3">Mokindi Layout, Sonara Road</td>
+							</tr>
+							<tr>
+								<td style="letter-spacing:2px;"><b>P.O Box</b></td>
+								<td style="letter-spacing:2px;" colspan="3">P.O Box 732 Limbe</td>
+							</tr>
+							<tr>
+								<td style="letter-spacing:2px;"><b>Payroll Month</b></td>
+								<td style="letter-spacing:2px;" colspan="3"><span t-field="o.month"/></td>
+							</tr>
+						</table>
+						</div>
+					</div>
+					<br/>
+				<br/>
+				<div class="row">
+				<div class="col-xs-12">
+				<div align="center" width="100%">
+					<table border="1" width="100%" style="border: 1px solid black;font-familly: Times, serif;font-size:10px;">
+						<tr style="border:1px solid black;padding: 5px;">
+							<th width="30%" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>Employee Name</b></th>
+							<th width="10%" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>Basic Salary</b></th>
+							<t t-foreach="o.allowance_ids" t-as="allowance">
+<!-- 								<t t-if="allowance.allowance_id.id != 3">
+                                   <th width="10%" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b><span t-field="allowance.allowance_id.name"/></b></th> 
+                                </t> -->
+                                <th width="10%" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b><span t-field="allowance.allowance_id.name"/></b></th> 
+							</t>
+						</tr>
+						<tr t-foreach="o.payslip_ids" t-as="payslip">
+                            <t t-set="perc" t-value="1"/>
+                            <t t-foreach="payslip.contract_id.contract_job_ids" t-as="project">
+                                <t t-if="project.project_id.id == o.project_id.id">
+                                    <t t-if="len(payslip.contract_id.contract_job_ids)>1">
+                                        <t t-set="perc" t-value="project.percentage/100.00"/>
+                                    </t>
+                                </t>
+                            </t>
+							<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;"><span t-field="payslip.employee_id.real_name"/></td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><span t-esc="'{0:,.0f}'.format(int(payslip.basic*perc))"/></td>
+                            <t t-foreach="o.allowance_ids" t-as="allowance">
+                                <t t-set="found" t-value="0"/>
+                                <t t-foreach="payslip.line_ids" t-as="line">
+                                    <t t-if="line.salary_rule_id.id == allowance.allowance_id.rule_id.id">
+                                        <td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><span t-esc="'{0:,.0f}'.format(int(line.total*perc))"/></td>
+                                        <t t-set="found" t-value="1"/>
+                                    </t>
+                                </t>
+                                <t t-if="found == 0">
+                                    <td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><span t-esc="'{0:,.0f}'.format(int(0))"/></td>
+                                </t>
+                            </t>
+						</tr>
+						<!-- <tr style="padding: 5px;">
+							<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;">Basic Salary</td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.total_basic"/></td>
+						</tr> -->
+						<!-- <tr style="padding: 5px;">
+							<td><![CDATA[&nbsp;]]></td>
+							<td><![CDATA[&nbsp;]]></td>
+						</tr> -->
+						<!-- <tr style="text-align:center;padding: 5px;letter-spacing:2px;">
+							<td colspan="2"><b>Allowances</b></td>
+						</tr> -->
+						<!-- <t t-foreach="o.allowance_ids" t-as="allowance">
+							<t t-set="total_amount" t-value="0"/>
+							<t t-foreach="o.payslip_ids" t-as="payslip">
+								<t t-foreach="payslip.line_ids" t-as="line">
+									<t t-if="line.salary_rule_id.id == allowance.allowance_id.rule_id.id">
+										<t t-set="total_amount" t-value="total_amount + line.total"/>
+									</t> 
+								</t> 
+							</t>
+						<tr style="padding: 5px;">
+							<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;"><span t-field="allowance.allowance_id.name"/></td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-esc="'{0:,.1f}'.format(int(total_amount))"/></td>
+						</tr>
+						</t> -->
+						<!-- <tr style="padding: 5px;">
+							<td><![CDATA[&nbsp;]]></td>
+							<td><![CDATA[&nbsp;]]></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;"><b>Gross Salary</b></td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><b><span t-field="o.total_gross"/></b></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td><![CDATA[&nbsp;]]></td>
+							<td><![CDATA[&nbsp;]]></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;"><b>Taxable Salary</b></td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><b><span t-field="o.total_taxable"/></b></td>
+						</tr> -->
+						<!-- <tr style="padding: 5px;">
+							<td><![CDATA[&nbsp;]]></td>
+							<td><![CDATA[&nbsp;]]></td>
+						</tr>
+						<tr style="text-align:center;padding: 5px;letter-spacing:2px;">
+							<td colspan="2"><b>Employee Deductions</b></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;">PIT</td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.total_pit"/></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;">ACT</td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.total_act"/></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;">Land Bank Rate</td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.total_cfce"/></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;">CRTV</td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.total_crtv"/></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;">Communal Tax</td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.total_ctax"/></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;">Old age pension(CNPS) - Employee</td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.total_cnpse"/></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td><![CDATA[&nbsp;]]></td>
+							<td><![CDATA[&nbsp;]]></td>
+						</tr> -->
+						<!-- <tr style="padding: 5px;">
+							<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;"><b>Total Employee Tax Deductions</b></td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><b><span t-field="o.total_taxes_employees_basic"/></b></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td><![CDATA[&nbsp;]]></td>
+							<td><![CDATA[&nbsp;]]></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;">Other Deductions</td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.total_other_deductions"/></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td><![CDATA[&nbsp;]]></td>
+							<td><![CDATA[&nbsp;]]></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;"><b>Total Employee Deductions</b></td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><b><span t-field="o.total_taxes_employees"/></b></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td><![CDATA[&nbsp;]]></td>
+							<td><![CDATA[&nbsp;]]></td>
+						</tr> -->
+						<!-- <tr style="text-align:center;padding: 5px;letter-spacing:2px;">
+							<td colspan="2"><b>Employer Deductions</b></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;">CFC</td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.total_cfcp"/></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;">FNE</td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.total_fne"/></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;">Family Contribution</td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.total_fcon"/></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;">Old age pensione(CNPS) - Employer</td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.total_cnpsp"/></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;">Industrial and Profesional Accident</td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.total_ipa"/></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td><![CDATA[&nbsp;]]></td>
+							<td><![CDATA[&nbsp;]]></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;"><b>Total Employer Tax Deductions</b></td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><b><span t-field="o.total_taxes_employer"/></b></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td><![CDATA[&nbsp;]]></td>
+							<td><![CDATA[&nbsp;]]></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;"><b>Net Payment</b></td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><b><span t-field="o.total_net"/></b></td>
+						</tr> -->
+					</table>
+				</div>
+				</div>
+				</div>
+					<p style="page-break-after:always"></p>					
+					<div class="row">
+						<div class="col-xs-4" style="border: 1px solid black;">
+							<table border="1" width="100%" style="font-familly: Times, serif;font-size:12px;">
+								<tr>
+									<td style="text-align:center;letter-spacing:2px;"><h4>REPUBLIC OF CAMEROON</h4></td>
+								</tr>
+								<tr>
+									<td style="text-align:center;letter-spacing:2px;">Information Document<br/>
+									Bank Transaction</td>
+								</tr>
+								<tr>
+									<td style="text-align:center;letter-spacing:2px;"><h4>PAYROLL COMPONENTS</h4></td>
+								</tr>
+								<tr>
+									<td style="text-align:center;letter-spacing:2px;"><h5>(<span t-field="o.project_id.name"/>)</h5></td>
+								</tr>
+							</table>
+						</div>
+						<div class="col-xs-7 col-xs-offset-1">
+						<table border="0" width="100%" style="font-familly: Times, serif;font-size:12px;">
+							<tr>
+								<td width="25%"><![CDATA[&nbsp;]]></td>
+								<td width="25%"><![CDATA[&nbsp;]]></td>
+								<td width="25%"><![CDATA[&nbsp;]]></td>
+								<td width="25%"><![CDATA[&nbsp;]]></td>
+							</tr>
+							<tr>
+								<td><![CDATA[&nbsp;]]></td>
+								<td><![CDATA[&nbsp;]]></td>
+								<td><![CDATA[&nbsp;]]></td>
+								<td><![CDATA[&nbsp;]]></td>
+							</tr>
+							<tr>
+								<td style="letter-spacing:2px;"><b>Company Name</b></td>
+								<td style="letter-spacing:2px;" colspan="3"><span t-field="o.company_id.name"/></td>
+							</tr>
+							<tr>
+								<td style="letter-spacing:2px;"><b>Adsress</b></td>
+								<td style="letter-spacing:2px;" colspan="3">Mokindi Layout, Sonara Road</td>
+							</tr>
+							<tr>
+								<td style="letter-spacing:2px;"><b>P.O Box</b></td>
+								<td style="letter-spacing:2px;" colspan="3">P.O Box 732 Limbe</td>
+							</tr>
+							<tr>
+								<td style="letter-spacing:2px;"><b>Payroll Month</b></td>
+								<td style="letter-spacing:2px;" colspan="3"><span t-field="o.month"/></td>
+							</tr>
+						</table>
+						</div>
+					</div>
+				<br/>
+				<br/>
+				<div class="row">
+				<div class="col-xs-12">
+				<div align="center" width="70%">
+				<table border="1" width="70%" style="border: 1px solid black;font-familly: Times, serif;font-size:12px;">
+					<tr style="border:1px solid black;padding: 5px;">
+						<th width="100%" scope="clogroup" colspan="2" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>SUMMARY</b></th>
+					</tr>
+					<tr style="border:1px solid black;padding: 5px;">
+						<th width="50%" scope="col" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>Designation</b></th>
+						<th width="50%" scope="col" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:1px;"><b>Amount</b></th>
+					</tr>
+						<tr style="padding: 5px;">
+							<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;">Basic Salary</td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.total_basic"/></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td><![CDATA[&nbsp;]]></td>
+							<td><![CDATA[&nbsp;]]></td>
+						</tr>
+						<tr style="text-align:center;padding: 5px;letter-spacing:2px;">
+							<td colspan="2"><b>Allowances</b></td>
+						</tr>
+						<t t-foreach="o.allowance_ids" t-as="allowance">
+							<t t-set="total_amount" t-value="0"/>
+							<t t-foreach="o.payslip_ids" t-as="payslip">
+                                <t t-set="perc" t-value="1"/>
+                                <t t-foreach="payslip.contract_id.contract_job_ids" t-as="project">
+                                    <t t-if="project.project_id.id == o.project_id.id">
+                                        <t t-if="len(payslip.contract_id.contract_job_ids)>1">
+                                            <t t-set="perc" t-value="project.percentage/100.00"/>
+                                        </t>
+                                    </t>
+                                </t>
+								<t t-foreach="payslip.line_ids" t-as="line">
+									<t t-if="line.salary_rule_id.id == allowance.allowance_id.rule_id.id">
+										<t t-set="total_amount" t-value="total_amount + line.total*perc"/>
+									</t> 
+								</t> 
+							</t>
+						<tr style="padding: 5px;">
+							<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;"><span t-field="allowance.allowance_id.name"/></td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-esc="'{0:,.1f}'.format(int(total_amount))"/></td>
+						</tr>
+						</t>
+						<tr style="padding: 5px;">
+							<td><![CDATA[&nbsp;]]></td>
+							<td><![CDATA[&nbsp;]]></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;"><b>Gross Salary</b></td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><b><span t-field="o.total_gross"/></b></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td><![CDATA[&nbsp;]]></td>
+							<td><![CDATA[&nbsp;]]></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;"><b>Taxable Salary</b></td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><b><span t-field="o.total_taxable"/></b></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td><![CDATA[&nbsp;]]></td>
+							<td><![CDATA[&nbsp;]]></td>
+						</tr>
+						<tr style="text-align:center;padding: 5px;letter-spacing:2px;">
+							<td colspan="2"><b>Employee Deductions</b></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;">PIT</td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.total_pit"/></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;">ACT</td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.total_act"/></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;">Land Bank Rate</td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.total_cfce"/></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;">CRTV</td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.total_crtv"/></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;">Communal Tax</td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.total_ctax"/></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;">Old age pension(CNPS) - Employee</td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.total_cnpse"/></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td><![CDATA[&nbsp;]]></td>
+							<td><![CDATA[&nbsp;]]></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;"><b>Total Employee Tax Deductions</b></td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><b><span t-field="o.total_taxes_employees_basic"/></b></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td><![CDATA[&nbsp;]]></td>
+							<td><![CDATA[&nbsp;]]></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;">Other Deductions</td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.total_other_deductions"/></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td><![CDATA[&nbsp;]]></td>
+							<td><![CDATA[&nbsp;]]></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;"><b>Total Employee Deductions</b></td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><b><span t-field="o.total_taxes_employees"/></b></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td><![CDATA[&nbsp;]]></td>
+							<td><![CDATA[&nbsp;]]></td>
+						</tr>
+						<tr style="text-align:center;padding: 5px;letter-spacing:2px;">
+							<td colspan="2"><b>Employer Deductions</b></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;">CFC</td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.total_cfcp"/></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;">FNE</td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.total_fne"/></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;">Family Contribution</td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.total_fcon"/></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;">Old age pensione(CNPS) - Employer</td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.total_cnpsp"/></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;">Industrial and Profesional Accident</td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.total_ipa"/></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td><![CDATA[&nbsp;]]></td>
+							<td><![CDATA[&nbsp;]]></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;"><b>Total Employer Tax Deductions</b></td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><b><span t-field="o.total_taxes_employer"/></b></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td><![CDATA[&nbsp;]]></td>
+							<td><![CDATA[&nbsp;]]></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;"><b>Net Payment</b></td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><b><span t-field="o.total_net"/></b></td>
+						</tr>
+					</table>
+				</div>
+				</div>
+				</div>  
+			</div>
+		</t>	
+	</template> 
+	
+	<template id="allowances_project_history_template">
+		<t t-call="report.html_container">
+			<t t-foreach="doc_ids" t-as="doc_id">
+				<t t-raw="translate_doc(doc_id,doc_model,'env.lang','hr_payroll_allowance.allowances_project_history_document')"/>
+			</t>
+		</t>
+	</template>
+		
+    </data>
+</openerp>

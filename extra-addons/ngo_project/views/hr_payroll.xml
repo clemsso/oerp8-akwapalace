@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+	
+		<record model="ir.ui.view" id="view_hr_payroll_payskip_tree2">
+			<field name="name">hr.payroll.payslip.tree2</field>
+			<field name="model">hr.payslip</field>
+			<field name="inherit_id" ref="hr_payroll.view_hr_payslip_tree"/>
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='date_to']" position="after">
+					<field name="worked_days"/>
+				</xpath>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="view_hr_payroll_payskip_form2">
+			<field name="name">hr.payroll.payslip.form2</field>
+			<field name="model">hr.payslip</field>
+			<field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//button[@string='Confirm']" position="replace">
+					<button string="Confirm" name="hr_verify_sheet" states="draft" class="oe_highlight" invisible="1"/>
+				</xpath>
+				<xpath expr="//field[@name='credit_note']" position="after">
+					<field name="worked_days"/>
+					<field name="extra_deduction"/>
+				</xpath>
+			</field>
+		</record>
+	
+    </data>
+</openerp>

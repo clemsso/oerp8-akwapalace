@@ -1,0 +1,173 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+	<record model="ir.ui.view" id="hr_payroll_dashboard_form_view">
+		<field name="name">hr.payroll.dashboard.form</field>
+		<field name="model">hr.payroll.dashboard</field>
+		<field name="arch" type="xml">
+			<form string="Payroll Batch Dashboard" create="false" edit="false">
+				<sheet>
+					<group>
+						<field name="name"/>
+						<field name="payroll_run_id"/>
+						<field name="color"/>
+					</group>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+	<record model="ir.ui.view" id="hr_payroll_dashboard_tree_view">
+		<field name="name">hr.payroll.dashboard.tree</field>
+		<field name="model">hr.payroll.dashboard</field>
+		<field name="arch" type="xml">
+			<tree string="Payroll Batch Dashboard" create="false" delete="false">
+				<field name="name"/>
+				<field name="payroll_run_id"/>
+				<field name="color"/>
+			</tree>
+		</field>
+	</record>
+
+	<record model="ir.ui.view" id="hr_payroll_dashboard_kanban_view">
+		<field name="name">hr.payroll.dashboard.kanban</field>
+		<field name="model">hr.payroll.dashboard</field>
+		<field name="arch" type="xml">
+			<kanban create="false" delete="false" class="oe_background_grey o_kanban_dashboard o_salesteam_kanban o_project_kanban">
+				<field name="name"/>
+				<field name="color"/>
+				<field name="payroll_run_id"/>
+				
+				<field name="current_month"/>
+				<field name="previous_month"/>
+				
+				<field name="total_gross"/>
+				<field name="total_taxable"/>
+				<field name="total_cotisable"/>
+				<field name="total_taxes_employee"/>
+				<field name="total_taxes_employer"/>
+				<field name="total_net_payment"/>
+				<field name="nb_payslips"/>
+				
+				<field name="total_taxes"/>
+				<field name="total_cnps"/>
+				
+				<field name="previous_total_gross"/>
+				<field name="previous_total_taxable"/>
+				<field name="previous_total_cotisable"/>
+				<field name="previous_total_taxes_employee"/>
+				<field name="previous_total_taxes_employer"/>
+				<field name="previous_total_net_payment"/>
+				<field name="previous_nb_payslips"/>
+				
+				<field name="previous_total_taxes"/>
+				<field name="previous_total_cnps"/>
+				
+				<field name="diff_gross"/>
+				<field name="diff_taxable"/>
+				<field name="diff_cotisable"/>
+				<field name="diff_taxes_employee"/>
+				<field name="diff_taxes_employer"/>
+				<field name="diff_net_payment"/>
+				<field name="diff_nb_payslips"/>
+				
+				<field name="diff_taxes"/>
+				<field name="diff_cnps"/>
+				
+				<templates>
+					<t t-name="kanban-box">
+						<div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)}
+											oe_kanban_vignette oe_kanban_global_click
+											oe_semantic_html_override oe_kanban_card
+											oe_kanban_project">
+						
+							<div class="oe_kanban_card">
+								<div class="oe_kanban_content" style="background-color:#2E86C1;color:#FFFFFF">
+									<table style="padding:5px">
+										<tr style="border-bottom: 1px solid #FFFFFF">
+											<td style="text-align:center;padding:5px;border-right: 1px solid #FFFFFF"><h1><![CDATA[&nbsp;]]></h1></td>
+											<td style="text-align:center;padding:5px;border-right: 1px solid #FFFFFF"><h1><field name="previous_month"/></h1></td>
+											<td style="text-align:center;padding:5px;border-right: 1px solid #FFFFFF"><h1><field name="current_month"/></h1></td>
+											<td style="text-align:center;padding:5px"><h1>Difference</h1></td>
+										</tr>
+										<tr style="border-bottom: 1px solid #FFFFFF">
+											<td style="text-align:left;padding:5px;border-right: 1px solid #FFFFFF"><h2>Gross Salary</h2></td>
+											<td style="text-align:right;padding:5px;border-right: 1px solid #FFFFFF"><h2><field name="previous_total_gross"/></h2></td>
+											<td style="text-align:right;padding:5px;border-right: 1px solid #FFFFFF"><h2><field name="total_gross"/></h2></td>
+											<td style="text-align:right;padding:5px"><h2><field name="diff_gross"/></h2></td>
+										</tr>
+										<tr style="border-bottom: 1px solid #FFFFFF">
+											<td style="text-align:left;padding:5px;border-right: 1px solid #FFFFFF"><h2>Taxable Salary</h2></td>
+											<td style="text-align:right;padding:5px;border-right: 1px solid #FFFFFF"><h2><field name="previous_total_taxable"/></h2></td>
+											<td style="text-align:right;padding:5px;border-right: 1px solid #FFFFFF"><h2><field name="total_taxable"/></h2></td>
+											<td style="text-align:right;padding:5px"><h2><field name="diff_taxable"/></h2></td>
+										</tr>
+										<tr style="border-bottom: 1px solid #FFFFFF">
+											<td style="text-align:left;padding:5px;border-right: 1px solid #FFFFFF"><h2>Cotisable Salary</h2></td>
+											<td style="text-align:right;padding:5px;border-right: 1px solid #FFFFFF"><h2><field name="previous_total_cotisable"/></h2></td>
+											<td style="text-align:right;padding:5px;border-right: 1px solid #FFFFFF"><h2><field name="total_cotisable"/></h2></td>
+											<td style="text-align:right;padding:5px"><h2><field name="diff_cotisable"/></h2></td>
+										</tr>
+										<tr style="border-bottom: 1px solid #FFFFFF">
+											<td style="text-align:left;padding:5px;border-right: 1px solid #FFFFFF"><h2>Employee Deductions</h2></td>
+											<td style="text-align:right;padding:5px;border-right: 1px solid #FFFFFF"><h2><field name="previous_total_taxes_employee"/></h2></td>
+											<td style="text-align:right;padding:5px;border-right: 1px solid #FFFFFF"><h2><field name="total_taxes_employee"/></h2></td>
+											<td style="text-align:right;padding:5px"><h2><field name="diff_taxes_employee"/></h2></td>
+										</tr>
+										<tr style="border-bottom: 1px solid #FFFFFF">
+											<td style="text-align:left;padding:5px;border-right: 1px solid #FFFFFF"><h2>Employer Deductions</h2></td>
+											<td style="text-align:right;padding:5px;border-right: 1px solid #FFFFFF"><h2><field name="previous_total_taxes_employer"/></h2></td>
+											<td style="text-align:right;padding:5px;border-right: 1px solid #FFFFFF"><h2><field name="total_taxes_employer"/></h2></td>
+											<td style="text-align:right;padding:5px"><h2><field name="diff_taxes_employer"/></h2></td>
+										</tr>
+										<tr style="border-bottom: 1px solid #FFFFFF">
+											<td style="text-align:left;padding:5px;border-right: 1px solid #FFFFFF"><h2>Taxes</h2></td>
+											<td style="text-align:right;padding:5px;border-right: 1px solid #FFFFFF"><h2><field name="previous_total_taxes"/></h2></td>
+											<td style="text-align:right;padding:5px;border-right: 1px solid #FFFFFF"><h2><field name="total_taxes"/></h2></td>
+											<td style="text-align:right;padding:5px"><h2><field name="diff_taxes"/></h2></td>
+										</tr>
+										<tr style="border-bottom: 1px solid #FFFFFF">
+											<td style="text-align:left;padding:5px;border-right: 1px solid #FFFFFF"><h2>CNPS</h2></td>
+											<td style="text-align:right;padding:5px;border-right: 1px solid #FFFFFF"><h2><field name="previous_total_cnps"/></h2></td>
+											<td style="text-align:right;padding:5px;border-right: 1px solid #FFFFFF"><h2><field name="total_cnps"/></h2></td>
+											<td style="text-align:right;padding:5px"><h2><field name="diff_cnps"/></h2></td>
+										</tr>
+										<tr style="border-bottom: 1px solid #FFFFFF">
+											<td style="text-align:left;padding:5px;border-right: 1px solid #FFFFFF"><h2>Net Payment</h2></td>
+											<td style="text-align:right;padding:5px;border-right: 1px solid #FFFFFF"><h2><field name="previous_total_net_payment"/></h2></td>
+											<td style="text-align:right;padding:5px;border-right: 1px solid #FFFFFF"><h2><field name="total_net_payment"/></h2></td>
+											<td style="text-align:right;padding:5px"><h2><field name="diff_net_payment"/></h2></td>
+										</tr>
+										<tr>
+											<td style="text-align:left;padding:5px;border-right: 1px solid #FFFFFF"><h2>Payslips Number</h2></td>
+											<td style="text-align:right;padding:5px;border-right: 1px solid #FFFFFF"><h2><field name="previous_nb_payslips"/></h2></td>
+											<td style="text-align:right;padding:5px;border-right: 1px solid #FFFFFF"><h2><field name="nb_payslips"/></h2></td>
+											<td style="text-align:right;padding:5px"><h2><field name="diff_nb_payslips"/></h2></td>
+										</tr>
+									</table>
+								</div>
+							</div>
+						</div>
+					</t>
+				</templates>
+			</kanban>
+		</field>
+	</record> 
+	
+	<record model="ir.actions.act_window" id="hr_payroll_dashboard_action">
+		<field name="name">Payroll Dashboard</field>
+		<field name="res_model">hr.payroll.dashboard</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">kanban</field>
+		<field name="help" type="html">
+			<p class="oe_view_nocontent_create">HR Payroll dashboard
+			</p>
+		</field>
+	</record>	
+
+	<menuitem action="hr_payroll_dashboard_action" id="hr_payroll_dashboard_menu" parent="hr.menu_hr_main" sequence="1" groups="hr_payroll_allowance.group_dipe_manager"/>
+	
+	
+    </data>
+</openerp>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+<template id="cash_receipt_report_view">    
+    <t t-call="report.external_layout_header">
+    </t>
+        <div class="page">
+            <t t-foreach = "docs" t-as = "o"> 
+                <div style="float:left;width:100%;height:50px; text:center">               
+                    <div style="text-align:center;"><b><u><h3>CASH-RECEIPT ACKNOWLEDGEMENT FORM</h3></u></b></div>                
+                </div>                
+                <div style="float:left;width:45%;height:30px;">           
+                    <div style="text-align:left;"><b>Transaction code: <u> <span t-field = "o.name"/></u> </b></div>  
+                </div>
+                <div style="float:left;width:25%;height:30px;">           
+                    <div style="text-align:left;"><b>Project: ______________</b></div>  
+                </div>
+                <div style="float:left;width:30%;height:30px;">           
+                    <div style="text-align:left;"><b>Date: <u> <span t-field = "o.date"/></u> </b></div>  
+                </div>
+                <div style="float:left;width:70%;height:50px;">
+                    <div class="text-left"><b>By completing this form you acknowledge receipt of cash for the following amount:</b></div>
+                </div> 
+                <div style="float:left;width:10%;height:50px;">
+                    <div class="text-left"><b>FCFA</b></div>
+                </div>  
+                <div style="float:left;width:20%;height:50px;">
+                    <div style="padding-top:2px; padding-bottom:2px;border: 2px solid #000011; text-align:center;"><b><span t-field = "o.amount"/></b></div>
+                </div>
+                <div style="float:left;width:100%;height:20px; text:center">
+                <div class="text-left"><b>Amount in words:<span t-field = "o.amount_to_text"/></b></div>
+                </div>
+                <div style="float:left;width:100%;height:20px;">                                                    
+                    <div class="text-left"><b>Purpose:<span t-field = "o.purpose"/></b></div>
+                </div>
+                <div style="float:left;width:70%;height:20px;">                                                     
+                    <div class="text-left"><b>Received by:<span t-field = "o.user_id.name"/></b></div>
+                </div>
+                <div style="float:left;width:30%;height:20px;">                                                     
+                    <div class="text-left"><b>Signature:_______________</b></div>
+                </div>
+                <div style="float:left;width:100%;height:20px; text:center">
+                </div>
+                <div style="float:left;width:70%;height:20px;">                                                     
+                    <div class="text-left"><b>Authorized by:_____________________________________</b></div>
+                </div>
+                <div style="float:left;width:30%;height:20px;">                                                     
+                    <div class="text-left"><b>Signature:_______________</b></div>
+                </div>
+                <div style="float:left;width:100%;height:20px; text:center">
+                </div>
+                <div style="float:left;width:70%;height:20px;">                                                     
+                    <div class="text-left"><b>Disbursed by:_____________________________________</b></div>
+                </div>
+                <div style="float:left;width:30%;height:70px;">                                                     
+                    <div class="text-left"><b>Signature:_______________</b></div>
+                </div>
+                <div style="float:left;width:100%;height:100px; text:center">
+                    <t t-call="report.external_layout_footer">
+                    </t>
+                </div>   
+                
+            </t>
+            <div style="float:left;width:100%;height:100px; text:center">                    
+                </div>
+            <t t-foreach = "docs" t-as = "o">
+                <div style="float:left;width:100%;height:100px; text:center">                    
+                </div>
+                <t t-call="report.external_layout_header">
+                </t>
+
+                <div style="text-align:center;"><b><u><h3>CASH-RECEIPT ACKNOWLEDGEMENT FORM</h3></u></b></div>
+                <div style="float:left;width:100%;height:20px; text:center">
+                </div>                
+                <div style="float:left;width:45%;height:30px;">           
+                    <div style="text-align:left;"><b>Transaction code: <u> <span t-field = "o.name"/></u> </b></div>  
+                </div>
+                <div style="float:left;width:25%;height:30px;">           
+                    <div style="text-align:left;"><b>Project: ______________</b></div>  
+                </div>
+                <div style="float:left;width:30%;height:30px;">           
+                    <div style="text-align:left;"><b>Date: <u> <span t-field = "o.date"/></u> </b></div>  
+                </div>
+                <div style="float:left;width:70%;height:50px;">
+                    <div class="text-left"><b>By completing this form you acknowledge receipt of cash for the following amount:</b></div>
+                </div> 
+                <div style="float:left;width:10%;height:50px;">
+                    <div class="text-left"><b>FCFA</b></div>
+                </div>  
+                <div style="float:left;width:20%;height:50px;">
+                    <div style="padding-top:2px; padding-bottom:2px;border: 2px solid #000011; text-align:center;"><b><span t-field = "o.amount"/></b></div>
+                </div>                                                            
+                <div class="text-left"><b>Amount in words:<span t-field = "o.amount_to_text"/></b></div>
+                <div style="float:left;width:100%;height:20px; text:center">
+                </div>
+                                                                  
+                <div class="text-left"><b>Purpose:<span t-field = "o.purpose"/></b></div>
+                <div style="float:left;width:100%;height:20px; text:center">
+                </div>
+                <div style="float:left;width:70%;height:20px;">                                                     
+                    <div class="text-left"><b>Received by:<span t-field = "o.user_id.name"/></b></div>
+                </div>
+                <div style="float:left;width:30%;height:20px;">                                                     
+                    <div class="text-left"><b>Signature:_______________</b></div>
+                </div>
+                <div style="float:left;width:100%;height:20px; text:center">
+                </div>
+                <div style="float:left;width:70%;height:20px;">                                                     
+                    <div class="text-left"><b>Authorized by:_____________________________________</b></div>
+                </div>
+                <div style="float:left;width:30%;height:20px;">                                                     
+                    <div class="text-left"><b>Signature:_______________</b></div>
+                </div>
+                <div style="float:left;width:100%;height:20px; text:center">
+                </div>
+                <div style="float:left;width:70%;height:20px;">                                                     
+                    <div class="text-left"><b>Disbursed by:_____________________________________</b></div>
+                </div>
+                <div style="float:left;width:30%;height:20px;">                                                     
+                    <div class="text-left"><b>Signature:_______________</b></div>
+                </div> 
+                          
+
+            </t>
+        </div>
+    
+    
+       
+    
+    <t t-call="report.external_layout_footer">
+    </t>                
+    
+</template>
+</data>
+</openerp>

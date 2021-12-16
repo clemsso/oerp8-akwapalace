@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <report 
+            id="travel_request_id"
+            model="ghss.cash.receipt"
+            string="Travel Request form"
+            report_type="qweb-pdf"
+            name="tiss_report.travel_request_form"
+            file="tiss_report.travel_request_form"
+            />  
+    </data>
+</openerp>

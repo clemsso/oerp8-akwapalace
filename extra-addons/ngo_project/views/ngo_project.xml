@@ -1,0 +1,128 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+	
+	<menuitem name="Organization"
+            id="menu_ngo_root"
+            sequence="10"/>
+			
+	<menuitem name="Projects"
+            id="ngo_project_main_menu"
+			parent="menu_ngo_root"
+            sequence="1"/>
+	
+	<record model="ir.ui.view" id="hr_contract_project_template_form_view_change">
+		<field name="name">hr.contract.project.template.form10</field>
+		<field name="model">hr.contract.project.template</field>
+		<field name="inherit_id" ref="hr_payroll_allowance.hr_contract_project_template_form_view"/>
+		<field name="arch" type="xml">
+			<xpath expr="//page[@string='Contracts']" position="after">
+				<page string="General Accounts Related">
+					<field name="general_account_ids">
+						<tree>
+							<field name="code"/>
+							<field name="name"/>
+							<field name="credit"/>
+							<field name="debit"/>
+							<field name="balance"/>
+						</tree>
+					</field>
+				</page>
+			</xpath>
+		</field>
+	</record>
+	
+	<!-- <record model="ir.ui.view" id="hr_contract_project_template_tree_view_change">
+		<field name="name">hr.contract.project.template.tree10</field>
+		<field name="model">hr.contract.project.template</field>
+		<field name="inherit_id" ref="hr_payroll_allowance.hr_contract_project_template_tree_view"/>
+		<field name="arch" type="xml">
+			<xpath expr="//field[@name='name']" position="after">
+				<field name="check_project"/>
+			</xpath>
+		</field>
+	</record> -->
+	
+	<record model="ir.actions.act_window" id="ngo_project_template_action">
+		<field name="name">Projects</field>
+		<field name="res_model">hr.contract.project.template</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+<!--		<field name="view_id" ref="ngo_project_template_tree_view"/>
+		<field name="form_view_id" ref="ngo_project_template_form_view"/> -->
+		<field name="help" type="html">
+			<p class="oe_view_nocontent_create">Projects managed inside the company
+			</p>
+		</field>
+	</record> 
+
+	<menuitem action="ngo_project_template_action" id="ngo_project_template_menu" parent="ngo_project_main_menu" sequence="1"/>
+	
+	
+	
+	<record model="ir.ui.view" id="ngo_budget_activity_view">
+		<field name="name">ngo.budget.activity.form</field>
+		<field name="model">ngo.budget.activity</field>
+		<field name="arch" type="xml">
+			<form string="Activity">
+				<sheet>
+					<label for="name" class="oe_edit_only"/>
+					<h1>
+						<field name="name"/>
+					</h1>
+					<group>
+						<field name="budget_id"/>
+					</group>
+					<label for="note"/>
+					<field name="note"/>
+				</sheet>
+			</form>
+		</field>
+	</record>
+	
+	<record model="ir.ui.view" id="ngo_budget_activity_tree_view">
+		<field name="name">ngo.budget.activity.tree</field>
+		<field name="model">ngo.budget.activity</field>
+		<field name="arch" type="xml">
+			<tree string="Activities">
+				<field name="name"/>
+				<field name="budget_id"/>
+			</tree>
+		</field>
+	</record>
+	
+	<record model="ir.actions.act_window" id="ngo_budget_activity_action">
+		<field name="name">Activities</field>
+		<field name="res_model">ngo.budget.activity</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+		<field name="help" type="html">
+			<p class="oe_view_nocontent_create">Organize transactions in Activities
+				based on Budget
+			</p>
+		</field>
+	</record>
+
+	<menuitem 	action="ngo_budget_activity_action" 
+				id="ngo_budget_activity_menu" 
+				parent="account_budget.next_id_31" sequence="2"/>
+
+	<record model="ir.ui.view" id="res_users_form10_view">
+		<field name="name">res.users.form10</field>
+		<field name="model">res.users</field>
+		<field name="inherit_id" ref="base.view_users_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//page[@string='Preferences']" position="after">
+				<page string="Allowed Projects">
+					<field name="allowed_project_ids">
+						<tree>
+							<field name="name"/>
+						</tree>
+					</field>
+				</page> 
+			</xpath>
+		</field>
+	</record>
+				
+    </data>
+</openerp>

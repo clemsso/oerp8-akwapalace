@@ -1,0 +1,310 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+	<record model="ir.ui.view" id="school_fee_fee_line_form_view">
+		<field name="name">school.fee.fee.line.form</field>
+		<field name="model">school.fee.fee.line</field>
+		<field name="arch" type="xml">
+			<form string="Fee" create="0" edit="0">
+				<sheet>
+					<div name="buttons" class="oe_right oe_button_box">
+						<button class="oe_inline oe_stat_button" type="action" icon="fa-pencil-square-o">
+							<field string="Amount" name="price_subtotal" widget="statinfo"/>
+						</button>
+					</div>
+					<label for="name"/>
+					<h2>
+						<field name="name"/>
+					</h2>
+					<label for="fee_id"/>
+					<h3>
+						<field name="fee_id"/>
+					</h3>
+					<group>
+						<field name="deadline"/>
+					</group>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+	<record model="ir.ui.view" id="school_fee_fee_line_tree_view">
+		<field name="name">school.fee.fee.line.tree</field>
+		<field name="model">school.fee.fee.line</field>
+		<field name="arch" type="xml">
+			<tree create="false" edit="false">
+				<field name="name"/>
+				<field name="fee_id"/>
+				<field name="price_subtotal"/>
+				<field name="deadline"/>
+			</tree>
+		</field>
+	</record>
+
+	<record model="ir.actions.act_window" id="school_fee_fee_line_action">
+		<field name="name">Fee Lines</field>
+		<field name="res_model">school.fee.fee.line</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+		<field name="help" type="html">
+			<p class="oe_view_nocontent_create">Scolar Fees
+			</p>
+		</field>
+	</record>	
+
+	<!-- <menuitem action="school_fee_fee_line_action" id="school_fee_fee_line_menu" parent="school.school_student_menu" sequence="3"/> -->
+	
+	<record model="ir.ui.view" id="school_fee_fee_form_view">
+		<field name="name">school.fee.fee.form</field>
+		<field name="model">school.fee.fee</field>
+		<field name="arch" type="xml">
+			<form string="Fee" create="0" edit="0">
+				<header>
+					<field name="state" widget="statusbar" statusbar_visible="draft,open,paid"/>
+				</header>
+				<sheet>
+					<div name="buttons" class="oe_right oe_button_box">
+						<button class="oe_inline oe_stat_button" type="action" icon="fa-star">
+							<field string="Total" name="amount_total" widget="statinfo"/>
+						</button>
+						<button class="oe_inline oe_stat_button" type="action" icon="fa-star-o">
+							<field string="Residual" name="residual" widget="statinfo"/>
+						</button>
+					</div>
+					<h1>
+						<field name="name"/>
+					</h1>
+					<label for="student_id"/>
+					<h3>
+						<field name="student_id"/>
+					</h3>
+					<group>
+						<field name="deadline"/>
+					</group>
+					<notebook>
+						<page string="Fee Lines">
+							<field name="fee_line_ids">
+								<tree>
+									<field name="name"/>
+									<field name="price_subtotal"/>
+									<field name="deadline"/>
+								</tree>
+							</field>
+						</page>
+						<page string="Payments">
+							<field name="payment_ids">
+								<tree>
+									<field name="name"/>
+									<field name="debit"/>
+									<field name="credit"/>
+									<field name="state"/>
+								</tree>
+							</field>
+						</page>
+					</notebook>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+	<record model="ir.ui.view" id="school_fee_fee_tree_view">
+		<field name="name">school.fee.fee.tree</field>
+		<field name="model">school.fee.fee</field>
+		<field name="arch" type="xml">
+			<tree create="false" edit="false" colors="red:is_ok==False;blue:is_ok==True">
+				<field name="name"/>
+				<field name="student_id"/>
+				<field name="amount_total"/>
+				<field name="deadline"/>
+				<field name="is_ok" invisible="1"/>
+				<field name="state"/>
+			</tree>
+		</field>
+	</record>
+
+	<record model="ir.ui.view" id="school_fee_fee_search_view">
+		<field name="name">school.fee.fee.search</field>
+		<field name="model">school.fee.fee</field>
+		<field name="arch" type="xml">
+			<search string="Fees">
+				<field name="name" string="Reference"/>
+				<field name="student_id" string="Student"/>
+			</search>
+		</field>
+	</record>
+	
+	<record model="ir.actions.act_window" id="school_fee_fee_action">
+		<field name="name">Fees</field>
+		<field name="res_model">school.fee.fee</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+		<field name="help" type="html">
+			<p class="oe_view_nocontent_create">Scolar Fees List
+			</p>
+		</field>
+	</record>	
+
+	<menuitem action="school_fee_fee_action" id="school_fee_fee_menu" parent="school.school_student_menu" sequence="3" groups="school_fees.group_school_fee_operator"/>
+	
+	<record model="ir.ui.view" id="school_student_enrollment_form_view">
+		<field name="name">school.student.enrollment.form</field>
+		<field name="model">school.student.enrollment</field>
+		<field name="arch" type="xml">
+			<form string="Enrollment">
+				<header>
+					<field name="partner_id" invisible="1"/>
+					<button name="confirm" type="object" string="Confirm" class="oe_highlight" states="draft"/>
+					<button name="%(account_voucher.action_vendor_receipt)d" type="action" string="Pay Fees" class="oe_highlight" states="confirmed"
+						context="{'default_partner_id': partner_id or False}"/> 
+					<field name="state" widget="statusbar"/>
+				</header>
+				<sheet>
+					<div name="buttons" class="oe_right oe_button_box">
+						<button class="oe_inline oe_stat_button" type="action" icon="fa-star">
+							<field string="Total" name="total_amount" widget="statinfo"/>
+						</button>
+						<button class="oe_inline oe_stat_button" type="action" icon="fa-star-o">
+							<field string="Residual" name="remaind_amount" widget="statinfo"/>
+						</button>
+					</div>
+					<label for="name"/>
+					<h1>
+						<field name="name" attrs="{'readonly':[('state','=','confirmed')]}"/>
+					</h1>
+					<label for="student_id"/>
+					<h2>
+						<field name="student_id" attrs="{'readonly':[('state','=','confirmed')]}"/>
+					</h2>
+					<div>
+						<label for="academic_year"/>
+						<field name="academic_year" domain="[('state','=','open')]"
+									attrs="{'readonly':[('state','=','confirmed')]}"/>
+						<label for="level_id"/>
+						<field name="level_id" attrs="{'readonly':[('state','=','confirmed')]}"/>
+						<label for="student_type"/>
+						<field name="student_type" attrs="{'readonly':[('state','=','confirmed')]}"/>
+					</div>
+					<notebook>
+						<page string="Fees" attrs="{'invisible':[('state','=','draft')]}">
+							<field name="fee_ids">
+								<tree colors="red:is_ok==False;blue:is_ok==True">
+									<field name="name"/>
+									<field name="amount_total"/>
+									<field name="deadline"/>
+									<field name="is_ok" invisible="1"/>
+									<field name="state"/>
+								</tree>
+							</field>
+						</page>
+						<page string="Payments" attrs="{'invisible':[('state','=','draft')]}">
+							<field name="payment_ids">
+								<tree>
+									<field name="number"/>
+									<field name="date"/>
+									<field name="amount"/>
+									<field name="state"/>
+								</tree>
+							</field>
+						</page>
+						<page string="Mandatory Template" attrs="{'invisible':[('state','=','confirmed')]}">
+							<field name="fee_template_mandatory_ids">
+								<tree>
+									<field name="name"/>
+								</tree>
+							</field>
+						</page>
+						<page string="Optionnal Template" attrs="{'invisible':[('state','=','confirmed')]}">
+							<field name="fee_template_optionnal_ids">
+								<tree>
+									<field name="name"/>
+								</tree>
+							</field>
+						</page>
+					</notebook>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+	<record model="ir.ui.view" id="school_student_enrollment_tree_view">
+		<field name="name">school.student.enrollment.tree</field>
+		<field name="model">school.student.enrollment</field>
+		<field name="arch" type="xml">
+			<tree string="Enrollments" colors="red:is_ok==False;blue:is_ok==True">
+				<field name="name"/>
+				<field name="student_id"/>
+				<field name="level_id"/>
+				<field name="deadline"/>
+				<field name="is_ok" invisible="1"/>
+				<field name="academic_year"/>
+				<field name="state"/>
+			</tree>
+		</field>
+	</record>
+
+	<record model="ir.ui.view" id="school_student_enrollment_search_view">
+		<field name="name">school.student.enrollment.search</field>
+		<field name="model">school.student.enrollment</field>
+		<field name="arch" type="xml">
+			<search string="Enrollments">
+				<field name="name" string="Reference"/>
+				<field name="student_id" string="Student"/>
+				<field name="level_id" string="Classes"/>
+				<field name="academic_year" string="Academic Year"/>
+				<filter name="paid" string="In Good Standing" domain="[('is_ok','=',True)]"/>
+				<filter name="unpaid" string="Not In Order" domain="[('is_ok','=',False)]"/>
+				<filter name="academic_year" string="Open Academic years" domain="[('academic_state','=','open')]"/>
+			</search>
+		</field>
+	</record>
+	
+	<record model="ir.actions.act_window" id="school_student_enrollment_action">
+		<field name="name">Enrollments</field>
+		<field name="res_model">school.student.enrollment</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+		<field name="help" type="html">
+			<p class="oe_view_nocontent_create">Create Enrollment
+			</p>
+		</field>
+	</record>	
+
+	<menuitem action="school_student_enrollment_action" id="school_student_enrollment_menu" parent="school.school_student_menu" sequence="5" groups="school_fees.group_school_fee_operator"/>
+	
+	<record model="ir.ui.view" id="school_student_payment_form_view">
+		<field name="name">school.student.payment.form</field>
+		<field name="model">account.voucher</field>
+		<field name="inherit_id" ref="account_voucher.view_vendor_receipt_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//field[@name='state']" position="before">
+				<button name="print_receipt" string="Print" type="object" states='posted'/>
+			</xpath>
+		</field>
+	</record> 
+	
+	<record id="action_fee_receipt" model="ir.actions.act_window">
+		<field name="name">Fees Payments</field>
+		<field name="res_model">account.voucher</field>
+		<field name="view_type">form</field>
+		<field name="domain">[('journal_id.type', 'in', ['bank', 'cash']), ('type','=','receipt')]</field>
+		<field name="context">{'type':'receipt','partner_id': partner_id}</field>
+		<field name="search_view_id" ref="account_voucher.view_voucher_filter_customer_pay"/>
+		<field name="view_id" eval="False"/>
+		<field name="target">current</field>
+		<field name="help" type="html">
+			<p class="oe_view_nocontent_create">
+				Click to register a new payment.
+			</p><p>
+				Enter the customer and the payment method and then, either
+				create manually a payment record or Odoo will propose to you
+				automatically the reconciliation of this payment with the open
+				invoices or sales receipts.
+			</p>
+		</field>
+	</record>
+	
+	<menuitem action="account_voucher.action_vendor_receipt" id="menu_fee_payment_form" name="Payments" parent="school.school_student_menu" sequence="4" groups="school_fees.group_school_fee_operator"/>
+	
+    </data>
+</openerp>

@@ -1,0 +1,135 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+	
+	<template id="employee_taxes_project_history_document">
+		<t t-call="ghss_hr_report.payslip_layout">
+			<div class="page">
+			
+				<div class="row">
+					<div class="col-xs-4" style="border: 1px solid black;">
+						<table border="1" width="100%" style="font-familly: Times, serif;font-size:12px;">
+							<tr>
+								<td style="text-align:center;letter-spacing:2px;"><h4>REPUBLIC OF CAMEROON</h4></td>
+							</tr>
+							<tr>
+								<td style="text-align:center;letter-spacing:2px;">Information Document<br/>
+								Payroll Taxes</td>
+							</tr>
+							<tr>
+								<td style="text-align:center;letter-spacing:2px;"><h4>Taxes per Employee</h4></td>
+							</tr>
+							<tr>
+								<td style="text-align:center;letter-spacing:2px;"><h5>(<span t-field="o.project_id.name"/> )</h5></td>
+							</tr>
+						</table>
+					</div>
+					<div class="col-xs-7 col-xs-offset-1">
+						<table border="0" width="100%" style="font-familly: Times, serif;font-size:14px;">
+							<tr>
+								<td width="25%"><![CDATA[&nbsp;]]></td>
+								<td width="25%"><![CDATA[&nbsp;]]></td>
+								<td width="25%"><![CDATA[&nbsp;]]></td>
+								<td width="25%"><![CDATA[&nbsp;]]></td>
+							</tr>
+							<tr>
+								<td><![CDATA[&nbsp;]]></td>
+								<td><![CDATA[&nbsp;]]></td>
+								<td><![CDATA[&nbsp;]]></td>
+								<td><![CDATA[&nbsp;]]></td>
+							</tr>
+							<tr>
+								<td style="letter-spacing:2px;"><b>Company Name</b></td>
+								<td style="letter-spacing:2px;" colspan="3"><span t-field="o.company_id.name"/></td>
+							</tr>
+							<tr>
+								<td style="letter-spacing:2px;"><b>Adsress</b></td>
+								<td style="letter-spacing:2px;" colspan="3">Douala, Bonamoussadi</td>
+							</tr>
+							<tr>
+								<td style="letter-spacing:2px;"><b>P.O Box</b></td>
+								<td style="letter-spacing:2px;" colspan="3">732 Limbe</td>
+							</tr>
+							<tr>
+								<td style="letter-spacing:2px;"><b>Payroll Month</b></td>
+								<td style="letter-spacing:2px;" colspan="3"><span t-field="o.month"/></td>
+							</tr>
+						</table>
+					</div> 
+				</div>
+
+				<br/>
+				<br/>
+			
+				<div class="row">
+					<div class="col-xs-12">
+						<table border="1" width="100%" style="border: 1px solid black;font-family:Times;font-size:12px;">
+						
+							<tr style="border:1px solid black;padding: 5px;">
+								<th width="4%" rowspan="2" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>SN</b></th>
+								<th width="20%" rowspan="2" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>NAME</b></th>
+								<th width="8%" rowspan="2" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>GROSS SALARY</b></th>
+								<th width="15%" colspan="3" scope="colgroup" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>ELEMENTS OF NON TAXABLE SALARY</b></th>
+								<th width="8%" rowspan="2" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>TAXABLE SALARY</b></th>
+								<th width="45%" colspan="8" scope="colgroup" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>TAXES PAID</b></th> 
+							</tr>
+						
+							<tr style="border:1px solid black;padding: 5px;">
+								<th scope="col" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>REP ALL</b></th>
+								<th scope="col" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>RISK ALL</b></th>
+								<th scope="col" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>TOTAL</b></th>
+
+
+								<th scope="col" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>PIT</b></th>
+								<th scope="col" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>CAC</b></th>
+								<th scope="col" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>CCFs</b></th>
+								<th scope="col" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>CCFp</b></th>
+								<th scope="col" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>CRTV</b></th>
+								<th scope="col" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>LDT</b></th>
+								<th scope="col" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>FNE</b></th>
+								<th scope="col" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>TOTAL</b></th>
+							</tr>
+							
+							<t t-foreach="o.payslip_ids" t-as="payslip">
+								<tr style="padding: 5px;">
+									<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;"><span t-field="payslip.employee_id.matricule"/></td>
+									<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;"><span t-field="payslip.employee_id.real_name"/></td>
+									<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><span t-esc="'{0:,.0f}'.format(payslip.gross_salary)"/></td>
+									<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><span t-esc="'{0:,.0f}'.format(payslip.represent)"/></td>
+									<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><span t-esc="'{0:,.0f}'.format(payslip.risk)"/></td>
+									
+									<t t-set="total_non_taxable" t-value="payslip.represent + payslip.risk"/>
+									<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><span t-esc="'{0:,.0f}'.format(total_non_taxable)"/></td>
+									
+									<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><span t-esc="'{0:,.0f}'.format(payslip.taxable_salary)"/></td>
+									
+									<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><span t-esc="'{0:,.0f}'.format(payslip.pit)"/></td>
+									<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><span t-esc="'{0:,.0f}'.format(payslip.act)"/></td>
+									<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><span t-esc="'{0:,.0f}'.format(payslip.cfce)"/></td>
+									<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><span t-esc="'{0:,.0f}'.format(payslip.cfcp)"/></td>
+									<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><span t-esc="'{0:,.0f}'.format(payslip.crtv)"/></td>
+									<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><span t-esc="'{0:,.0f}'.format(payslip.ctax)"/></td>
+									<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><span t-esc="'{0:,.0f}'.format(payslip.fne)"/></td>
+									
+									<t t-set="total_taxes" t-value="payslip.pit + payslip.act + payslip.cfce + payslip.cfcp + payslip.crtv + payslip.ctax + payslip.fne"/>
+									<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><span t-esc="'{0:,.0f}'.format(total_taxes)"/></td>
+								</tr>
+							</t> 
+						</table> 
+					</div>
+				</div>
+
+			</div> 
+		</t>	
+	</template> 
+	
+	<template id="employee_taxes_project_history_template">
+		<t t-call="report.html_container">
+			<t t-foreach="doc_ids" t-as="doc_id">
+				<t t-raw="translate_doc(doc_id,doc_model,'env.lang','hr_payroll_allowance.employee_taxes_project_history_document')"/>
+			</t>
+		</t>
+	</template>
+		
+    </data>
+</openerp>

@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+		<record model="ir.ui.view" id="res_company_extra2_form_view">
+			<field name="name">res.company.extra2.form</field>
+			<field name="model">res.company</field>
+			<field name="inherit_id" ref="res_company_extra_form_view"/>
+			<field name="arch" type="xml">
+			
+				<xpath expr="//page[@string='HR settings']" position="replace">
+					<page string="HR settings">
+						<group>
+							<group>
+								<field name="ssnid" string="CNPS N°"/>
+								<field name="niu" string="NIU"/>
+								<field name="regime" string="CNPS Regime"/>
+								<field name="cnps_employee" string="CNPS % - Employee"/>
+								<field name="cnps_employer" string="CNPS % - Employer"/>
+							</group>
+							<group>
+								<field name="ipa" string="Ind. Group Accident"/>
+								<field name="cfc" string="CFC %"/>
+								<field name="fne" string="FNE (NEF) %"/>
+								<field name="familly_contributory" string="Familly Contributory %"/>
+								<field name="lbr" string="Land Bank Rate %"/>
+							</group>
+						</group>
+                    </page>
+				</xpath>
+					
+				
+			</field>
+		</record>
+	
+    </data>
+</openerp>

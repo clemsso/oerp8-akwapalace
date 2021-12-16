@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+		<record id="hr_employee_matricule_sequence_type" model="ir.sequence.type">
+			<field name="name">Employee Matricule Sequence Type</field>
+			<field name="code">hr.employee.matricule</field>
+		</record>
+
+		<record id="hr_employee_matricule_sequence" model="ir.sequence">
+			<field name="name">Employee Matricule Sequence</field>
+			<field name="code">hr.employee.matricule</field>
+			<field name="prefix">B</field>
+			<field name="padding">4</field>
+		</record>
+	
+    </data>
+</openerp>

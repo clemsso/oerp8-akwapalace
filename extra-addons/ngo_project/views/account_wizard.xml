@@ -1,0 +1,135 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+	<record model="ir.ui.view" id="ngo_project_account_wizard_form">
+		<field name="name">ngo.project.account.wizard.form</field>
+		<field name="model">ngo.project.account.wizard</field>
+		<field name="arch" type="xml">
+           <form string="Entries">
+				<group>
+					<field name="project_id"/> 
+					<field name="budget_id"/> 
+					<field name="journal_id" required="1"/> 
+					<field string="Upload File" name="file_move_line" filename="file_move_name"/>
+				</group>
+		   
+				<field name="file_move_name" invisible="1"/> 
+				
+				<notebook>
+					<!-- <page string="Content">
+						<field name="file_decode_text"/> 
+					</page> -->
+					<page string="Move">
+						<field name="move_ids">
+							<form create="false" delete="false">
+								<group>
+									<field name="name" readonly="1"/>
+									<field name="ref" readonly="1"/>
+									<field name="period_id" readonly="1"/>
+									<field name="date" readonly="1"/>
+								</group>
+								<field name="move_line_ids">
+									<form string="Move Lines">
+										<group>
+										<!-- <label for="name"/> -->
+											<field name="name" readonly="1"/>
+										</group>
+										<group col="4">
+											<field name="account_id" readonly="1"/>
+											<field name="analytic_id"/>
+										</group>
+										<group col="4">
+											<field name="credit" readonly="1"/>
+											<field name="debit" readonly="1"/>
+										</group>
+									</form>
+								</field>
+							</form>
+						</field> 
+					</page>
+				</notebook>
+				<footer>
+					<button name="import_entries" 
+						string="Import Entries" type="object" 
+						class="btn-primary oe_highlight"/>
+					<button string="Cancel" 
+						class="btn-default" 
+						special="cancel" />
+				</footer>
+			</form>
+		</field>
+	</record>
+
+	<record model="ir.ui.view" id="ngo_project_account_move_form">
+		<field name="name">ngo.project.account.move.form</field>
+		<field name="model">ngo.project.account.move</field>
+		<field name="arch" type="xml">
+           <form create="false" delete="false">
+				<group>
+					<field name="name" readonly="1"/>
+					<field name="ref" readonly="1"/>
+					<field name="period_id" readonly="1"/>
+					<field name="date" readonly="1"/>
+					<field name="nb_lines" readonly="1"/>
+				</group>
+				<field name="move_line_ids">
+					<form>
+						<field name="name"/>
+						<group>
+							<field name="account_id"/>
+							<field name="analytic_id"/>
+						</group>
+						<group>
+							<field name="credit"/>
+							<field name="debit"/>
+						</group>
+					</form>
+				</field>
+			</form>
+		</field>
+	</record>
+	
+	<record model="ir.ui.view" id="ngo_project_account_move_tree">
+		<field name="name">ngo.project.account.move.tree</field>
+		<field name="model">ngo.project.account.move</field>
+		<field name="arch" type="xml">
+           <tree colors="red:status==False;black:status=='True'"
+				create="false" delete="false">
+				<field name="name"/>
+				<field name="ref"/>
+				<field name="period_id"/>
+				<field name="date"/>
+				<field name="nb_lines"/>
+				<field name="status" invisible="1"/>
+			</tree>
+		</field>
+	</record>
+	
+	<record model="ir.ui.view" id="ngo_project_account_move_line_tree">
+		<field name="name">ngo.project.account.move.line.tree</field>
+		<field name="model">ngo.project.account.move.line</field>
+		<field name="arch" type="xml">
+           <tree create="false" delete="false">
+				<field name="name"/>
+				<field name="account_id"/> 
+				<field name="credit" sum="Total"/>
+				<field name="debit" sum="Total"/>
+				<field name="analytic_id"/>
+				<field name="nb_analytic"/>				
+			</tree>
+		</field>
+	</record>
+	
+	<record model="ir.actions.act_window" id="ngo_project_account_wizard_action">
+		<field name="name">Import Entries Wizard</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">ngo.project.account.wizard</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="view_id" ref="ngo_project_account_wizard_form"/>
+		<field name="target">new</field>
+	</record>
+	
+    </data>
+</openerp>

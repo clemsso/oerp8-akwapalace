@@ -1,0 +1,110 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+	<template id="external_layout_custom_header" inherit_id="report.external_layout_header">
+		<xpath expr="//div[@class='header']" position="replace">
+			<div class="header">
+				<!-- <div class="row">
+					<div class="col-xs-12">
+						<![CDATA[&nbsp;]]>
+					</div>
+				</div> -->
+				<div class="row">
+					<div class="col-xs-2">
+						<img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo" style="max-height: 60px;"/>
+					</div>
+					<!-- <div class="col-xs-9">
+						<img src='/scilagou_report/static/src/img/scilagou_report.png' style="max-height: 100px;"/>
+					</div> -->
+					<div class="col-xs-10 text-center">
+						<div t-if="o.company_id">
+							<h3 style="font-family: Book Antiqua,Palatino,Georgia,serif; 
+										text-shadow: 2px 2px 2px #abacad;" 
+								t-field="o.company_id.name"/>
+							<small style="font-family: TimesNewRoman, Times, serif;">
+								Autorisation N° J2/2577/MINEDUC/DEP/SCAFES du 10 Nov. 1992</small><br/>
+							<small style="font-family: TimesNewRoman, Times, serif;">
+								Enseignement général et technique 1<sup>er</sup> et 2<sup>nd</sup> cycles</small><br/>
+							<t t-if="o.company_id.street">
+								<small style="font-family: TimesNewRoman, Times, serif;"
+								t-field="o.company_id.street"></small>
+							</t>
+							<t t-if="o.company_id.zip"><small> - BP: </small>
+								<small style="font-family: TimesNewRoman, Times, serif;"
+								t-field="o.company_id.zip"></small>
+							</t>
+							<t t-if="o.company_id.city">
+								<small style="font-family: TimesNewRoman, Times, serif;"
+								t-field="o.company_id.city"></small>
+							</t>
+							<t t-if="o.company_id.phone"><small> - Tel: </small>
+								<small style="font-family: TimesNewRoman, Times, serif;"
+								t-field="o.company_id.phone"></small>
+							</t>
+						</div>
+					</div>
+				</div>
+				<div class="row zero_min_height">
+					<div class="col-xs-12">
+						<div style="border-bottom: 3px solid #696969;"></div>
+					</div>
+				</div>  
+			</div>
+		</xpath>
+	
+	</template>
+	
+
+	<template id="external_layout_custom_footer" inherit_id="report.external_layout_footer">
+		<xpath expr="//div[@class='footer']" position="replace">
+			<div class="footer"> 
+				<div class="row">  
+				
+					<!-- <div class="col-xs-12">
+						<div class="panel panel-default" style="background-color:#f5f5f0;">
+							<div class="panel-body">
+								<div class="row">
+									<div class="col-xs-10"  style="font-size:10px;">
+										<span><![CDATA[&nbsp;]]></span><br/>
+									</div>
+									<div class="col-xs-2"   style="font-size:14px;font-weight:bold;background-color:#ffffff">
+										<span>DIRECTION</span>
+										<span><![CDATA[&nbsp;]]></span><br/>
+										<span><![CDATA[&nbsp;]]></span><br/>
+										<span><![CDATA[&nbsp;]]></span><br/>
+										<span><![CDATA[&nbsp;]]></span><br/>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div> -->
+					
+				
+					<div class="row zero_min_height">
+						<div class="col-xs-12">
+							<div style="border-bottom: 3px solid #99d6ff;"></div>
+						</div>
+					</div> 
+				
+					<!-- <div class="col-xs-12 text-center">
+						<span style="font-family: TimesNewRoman, Times, serif;font-weight: bold; font-size: 10px;">B.P : 8525 Douala - Cameroun - E-mail: scilagou20@yahoo.fr
+							<![CDATA[&nbsp;]]></span>
+						<span style="font-family: TimesNewRoman, Times, serif;font-size: 10px;"> - Tel: (237) 696 205 804 / 699 803 370 / 699 145 378</span>
+						<br/>
+						<span style="font-family: TimesNewRoman, Times, serif;font-size: 12px">RC/DLN/2015/B/1184 - NIU: M051512326977K - CMT-UBA14011000024</span>
+					</div> -->
+
+				</div>
+			</div>
+		</xpath>
+	
+	</template>   
+
+	<!-- <record model="report.paperformat" id="report.paperformat_euro">
+		<field name="margin_top">40</field>
+		<field name="margin_bottom">55</field>
+	</record> -->
+
+    </data>
+</openerp>

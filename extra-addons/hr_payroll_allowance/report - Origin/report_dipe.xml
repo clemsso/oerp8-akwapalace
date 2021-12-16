@@ -1,0 +1,545 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+	
+	<template id="dipe_cnps_document">
+		<t t-call="ghss_hr_report.payslip_layout">
+			<div class="page">
+				<t t-set="nb_pages" t-value="o.nb_dipes"/>
+				<t t-set="page" t-value="1"/>
+				<t t-foreach="o.dipe_ids" t-as="dipe">
+				<div class="row">
+				<div class="col-xs-4" style="border: 1px solid black;">
+				<table border="1" width="100%" style="font-familly: Times, serif;font-size:12px;">
+					<tr>
+						<td style="text-align:center;letter-spacing:2px;"><h4>REPUBLIC OF CAMEROON</h4></td>
+					</tr>
+					<tr>
+						<td style="text-align:center;letter-spacing:2px;">Information Document<br/>
+						Employees</td>
+					</tr>
+					<tr>
+						<td style="text-align:center;letter-spacing:2px;"><h4>D.I.P.E CNPS</h4></td>
+					</tr>
+					<tr>
+						<td style="text-align:center;letter-spacing:2px;"><h5>(GLOBAL)</h5></td>
+					</tr>
+				</table>
+				</div>
+				<div class="col-xs-7 col-xs-offset-1">
+				<table border="0" width="100%" style="font-familly: Times, serif;font-size:12px;">
+					<tr>
+						<td width="18%"><![CDATA[&nbsp;]]></td>
+						<td width="34%"><![CDATA[&nbsp;]]></td>
+						<td width="18%"><![CDATA[&nbsp;]]></td>
+						<td width="30%"><![CDATA[&nbsp;]]></td>
+					</tr>
+					<tr>
+						<td><![CDATA[&nbsp;]]></td>
+						<td><![CDATA[&nbsp;]]></td>
+						<td><![CDATA[&nbsp;]]></td>
+						<td><![CDATA[&nbsp;]]></td>
+					</tr>
+					<tr>
+						<td style="letter-spacing:2px;"><b>Company Name</b></td>
+						<td style="letter-spacing:2px;" colspan="3"><span t-field="o.company_id.name"/></td>
+					</tr>
+					<tr>
+						<td style="letter-spacing:2px;"><b>Adsress</b></td>
+						<td style="letter-spacing:2px;">Mokindi Layout, Sonara Road</td>
+						<td style="letter-spacing:2px;"><b>P.O Box</b></td>
+						<td style="letter-spacing:2px;">P.O Box 732 Limbe</td>
+					</tr>
+					<tr>
+						<td style="letter-spacing:2px;"><b>N° Contribuable</b></td>
+						<td style="letter-spacing:2px;"><span t-field="o.company_id.niu"/></td>
+						<td style="letter-spacing:2px;"><b>CNPS Regime</b></td>
+						<td style="letter-spacing:2px;"><span t-field="o.company_id.regime"/></td>
+					</tr>
+					<tr>
+						<td style="letter-spacing:2px;" colspan="2"><b>CNPS Employer N°</b></td>
+						<td style="letter-spacing:2px;" colspan="2"><span t-field="o.company_id.ssnid"/></td>
+					</tr>
+					<tr>
+						<td style="letter-spacing:2px;"><b>Payroll Month</b></td>
+						<td style="letter-spacing:2px;" colspan="3"><span t-field="dipe.name"/></td>
+					</tr>
+				</table>
+				</div>
+				</div>
+				<br/>
+				<div class="row">
+				<div class="col-xs-12">
+				<table border="1" width="100%" style="border: 1px solid black;font-family:Times;font-size:12px;">
+					<tr style="border:1px solid black;padding: 5px;">
+						<th width="18%" rowspan="2" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>Name</b></th>
+						<th width="8%" rowspan="2" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>CNPS N°</b></th>
+						<th width="5%" rowspan="2" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>Days</b></th>
+						<th width="8%" rowspan="2" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>Gross</b></th>
+						<th width="8%" rowspan="2" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>Taxable</b></th>
+						<th width="16%" colspan="2" scope="colgroup" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>Cotisable</b></th>
+						<th width="16%" colspan="2" scope="colgroup" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>Old Age Pension</b></th>
+						<th width="8%" rowspan="2" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>I.P. Accident</b></th>
+						<th width="8%" rowspan="2" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>Family Cont.</b></th>
+						<th width="5%" rowspan="2" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>Line</b></th>
+					</tr>
+					
+					<tr style="border:1px solid black;padding: 5px;">
+						<th width="8%" scope="col" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>Total</b></th>
+						<th width="8%" scope="col" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>Plafond</b></th>
+						<th width="8%" scope="col" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>Employee</b></th>
+						<th width="8%" scope="col" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>Employer</b></th>	
+					</tr>
+					
+					<!-- <tr style="padding: 5px;">
+						<td colspan="12" style="border:0.5px solid black;padding: 5px;"><b>NUMERO DIPE: <span t-field="dipe.info_id.name"/></b></td>
+					</tr> -->
+						<t t-foreach="dipe.line_ids" t-as="dipe_line">
+						<tr style="padding: 5px;">
+							<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;"><span t-field="dipe_line.payslip_id.employee_id.real_name"/></td>
+							<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:1px;"><span t-field="dipe_line.payslip_id.employee_id.ssnid"/></td>
+							<td style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:1px;"><span t-field="dipe_line.payslip_id.worked_days"/></td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="dipe_line.payslip_id.gross_salary"/></td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="dipe_line.payslip_id.taxable_salary"/></td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="dipe_line.payslip_id.cotisable_salary"/></td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="dipe_line.payslip_id.cotisable_ref_salary"/></td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="dipe_line.payslip_id.cnpse"/></td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="dipe_line.payslip_id.cnpsp"/></td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="dipe_line.payslip_id.ipa"/></td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="dipe_line.payslip_id.fcon"/></td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="dipe_line.line_number"/></td>
+						</tr>
+						</t>
+						<tr style="border:1px solid black;padding: 5px;">
+						<td colspan="3" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>Total</b></td>
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><b><span t-field="dipe.total_gross"/></b></td>
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><b><span t-field="dipe.total_taxable"/></b></td>
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><b><span t-field="dipe.total_cotisable"/></b></td>
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><b><span t-field="dipe.total_cotisable_ref"/></b></td>
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><b><span t-field="dipe.total_cnpse"/></b></td>
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><b><span t-field="dipe.total_cnpsp"/></b></td>
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><b><span t-field="dipe.total_ipa"/></b></td>
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><b><span t-field="dipe.total_fcon"/></b></td>
+						<td style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b><![CDATA[&nbsp;]]></b></td>
+					</tr>
+				</table>
+				</div>
+				</div>
+					<t t-if="page &lt; nb_pages">
+						<t t-set="page" t-value="page + 1"/>
+						<p style="page-break-after:always"></p>
+					</t>
+				</t>
+				<p style="page-break-after:always"></p>
+				
+				<div class="row">
+				<div class="col-xs-4" style="border: 1px solid black;">
+				<table border="1" width="100%" style="font-familly: Times, serif;font-size:12px;">
+					<tr>
+						<td style="text-align:center;letter-spacing:2px;"><h4>REPUBLIC OF CAMEROON</h4></td>
+					</tr>
+					<tr>
+						<td style="text-align:center;letter-spacing:2px;">Information Document<br/>
+						Employees</td>
+					</tr>
+					<tr>
+						<td style="text-align:center;letter-spacing:2px;"><h4>D.I.P.E CNPS</h4></td>
+					</tr>
+					<tr>
+						<td style="text-align:center;letter-spacing:2px;"><h5>(GLOBAL)</h5></td>
+					</tr>
+				</table>
+				</div>
+				<div class="col-xs-7 col-xs-offset-1">
+				<table border="0" width="100%" style="font-familly: Times, serif;font-size:12px;">
+					<tr>
+						<td width="18%"><![CDATA[&nbsp;]]></td>
+						<td width="34%"><![CDATA[&nbsp;]]></td>
+						<td width="18%"><![CDATA[&nbsp;]]></td>
+						<td width="30%"><![CDATA[&nbsp;]]></td>
+					</tr>
+					<tr>
+						<td><![CDATA[&nbsp;]]></td>
+						<td><![CDATA[&nbsp;]]></td>
+						<td><![CDATA[&nbsp;]]></td>
+						<td><![CDATA[&nbsp;]]></td>
+					</tr>
+					<tr>
+						<td style="letter-spacing:2px;"><b>Company Name</b></td>
+						<td style="letter-spacing:2px;" colspan="3"><span t-field="o.company_id.name"/></td>
+					</tr>
+					<tr>
+						<td style="letter-spacing:2px;"><b>Adsress</b></td>
+						<td style="letter-spacing:2px;">Mokindi Layout, Sonara Road</td>
+						<td style="letter-spacing:2px;"><b>P.O Box</b></td>
+						<td style="letter-spacing:2px;">P.O Box 732 Limbe</td>
+					</tr>
+					<tr>
+						<td style="letter-spacing:2px;"><b>N° Contribuable</b></td>
+						<td style="letter-spacing:2px;"><span t-field="o.company_id.niu"/></td>
+						<td style="letter-spacing:2px;"><b>CNPS Regime</b></td>
+						<td style="letter-spacing:2px;"><span t-field="o.company_id.regime"/></td>
+					</tr>
+					<tr>
+						<td style="letter-spacing:2px;" colspan="2"><b>CNPS Employer N°</b></td>
+						<td style="letter-spacing:2px;" colspan="2"><span t-field="o.company_id.ssnid"/></td>
+					</tr>
+
+				</table>
+				</div>
+				</div>
+				<br/>
+				<br/>
+				<br/>
+				<div class="row">
+				<div class="col-xs-12">
+				<div align="center" width="70%">
+				<table border="1" width="70%" style="border: 1px solid black;font-familly: Times, serif;font-size:12px;">
+					<tr style="border:1px solid black;padding: 5px;">
+						<th width="100%" scope="clogroup" colspan="2" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>SUMMARY</b></th>
+					</tr>
+					<tr style="border:1px solid black;padding: 5px;">
+						<th width="50%" scope="col" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>Designation</b></th>
+						<th width="50%" scope="col" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:1px;"><b>Amount</b></th>
+					</tr>
+						<tr style="padding: 5px;">
+							<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;">Old Age Pension - Employee</td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.total_cnpse"/></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;">Old Age Pension - Employer</td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.total_cnpsp"/></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;">Industrial and Profesional Accident</td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.total_ipa"/></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;">Family Contribution</td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.total_fcon"/></td>
+						</tr>
+						<tr style="border:1px solid black;padding: 5px;">
+							<td style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>Total Contribution - CNPS</b></td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><b><span t-field="o.total_contribution_cnps"/></b></td>
+						</tr>
+				</table>
+				</div>
+				</div>
+				
+				</div>
+				<br/>
+				<br/>
+				<div class="row">
+				<div class="col-xs-12">
+					<div align="center" width="50%">
+					<table border="1" width="50%" style="border: 3px double black;font-familly: Times, serif;font-size:11px;">
+						<tr>
+							<th width="100%" style="vertical-align: middle;border: 1px solid black;padding: 4px;letter-spacing:2px;" class="text-center" >Employer's signature and Company Seal</th>
+						</tr>
+						<tr>
+							<td style="border: 1px solid black;padding: 5px;"><![CDATA[&nbsp;]]><br/>
+								<![CDATA[&nbsp;]]><br/>
+								<![CDATA[&nbsp;]]><br/>
+								<![CDATA[&nbsp;]]><br/>
+								<![CDATA[&nbsp;]]><br/>
+								<![CDATA[&nbsp;]]><br/>
+								<![CDATA[&nbsp;]]><br/>
+								<![CDATA[&nbsp;]]><br/>
+								<![CDATA[&nbsp;]]><br/>
+							</td>
+						</tr>
+					</table>
+					</div>
+				</div>
+				</div>
+			</div>
+		</t>	
+	</template> 
+	
+	<template id="dipe_cnps_template">
+		<t t-call="report.html_container">
+			<t t-foreach="doc_ids" t-as="doc_id">
+				<t t-raw="translate_doc(doc_id,doc_model,'env.lang','hr_payroll_allowance.dipe_cnps_document')"/>
+			</t>
+		</t>
+	</template>
+	
+	<template id="dipe_pit_document">
+		<t t-call="ghss_hr_report.payslip_layout">
+			<div class="page">
+				<t t-set="nb_pages" t-value="o.nb_dipes"/>
+				<t t-set="page" t-value="1"/>
+				<t t-foreach="o.dipe_ids" t-as="dipe">
+				<div class="row">
+				<div class="col-xs-4" style="border: 1px solid black;">
+				<table border="1" width="100%" style="font-familly: Times, serif;font-size:12px;">
+					<tr>
+						<td style="text-align:center;letter-spacing:2px;"><h4>REPUBLIC OF CAMEROON</h4></td>
+					</tr>
+					<tr>
+						<td style="text-align:center;letter-spacing:2px;">Information Document<br/>
+						Employees</td>
+					</tr>
+					<tr>
+						<td style="text-align:center;letter-spacing:2px;"><h4>D.I.P.E - P.I.T</h4></td>
+					</tr>
+					<tr>
+						<td style="text-align:center;letter-spacing:2px;"><h5>(GLOBAL)</h5></td>
+					</tr>
+				</table>
+				</div>
+				<div class="col-xs-7 col-xs-offset-1">
+				<table border="0" width="100%" style="font-familly: Times, serif;font-size:12px;">
+					<tr>
+						<td width="18%"><![CDATA[&nbsp;]]></td>
+						<td width="34%"><![CDATA[&nbsp;]]></td>
+						<td width="18%"><![CDATA[&nbsp;]]></td>
+						<td width="30%"><![CDATA[&nbsp;]]></td>
+					</tr>
+					<tr>
+						<td><![CDATA[&nbsp;]]></td>
+						<td><![CDATA[&nbsp;]]></td>
+						<td><![CDATA[&nbsp;]]></td>
+						<td><![CDATA[&nbsp;]]></td>
+					</tr>
+					<tr>
+						<td style="letter-spacing:2px;"><b>Company Name</b></td>
+						<td style="letter-spacing:2px;" colspan="3"><span t-field="o.company_id.name"/></td>
+					</tr>
+					<tr>
+						<td style="letter-spacing:2px;"><b>Adsress</b></td>
+						<td style="letter-spacing:2px;">Mokindi Layout, Sonara Road</td>
+						<td style="letter-spacing:2px;"><b>P.O Box</b></td>
+						<td style="letter-spacing:2px;">P.O Box 732 Limbe</td>
+					</tr>
+					<tr>
+						<td style="letter-spacing:2px;"><b>N° Contribuable</b></td>
+						<td style="letter-spacing:2px;"><span t-field="o.company_id.niu"/></td>
+						<td style="letter-spacing:2px;"><b>CNPS Regime</b></td>
+						<td style="letter-spacing:2px;"><span t-field="o.company_id.regime"/></td>
+					</tr>
+					<tr>
+						<td style="letter-spacing:2px;" colspan="2"><b>CNPS Employer N°</b></td>
+						<td style="letter-spacing:2px;" colspan="2"><span t-field="o.company_id.ssnid"/></td>
+					</tr>
+					<tr>
+						<td style="letter-spacing:2px;"><b>Payroll Month</b></td>
+						<td style="letter-spacing:2px;" colspan="3"><span t-field="dipe.name"/></td>
+					</tr>
+				</table>
+				</div>
+				</div>
+				<br/>
+				<div class="row">
+				<div class="col-xs-12">
+				<table border="1" width="100%" style="border: 1px solid black;font-family:Times;font-size:12px;">
+					<tr style="border:1px solid black;padding: 5px;">
+						<th width="18%" rowspan="2" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>Name</b></th>
+						<th width="5%" rowspan="2" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>Days</b></th>
+						<th width="8%" rowspan="2" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>Gross</b></th>
+						<th width="8%" rowspan="2" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>Taxable</b></th>
+						<th width="8%" rowspan="2" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>PIT</b></th>
+						<th width="8%" rowspan="2" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>CAC</b></th>
+						<th width="16%" colspan="2" scope="colgroup" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>Credit Foncier</b></th>
+						<th width="8%" rowspan="2" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>CRTV</b></th>
+						<th width="8%" rowspan="2" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>Com. Tax</b></th>
+						<th width="8%" rowspan="2" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>FNE</b></th>
+						<th width="5%" rowspan="2" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>Line</b></th>
+					</tr>
+					
+					<tr style="border:1px solid black;padding: 5px;">
+						<th width="8%" scope="col" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>Employee</b></th>
+						<th width="8%" scope="col" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>Employer</b></th>	
+					</tr>
+					
+					<!-- <tr style="padding: 5px;">
+						<td colspan="12" style="border:0.5px solid black;padding: 5px;"><b>NUMERO DIPE: <span t-field="dipe.info_id.name"/></b></td>
+					</tr> -->
+						<t t-foreach="dipe.line_ids" t-as="dipe_line">
+						<tr style="padding: 5px;">
+							<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;"><span t-field="dipe_line.payslip_id.employee_id.real_name"/></td>
+							<td style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:1px;"><span t-field="dipe_line.payslip_id.worked_days"/></td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="dipe_line.payslip_id.gross_salary"/></td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="dipe_line.payslip_id.taxable_salary"/></td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="dipe_line.payslip_id.pit"/></td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="dipe_line.payslip_id.act"/></td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="dipe_line.payslip_id.cfce"/></td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="dipe_line.payslip_id.cfcp"/></td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="dipe_line.payslip_id.crtv"/></td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="dipe_line.payslip_id.ctax"/></td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="dipe_line.payslip_id.fne"/></td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="dipe_line.line_number"/></td>
+						</tr>
+						</t>
+						<tr style="border:1px solid black;padding: 5px;">
+						<td colspan="2" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>Total</b></td>
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><b><span t-field="dipe.total_gross"/></b></td>
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><b><span t-field="dipe.total_taxable"/></b></td>
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><b><span t-field="dipe.total_pit"/></b></td>
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><b><span t-field="dipe.total_act"/></b></td>
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><b><span t-field="dipe.total_cfce"/></b></td>
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><b><span t-field="dipe.total_cfcp"/></b></td>
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><b><span t-field="dipe.total_crtv"/></b></td>
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><b><span t-field="dipe.total_ctax"/></b></td>
+						<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><b><span t-field="dipe.total_fne"/></b></td>
+						<td style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b><![CDATA[&nbsp;]]></b></td>
+					</tr>
+				</table>
+				</div>
+				</div>
+					<t t-if="page &lt; nb_pages">
+						<t t-set="page" t-value="page + 1"/>
+						<p style="page-break-after:always"></p>
+					</t>
+				</t>
+				<p style="page-break-after:always"></p>
+				
+				<div class="row">
+				<div class="col-xs-4" style="border: 1px solid black;">
+				<table border="1" width="100%" style="font-familly: Times, serif;font-size:12px;">
+					<tr>
+						<td style="text-align:center;letter-spacing:2px;"><h4>REPUBLIC OF CAMEROON</h4></td>
+					</tr>
+					<tr>
+						<td style="text-align:center;letter-spacing:2px;">Information Document<br/>
+						Employees</td>
+					</tr>
+					<tr>
+						<td style="text-align:center;letter-spacing:2px;"><h4>D.I.P.E - P.I.T</h4></td>
+					</tr>
+					<tr>
+						<td style="text-align:center;letter-spacing:2px;"><h5>(GLOBAL)</h5></td>
+					</tr>
+				</table>
+				</div>
+				<div class="col-xs-7 col-xs-offset-1">
+				<table border="0" width="100%" style="font-familly: Times, serif;font-size:12px;">
+					<tr>
+						<td width="18%"><![CDATA[&nbsp;]]></td>
+						<td width="34%"><![CDATA[&nbsp;]]></td>
+						<td width="18%"><![CDATA[&nbsp;]]></td>
+						<td width="30%"><![CDATA[&nbsp;]]></td>
+					</tr>
+					<tr>
+						<td><![CDATA[&nbsp;]]></td>
+						<td><![CDATA[&nbsp;]]></td>
+						<td><![CDATA[&nbsp;]]></td>
+						<td><![CDATA[&nbsp;]]></td>
+					</tr>
+					<tr>
+						<td style="letter-spacing:2px;"><b>Company Name</b></td>
+						<td style="letter-spacing:2px;" colspan="3"><span t-field="o.company_id.name"/></td>
+					</tr>
+					<tr>
+						<td style="letter-spacing:2px;"><b>Adsress</b></td>
+						<td style="letter-spacing:2px;">Mokindi Layout, Sonara Road</td>
+						<td style="letter-spacing:2px;"><b>P.O Box</b></td>
+						<td style="letter-spacing:2px;">P.O Box 732 Limbe</td>
+					</tr>
+					<tr>
+						<td style="letter-spacing:2px;"><b>N° Contribuable</b></td>
+						<td style="letter-spacing:2px;"><span t-field="o.company_id.niu"/></td>
+						<td style="letter-spacing:2px;"><b>CNPS Regime</b></td>
+						<td style="letter-spacing:2px;"><span t-field="o.company_id.regime"/></td>
+					</tr>
+					<tr>
+						<td style="letter-spacing:2px;" colspan="2"><b>CNPS Employer N°</b></td>
+						<td style="letter-spacing:2px;" colspan="2"><span t-field="o.company_id.ssnid"/></td>
+					</tr>
+
+				</table>
+				</div>
+				</div>
+				<br/>
+				<br/>
+				<br/>
+				<div class="row">
+				<div class="col-xs-12">
+				<div align="center" width="70%">
+				<table border="1" width="70%" style="border: 1px solid black;font-familly: Times, serif;font-size:12px;">
+					<tr style="border:1px solid black;padding: 5px;">
+						<th width="100%" scope="clogroup" colspan="2" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>SUMMARY</b></th>
+					</tr>
+					<tr style="border:1px solid black;padding: 5px;">
+						<th width="50%" scope="col" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>Designation</b></th>
+						<th width="50%" scope="col" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:1px;"><b>Amount</b></th>
+					</tr>
+						<tr style="padding: 5px;">
+							<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;">PIT</td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.total_pit"/></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;">ACT</td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.total_act"/></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;">CFC - Employee</td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.total_cfce"/></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;">CFC - Employer</td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.total_cfcp"/></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;">CRTV</td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.total_crtv"/></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;">Com. Tax</td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.total_ctax"/></td>
+						</tr>
+						<tr style="padding: 5px;">
+							<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;">FNE</td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.total_fne"/></td>
+						</tr>
+						<!-- <tr style="padding: 5px;">
+							<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;">Penalities</td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="o.penalities"/></td>
+						</tr>  -->
+						<tr style="border:1px solid black;padding: 5px;">
+							<td style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>Total Amount - TRESOR</b></td>
+							<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><b><span t-field="o.total_taxes"/></b></td>
+						</tr>
+				</table>
+				</div>
+				</div>
+				</div>
+				<br/>
+				<br/>
+				<div class="row">
+				<div class="col-xs-12">
+					<div align="center" width="50%">
+					<table border="1" width="50%" style="border: 3px double black;font-familly: Times, serif;font-size:11px;">
+						<tr>
+							<th width="100%" style="vertical-align: middle;border: 1px solid black;padding: 4px;letter-spacing:2px;" class="text-center" >Employer's signature and Company Seal</th>
+						</tr>
+						<tr>
+							<td style="border: 1px solid black;padding: 5px;"><![CDATA[&nbsp;]]><br/>
+								<![CDATA[&nbsp;]]><br/>
+								<![CDATA[&nbsp;]]><br/>
+								<![CDATA[&nbsp;]]><br/>
+								<![CDATA[&nbsp;]]><br/>
+								<![CDATA[&nbsp;]]><br/>
+								<![CDATA[&nbsp;]]><br/>
+								<![CDATA[&nbsp;]]><br/>
+								<![CDATA[&nbsp;]]><br/>
+							</td>
+						</tr>
+					</table>
+					</div>
+				</div>
+				</div>
+			</div>
+		</t>	
+	</template> 
+	
+	<template id="dipe_pit_template">
+		<t t-call="report.html_container">
+			<t t-foreach="doc_ids" t-as="doc_id">
+				<t t-raw="translate_doc(doc_id,doc_model,'env.lang','hr_payroll_allowance.dipe_pit_document')"/>
+			</t>
+		</t>
+	</template>
+	
+    </data>
+</openerp>

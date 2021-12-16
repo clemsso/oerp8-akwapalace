@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+		<record id="dipe_format" model="report.paperformat">
+			<field name="name">DIPE Format</field>
+			<field name="format">A4</field>
+			<!-- <field name="page_height">0</field>
+			<field name="page_width">0</field> -->
+			<field name="orientation">Landscape</field>
+			<field name="margin_top">30</field>
+			<field name="margin_bottom">13</field>
+			<field name="margin_left">10</field>
+			<field name="margin_right">10</field>
+			<field name="header_line" eval="False"/>
+			<field name="header_spacing">25</field>
+			<field name="dpi">90</field>
+		</record>
+
+		<record id="net_payment_format" model="report.paperformat">
+			<field name="name">NET PAYMENT Format</field>
+			<field name="format">A4</field>
+			<!-- <field name="page_height">0</field>
+			<field name="page_width">0</field> -->
+			<field name="orientation">Portrait</field>
+			<field name="margin_top">30</field>
+			<field name="margin_bottom">13</field>
+			<field name="margin_left">10</field>
+			<field name="margin_right">10</field>
+			<field name="header_line" eval="False"/>
+			<field name="header_spacing">25</field>
+			<field name="dpi">90</field>
+		</record>
+		
+		<record id="net_payment_letter_format" model="report.paperformat">
+			<field name="name">NET PAYMENT Letter Format</field>
+			<field name="format">A4</field>
+			<!-- <field name="page_height">0</field>
+			<field name="page_width">0</field> -->
+			<field name="orientation">Portrait</field>
+			<field name="margin_top">20</field>
+			<field name="margin_bottom">20</field>
+			<field name="margin_left">10</field>
+			<field name="margin_right">10</field>
+			<field name="header_line" eval="True"/>
+			<field name="header_spacing">15</field>
+			<field name="dpi">90</field>
+		</record>
+		
+		<report 
+			id = "report_dipe_cnps"
+			model = "hr.payslip.run"
+			string = "DIPE"
+			report_type = "qweb-pdf"
+			name = "hr_payroll_allowance.dipe_cnps_template"
+			file = "hr_payroll_allowance.dipe_cnps_template"
+			attachment_use = "False"
+			menu="False"
+		/> 
+
+		<report 
+			id = "report_dipe_pit"
+			model = "hr.payslip.run"
+			string = "DIPE"
+			report_type = "qweb-pdf"
+			name = "hr_payroll_allowance.dipe_pit_template"
+			file = "hr_payroll_allowance.dipe_pit_template"
+			attachment_use = "False"
+			menu="False"
+		/> 
+		
+		<report 
+			id = "report_dipe_pit_project"
+			model = "hr.payroll.project.pit.wizard"
+			string = "DIPE Project IT"
+			report_type = "qweb-pdf"
+			name = "hr_payroll_allowance.dipe_project_pit_template"
+			file = "hr_payroll_allowance.dipe_project_pit_template"
+			attachment_use = "False"
+			menu="False"
+		/>
+		
+		<report 
+			id = "report_dipe_pit_project_history"
+			model = "hr.contract.project.history"
+			string = "DIPE Project IT"
+			report_type = "qweb-pdf"
+			name = "hr_payroll_allowance.dipe_project_pit_history_template"
+			file = "hr_payroll_allowance.dipe_project_pit_history_template"
+			attachment_use = "False"
+			menu="False"
+		/>
+		
+		<report 
+			id = "report_wire_transfert_project"
+			model = "hr.payroll.project.pit.wizard"
+			string = "Wire Transfer"
+			report_type = "qweb-pdf"
+			name = "hr_payroll_allowance.wire_transfert_project_template"
+			file = "hr_payroll_allowance.wire_transfert_project_template"
+			attachment_use = "False"
+			menu="False"
+		/>
+		
+		<report 
+			id = "report_wire_transfert_project_history"
+			model = "hr.contract.project.history"
+			string = "Wire Transfer PDF"
+			report_type = "qweb-pdf"
+			name = "hr_payroll_allowance.wire_transfert_project_history_template"
+			file = "hr_payroll_allowance.wire_transfert_project_history_template"
+			attachment_use = "False"
+			menu="False"
+		/>
+		
+		<report 
+			id = "report_employee_taxes_project_history"
+			model = "hr.contract.project.history"
+			string = "Employee Taxes PDF"
+			report_type = "qweb-pdf"
+			name = "hr_payroll_allowance.employee_taxes_project_history_template"
+			file = "hr_payroll_allowance.employee_taxes_project_history_template"
+			attachment_use = "False"
+			menu="False"
+		/>
+		
+		<report 
+			id = "report_wire_transfert_project_history_letter"
+			model = "hr.contract.project.history"
+			string = "Wire Transfer - Letter"
+			report_type = "qweb-pdf"
+			name = "hr_payroll_allowance.wire_transfert_project_history_letter_template"
+			file = "hr_payroll_allowance.wire_transfert_project_history_letter_template"
+			attachment_use = "False"
+			menu="False"
+		/>
+		
+		<report 
+			id = "report_allowances_project"
+			model = "hr.payroll.project.pit.wizard"
+			string = "Basic and Allowances Summary"
+			report_type = "qweb-pdf"
+			name = "hr_payroll_allowance.allowances_project_template"
+			file = "hr_payroll_allowance.allowances_project_template"
+			attachment_use = "False"
+			menu="False"
+		/>
+		
+		<report 
+			id = "report_allowances_project_history"
+			model = "hr.contract.project.history"
+			string = "Basic and Allowances Summary"
+			report_type = "qweb-pdf"
+			name = "hr_payroll_allowance.allowances_project_history_template"
+			file = "hr_payroll_allowance.allowances_project_history_template"
+			attachment_use = "False"
+			menu="False"
+		/>
+		
+		<report 
+			id = "report_dipe_compare"
+			model = "hr.payslip.run"
+			string = "DIPE compare with previous month"
+			report_type = "qweb-pdf"
+			name = "hr_payroll_allowance.dipe_compare_template"
+			file = "hr_payroll_allowance.dipe_compare_template"
+			attachment_use = "False"
+			menu="False"
+		/>
+		
+		<report 
+			id = "report_project_compare"
+			model = "hr.payroll.project.pit.wizard"
+			string = "DIPE compare with previous month"
+			report_type = "qweb-pdf"
+			name = "hr_payroll_allowance.project_compare_template"
+			file = "hr_payroll_allowance.project_compare_template"
+			attachment_use = "False"
+			menu="False"
+		/>
+		
+		<report 
+			id = "report_project_compare_history"
+			model = "hr.contract.project.history"
+			string = "DIPE compare with previous month"
+			report_type = "qweb-pdf"
+			name = "hr_payroll_allowance.project_compare_history_template"
+			file = "hr_payroll_allowance.project_compare_history_template"
+			attachment_use = "False"
+			menu="False"
+		/>
+		
+		<report 
+			id = "report_payroll_compare"
+			model = "hr.payslip.run"
+			string = "Payroll compare with previous month"
+			report_type = "qweb-pdf"
+			name = "hr_payroll_allowance.payroll_compare_template"
+			file = "hr_payroll_allowance.payroll_compare_template"
+			attachment_use = "False"
+			menu="False"
+		/>
+		
+		<record id="report_dipe_cnps" model="ir.actions.report.xml">
+			<field name="paperformat_id" ref="dipe_format"/>
+		</record>
+		
+		<record id="report_dipe_pit" model="ir.actions.report.xml">
+			<field name="paperformat_id" ref="dipe_format"/>
+		</record>
+		
+		<record id="report_dipe_pit_project" model="ir.actions.report.xml">
+			<field name="paperformat_id" ref="dipe_format"/>
+		</record>
+		
+		<record id="report_dipe_pit_project_history" model="ir.actions.report.xml">
+			<field name="paperformat_id" ref="dipe_format"/>
+		</record>
+		
+		<record id="report_employee_taxes_project_history" model="ir.actions.report.xml">
+			<field name="paperformat_id" ref="dipe_format"/>
+		</record>
+		
+		<record id="report_wire_transfert_project" model="ir.actions.report.xml">
+			<field name="paperformat_id" ref="net_payment_format"/>
+		</record>
+		
+		<record id="report_wire_transfert_project_history" model="ir.actions.report.xml">
+			<field name="paperformat_id" ref="net_payment_format"/>
+		</record>
+		
+		<record id="report_wire_transfert_project_history_letter" model="ir.actions.report.xml">
+			<field name="paperformat_id" ref="net_payment_letter_format"/>
+		</record>
+		
+		<record id="report_allowances_project" model="ir.actions.report.xml">
+			<field name="paperformat_id" ref="net_payment_format"/>
+		</record>
+		
+		<record id="report_allowances_project_history" model="ir.actions.report.xml">
+			<field name="paperformat_id" ref="net_payment_format"/>
+		</record>
+		
+		<record id="report_dipe_compare" model="ir.actions.report.xml">
+			<field name="paperformat_id" ref="net_payment_format"/>
+		</record>
+		
+		<record id="report_project_compare" model="ir.actions.report.xml">
+			<field name="paperformat_id" ref="net_payment_format"/>
+		</record>
+		
+		<record id="report_project_compare_history" model="ir.actions.report.xml">
+			<field name="paperformat_id" ref="net_payment_format"/>
+		</record>
+		
+		<record id="report_payroll_compare" model="ir.actions.report.xml">
+			<field name="paperformat_id" ref="net_payment_format"/>
+		</record>
+		
+	</data>
+</openerp>

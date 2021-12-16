@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+<template id="cheque_request_report_view">    
+    <t t-call="report.external_layout_header">
+    </t>
+   
+
+        <div class="page">
+            <t t-foreach = "docs" t-as = "o">
+                <div style="float:left;width:100%;height:115px; text:center">
+                </div>
+                <div style="float:left;width:70%;height:70px;">           
+                    <div  style="text-align:left;"><h3><b>CHEQUE REQUEST FORM:  <span t-field = "o.name"/>  </b></h3></div>  
+                </div>
+                <div style="float:left;width:20%;height:70px;">
+                    <div class="text-right"><b>Date : <span t-field = "o.date"/> </b></div>
+                </div>                    
+                
+                                                                    
+                <table class="table table-condensed table-bordered" style="padding-top:7px;  padding-bottom:7px;border: 2px solid #000011;" >                 
+                    <thead style="padding-bottom:7px;border: 1px solid #000011;">
+                        <th class="text-center" style="width: 23%; padding-bottom:7px;border: 1px solid #000011;">PROJECT</th>
+                        <th style="width: 17%; padding-bottom:7px;border: 1px solid #000011;">BANK</th>
+                        <th style="width: 35%; padding-bottom:7px;border: 1px solid #000011;">GOODS/SERVICES REQUESTED</th>
+                        <th class="text-center" style="width: 25%; padding-bottom:7px;border: 1px solid #000011;">AMOUNT  </th>
+                                                                
+                    </thead>
+                    <tbody style="padding-top:7px;  padding-bottom:7px;border: 1px solid #000011;">
+                        <t t-foreach="o.line_ids" t-as="line">
+                        <tr style="padding-bottom:7px;border: 1px solid #000011;" >
+                            <td style="padding-bottom:7px;border: 1px solid #000011;"> <span t-esc = "line.project_id.name"/> </td>
+                            <td style="padding-bottom:7px;border: 1px solid #000011;"> <span t-esc = "line.bank_id.name"/> </td>
+                            <td style="padding-bottom:7px;border: 1px solid #000011;"> <span t-esc = "line.name"/> </td>                        
+                            <td style="padding-bottom:7px;border: 1px solid #000011;"> <span t-esc = "line.amount"/> </td>                                
+                        </tr>
+                        </t>
+                    </tbody>
+                </table>
+                <p style="margin-top: 120px">
+                </p> 
+                                    
+                <div style="float:left;width:30%;height:30px;">                                                     
+                    <div class="text-left"><b>Requested by:_________________________</b></div>
+                </div>
+                <div style="float:left;width:30%;height:30px;">                                                     
+                    <div class="text-left"><b>Prepared by:_________________________</b></div>
+                </div>
+                <div style="float:left;width:40%;height:30px;">                                                     
+                    <div class="text-left"><b>Approved by:_________________________</b></div>
+                </div>
+                <div style="float:left;width:30%;height:30px;">                                                     
+                    <div class="text-left"><b>Position:_____________________________</b></div>
+                </div>
+                <div style="float:left;width:30%;height:30px;">                                                     
+                    <div class="text-left"><b>Position:_____________________________</b></div>
+                </div>
+                <div style="float:left;width:40%;height:30px;">                                                     
+                    <div class="text-left"><b>Position:   _____________________________</b></div>
+                </div>
+                <div style="float:left;width:30%;height:100px;">                                                     
+                    <div class="text-left"><b>Signature:___________________________</b></div>
+                </div>
+                <div style="float:left;width:30%;height:100px;">                                                     
+                    <div class="text-left"><b>Signature:___________________________</b></div>
+                </div>
+                <div style="float:left;width:40%;height:100px;">                                                     
+                    <div class="text-left"><b>Signature:   ___________________________</b></div>
+                </div>
+                <p style="margin-top: 70px">
+                </p>
+                <div class="text-left"><h2><b>PAYEE:  </b></h2></div>
+
+            </t>
+        </div>
+    
+    <t t-call="report.external_layout_footer">
+    </t>               
+    
+</template>
+</data>
+</openerp>

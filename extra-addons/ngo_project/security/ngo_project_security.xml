@@ -1,0 +1,26 @@
+<?xml version="1.0" ?>
+<openerp>
+    <data>
+	
+		<record model="ir.rule" id="account_move_rule">
+			<field name="name">Account Move</field>
+			<field name="model_id" ref="model_account_move"/>
+			<field name="domain_force">[('check_project','=', True)]</field>
+			<field name="perm_read" eval="True"/>
+			<field name="perm_write" eval="True"/>
+			<field name="perm_create" eval="True"/>
+			<field name="perm_unlink" eval="True"/> 
+		</record>
+		
+		<record model="ir.rule" id="account_move_line_rule">
+			<field name="name">Account Move Line</field>
+			<field name="model_id" ref="model_account_move_line"/>
+			<field name="domain_force">[('project_id', 'in', user.allowed_project_ids.ids)]</field>
+			<field name="perm_read" eval="True"/>
+			<field name="perm_write" eval="True"/>
+			<field name="perm_create" eval="True"/>
+			<field name="perm_unlink" eval="True"/> 
+		</record>
+		
+    </data>
+</openerp>

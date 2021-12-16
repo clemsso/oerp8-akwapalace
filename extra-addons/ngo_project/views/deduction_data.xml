@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+		<record id="school_student_enrollment_sequence_type" model="ir.sequence.type">
+			<field name="name">Student Enrollment Sequence Type</field>
+			<field name="code">school.student.enrollment</field>
+		</record>
+
+		<record id="school_student_enrollment_sequence" model="ir.sequence">
+			<field name="name">Student Enrollment Sequence</field>
+			<field name="code">school.student.enrollment</field>
+			<field name="prefix">EN</field>
+			<field name="padding">10</field>
+		</record>
+	
+    </data>
+</openerp>

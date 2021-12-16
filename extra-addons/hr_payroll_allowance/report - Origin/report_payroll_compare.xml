@@ -1,0 +1,499 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+	
+	<template id="payroll_compare_document">
+		<t t-call="ghss_hr_report.payslip_layout">
+			<div class="page">
+				
+				<div class="row">
+					<div class="col-xs-4" style="border: 1px solid black;">
+						<table border="1" width="100%" style="font-familly: Times, serif;font-size:12px;">
+							<tr>
+								<td style="text-align:center;letter-spacing:2px;"><h4>REPUBLIC OF CAMEROON</h4></td>
+							</tr>
+							<tr>
+								<td style="text-align:center;letter-spacing:2px;">Information Document</td>
+							</tr>
+							<tr>
+								<td style="text-align:center;letter-spacing:2px;"><h4>PAYROLL COMPONENTS COMPARISON</h4></td>
+							</tr>
+							<tr>
+								<td style="text-align:center;letter-spacing:2px;"><h5>(DETAIL)</h5></td>
+							</tr> 
+						</table>
+					</div>
+					<div class="col-xs-7 col-xs-offset-1">
+						<table border="0" width="100%" style="font-familly: Times, serif;font-size:12px;">
+							<tr>
+								<td width="25%"><![CDATA[&nbsp;]]></td>
+								<td width="25%"><![CDATA[&nbsp;]]></td>
+								<td width="25%"><![CDATA[&nbsp;]]></td>
+								<td width="25%"><![CDATA[&nbsp;]]></td>
+							</tr>
+							<tr>
+								<td><![CDATA[&nbsp;]]></td>
+								<td><![CDATA[&nbsp;]]></td>
+								<td><![CDATA[&nbsp;]]></td>
+								<td><![CDATA[&nbsp;]]></td>
+							</tr>
+							<tr>
+								<td style="letter-spacing:2px;"><b>Company Name</b></td>
+								<td style="letter-spacing:2px;" colspan="3"><span t-field="o.company_id.name"/></td>
+							</tr>
+							<tr>
+								<td style="letter-spacing:2px;"><b>Adsress</b></td>
+								<td style="letter-spacing:2px;" colspan="3">Mokindi Layout, Sonara Road</td>
+							</tr>
+							<tr>
+								<td style="letter-spacing:2px;"><b>P.O Box</b></td>
+								<td style="letter-spacing:2px;" colspan="3">P.O Box 732 Limbe</td>
+							</tr>
+							<tr>
+								<td style="letter-spacing:2px;" colspan="4"><![CDATA[&nbsp;]]></td>
+							</tr>
+							<tr>
+								<td style="letter-spacing:2px;"><b>Current Month</b></td>
+								<td style="letter-spacing:2px;" colspan="3"><span t-field="o.month_name"/></td>
+							</tr>
+							<tr>
+								<td style="letter-spacing:2px;"><b>Previous Month</b></td>
+								<t t-if="not o.previous_payslip_run_id">
+									<td style="letter-spacing:2px;" colspan="3"><![CDATA[&nbsp;]]></td>
+								</t>
+								<t t-if="o.previous_payslip_run_id">
+									<td style="letter-spacing:2px;" colspan="3"><i><span t-field="o.previous_payslip_run_id.month_name"/></i></td>
+								</t>
+							</tr>
+						</table>
+					</div>
+				</div>
+				<br/>
+				
+				<div class="row">
+					<div class="col-xs-12">
+						<table border="1" width="100%" style="border: 1px solid black;font-familly: Times, serif;font-size:10px;">
+							<tr style="border:1px solid black;padding: 5px;">
+								<td width="25%" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>Designation</b></td>
+								<td width="35%" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>Employee</b></td>
+								<t t-if="o.previous_payslip_run_id">
+									<td width="15%" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b><span t-field="o.previous_payslip_run_id.month_name"/></b></td>
+								</t>
+								<t t-if="not o.previous_payslip_run_id">
+									<td width="15%" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>N/A</b></td>
+								</t>
+								<td width="15%" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b><span t-field="o.month_name"/></b></td>
+								<td width="10%" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>Difference</b></td>
+							</tr>
+							
+							<tr style="padding: 5px; border: 0.5px solid black;">
+								<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;"><b>Basic</b></td>
+								<t t-set="payslip_ids" t-value="o.get_elem_compare('BASIC')"/>
+								<t t-if="payslip_ids">
+									<td colspan="4" style="border-right: 0.5px solid black;">
+										<table width="100%">
+											<t t-foreach="payslip_ids" t-as="slip">
+												<t t-set="previous_slip" t-value="o.get_previous_payslip(slip)"/>
+												<t t-set="amount_1" t-value="slip.basic"/>
+												<t t-set="amount_2" t-value="0"/>
+												<t t-if="previous_slip">
+													<t t-set="amount_2" t-value="previous_slip.basic"/>
+												</t>
+												<t t-set="difference" t-value="amount_1 - amount_2"/>
+												<tr>
+													<td width="46%" style="padding-left: 4px; text-align: left;letter-spacing:2px;"><span t-field="slip.employee_id.name_related"/></td>
+													<t t-if="previous_slip">
+														<td width="20%" style="padding-right: 4px; text-align: right; letter-spacing:2px;"><span t-esc="'{0:,.0f}'.format(amount_2)"/></td>
+													</t>
+													<t t-if="not previous_slip">
+														<td width="20%" style="padding-right: 4px; text-align: right; letter-spacing:2px;"> - </td>
+													</t>
+													<td width="20%" style="padding-right: 4px; text-align: right; letter-spacing:2px;"><span t-esc="'{0:,.0f}'.format(amount_1)"/></td>
+													<td width="14%" style="padding-right: 4px; text-align: right; letter-spacing:2px;"><span t-esc="'{0:,.0f}'.format(difference)"/></td>
+												</tr>
+											</t>
+										</table>
+									</td>
+								</t>
+								<t t-if="not payslip_ids">
+									<td colspan="4" style="border-right: 0.5px solid black; text-align: center;"><b>R.A.S</b></td>
+								</t>
+							</tr> 
+							
+							<t t-foreach="o.allowance_set_ids" t-as="allowance">
+								<tr style="padding: 5px; border: 0.5px solid black;">
+									<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;"><b><span t-field="allowance.name"/></b></td>
+									<t t-set="payslip_ids" t-value="o.get_elem_compare(allowance.code)"/>
+									<t t-if="payslip_ids">
+										<td colspan="4" style="border-right: 0.5px solid black;">
+											<table width="100%">
+												<t t-foreach="payslip_ids" t-as="slip">
+													<t t-set="amount_1" t-value="0"/>
+													<t t-set="amount_2" t-value="0"/>
+													<t t-set="previous_slip" t-value="o.get_previous_payslip(slip)"/>
+													<t t-set="allowance_id" t-value="slip.get_allowance(allowance)"/>
+													<t t-if="allowance_id">
+														<t t-set="amount_1" t-value="allowance_id.total"/>
+													</t>
+													<t t-if="previous_slip">
+														<t t-set="previous_allowance_id" t-value="previous_slip.get_allowance(allowance)"/>
+														<t t-if="previous_allowance_id">
+															<t t-set="amount_2" t-value="previous_allowance_id.total"/>
+														</t>
+													</t>
+													<t t-set="difference" t-value="amount_1 - amount_2"/>
+													<tr>
+														<td width="46%" style="padding-left: 4px; text-align: left;letter-spacing:2px;"><span t-field="slip.employee_id.name_related"/></td>
+														<t t-if="previous_allowance_id">
+															<td width="20%" style="padding-right: 4px; text-align: right; letter-spacing:2px;"><span t-esc="'{0:,.0f}'.format(amount_2)"/></td>
+														</t>
+														<t t-if="not previous_allowance_id">
+															<td width="20%" style="padding-right: 4px; text-align: right; letter-spacing:2px;"> - </td>
+														</t>
+														<t t-if="allowance_id">
+															<td width="20%" style="padding-right: 4px; text-align: right; letter-spacing:2px;"><span t-esc="'{0:,.0f}'.format(amount_1)"/></td>
+														</t>
+														<t t-if="not allowance_id">
+															<td width="20%" style="padding-right: 4px; text-align: right; letter-spacing:2px;"> - </td>
+														</t>
+														<td width="14%" style="padding-right: 4px; text-align: right; letter-spacing:2px;"><span t-esc="'{0:,.0f}'.format(difference)"/></td>
+													</tr>
+												</t>
+											</table>
+										</td>
+									</t>
+									<t t-if="not payslip_ids">
+										<td colspan="4" style="border-right: 0.5px solid black; text-align: center;"><b>R.A.S</b></td>
+									</t>
+								</tr>
+							</t> 
+							
+							<tr style="padding: 5px; border: 0.5px solid black;">
+								<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;"><b>Other Deductions</b></td>
+								<t t-set="payslip_ids" t-value="o.get_elem_compare('OTHERDED')"/>
+								<t t-if="payslip_ids">
+									<td colspan="4" style="border-right: 0.5px solid black;">
+										<table width="100%">
+											<t t-foreach="payslip_ids" t-as="slip">
+												<t t-set="previous_slip" t-value="o.get_previous_payslip(slip)"/>
+												<t t-set="amount_1" t-value="slip.other_deductions"/>
+												<t t-set="amount_2" t-value="0"/>
+												<t t-if="previous_slip">
+													<t t-set="amount_2" t-value="previous_slip.other_deductions"/>
+												</t>
+												<t t-set="difference" t-value="amount_1 - amount_2"/>
+												<tr>
+													<td width="46%" style="padding-left: 4px; text-align: left;letter-spacing:2px;"><span t-field="slip.employee_id.name_related"/></td>
+													<t t-if="previous_slip">
+														<td width="20%" style="padding-right: 4px; text-align: right; letter-spacing:2px;"><span t-esc="'{0:,.0f}'.format(amount_2)"/></td>
+													</t>
+													<t t-if="not previous_slip">
+														<td width="20%" style="padding-right: 4px; text-align: right; letter-spacing:2px;"> - </td>
+													</t>
+													<td width="20%" style="padding-right: 4px; text-align: right; letter-spacing:2px;"><span t-esc="'{0:,.0f}'.format(amount_1)"/></td>
+													<td width="14%" style="padding-right: 4px; text-align: right; letter-spacing:2px;"><span t-esc="'{0:,.0f}'.format(difference)"/></td>
+												</tr>
+											</t>
+										</table>
+									</td>
+								</t>
+								<t t-if="not payslip_ids">
+									<td colspan="4" style="border-right: 0.5px solid black; text-align: center;"><b>R.A.S</b></td>
+								</t>
+							</tr>
+							
+							<tr style="padding: 5px; border: 0.5px solid black;">
+								<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;"><b>Worked Days</b></td>
+								<t t-set="payslip_ids" t-value="o.get_elem_compare('WORKEDDAYS')"/>
+								<t t-if="payslip_ids">
+									<td colspan="4" style="border-right: 0.5px solid black;">
+										<table width="100%">
+											<t t-foreach="payslip_ids" t-as="slip">
+												<t t-set="previous_slip" t-value="o.get_previous_payslip(slip)"/>
+												<t t-set="amount_1" t-value="slip.worked_days"/>
+												<t t-set="amount_2" t-value="0"/>
+												<t t-if="previous_slip">
+													<t t-set="amount_2" t-value="previous_slip.worked_days"/>
+												</t>
+												<t t-set="difference" t-value="amount_1 - amount_2"/>
+												<tr>
+													<td width="46%" style="padding-left: 4px; text-align: left;letter-spacing:2px;"><span t-field="slip.employee_id.name_related"/></td>
+													<t t-if="previous_slip">
+														<td width="20%" style="padding-right: 4px; text-align: right; letter-spacing:2px;"><span t-esc="'{0:,.0f}'.format(amount_2)"/></td>
+													</t>
+													<t t-if="not previous_slip">
+														<td width="20%" style="padding-right: 4px; text-align: right; letter-spacing:2px;"> - </td>
+													</t>
+													<td width="20%" style="padding-right: 4px; text-align: right; letter-spacing:2px;"><span t-esc="'{0:,.0f}'.format(amount_1)"/></td>
+													<td width="14%" style="padding-right: 4px; text-align: right; letter-spacing:2px;"><span t-esc="'{0:,.0f}'.format(difference)"/></td>
+												</tr>
+											</t>
+										</table>
+									</td>
+								</t>
+								<t t-if="not payslip_ids">
+									<td colspan="4" style="border-right: 0.5px solid black; text-align: center;"><b>R.A.S</b></td>
+								</t>
+							</tr> 
+							
+							<tr style="padding: 5px; border: 0.5px solid black;">
+								<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;"><b>Employee Tax</b></td>
+								<t t-set="payslip_ids" t-value="o.get_elem_compare('ALLEMPDED')"/>
+								<t t-if="payslip_ids">
+									<td colspan="4" style="border-right: 0.5px solid black;">
+										<table width="100%">
+											<t t-foreach="payslip_ids" t-as="slip">
+												<t t-set="previous_slip" t-value="o.get_previous_payslip(slip)"/>
+												<t t-set="amount_1" t-value="slip.employee_deduction"/>
+												<t t-set="amount_2" t-value="0"/>
+												<t t-if="previous_slip">
+													<t t-set="amount_2" t-value="previous_slip.employee_deduction"/>
+												</t>
+												<t t-set="difference" t-value="amount_1 - amount_2"/>
+												<tr>
+													<td width="46%" style="padding-left: 4px; text-align: left;letter-spacing:2px;"><span t-field="slip.employee_id.name_related"/></td>
+													<t t-if="previous_slip">
+														<td width="20%" style="padding-right: 4px; text-align: right; letter-spacing:2px;"><span t-esc="'{0:,.0f}'.format(amount_2)"/></td>
+													</t>
+													<t t-if="not previous_slip">
+														<td width="20%" style="padding-right: 4px; text-align: right; letter-spacing:2px;"> - </td>
+													</t>
+													<td width="20%" style="padding-right: 4px; text-align: right; letter-spacing:2px;"><span t-esc="'{0:,.0f}'.format(amount_1)"/></td>
+													<td width="14%" style="padding-right: 4px; text-align: right; letter-spacing:2px;"><span t-esc="'{0:,.0f}'.format(difference)"/></td>
+												</tr>
+											</t>
+										</table>
+									</td>
+								</t>
+								<t t-if="not payslip_ids">
+									<td colspan="4" style="border-right: 0.5px solid black; text-align: center;"><b>R.A.S</b></td>
+								</t>
+							</tr> 
+							
+							<tr style="padding: 5px; border: 0.5px solid black;">
+								<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;"><b>Employer Tax</b></td>
+								<t t-set="payslip_ids" t-value="o.get_elem_compare('TEMPYDED')"/>
+								<t t-if="payslip_ids">
+									<td colspan="4" style="border-right: 0.5px solid black;">
+										<table width="100%">
+											<t t-foreach="payslip_ids" t-as="slip">
+												<t t-set="previous_slip" t-value="o.get_previous_payslip(slip)"/>
+												<t t-set="amount_1" t-value="slip.employer_deduction"/>
+												<t t-set="amount_2" t-value="0"/>
+												<t t-if="previous_slip">
+													<t t-set="amount_2" t-value="previous_slip.employer_deduction"/>
+												</t>
+												<t t-set="difference" t-value="amount_1 - amount_2"/>
+												<tr>
+													<td width="46%" style="padding-left: 4px; text-align: left;letter-spacing:2px;"><span t-field="slip.employee_id.name_related"/></td>
+													<t t-if="previous_slip">
+														<td width="20%" style="padding-right: 4px; text-align: right; letter-spacing:2px;"><span t-esc="'{0:,.0f}'.format(amount_2)"/></td>
+													</t>
+													<t t-if="not previous_slip">
+														<td width="20%" style="padding-right: 4px; text-align: right; letter-spacing:2px;"> - </td>
+													</t>
+													<td width="20%" style="padding-right: 4px; text-align: right; letter-spacing:2px;"><span t-esc="'{0:,.0f}'.format(amount_1)"/></td>
+													<td width="14%" style="padding-right: 4px; text-align: right; letter-spacing:2px;"><span t-esc="'{0:,.0f}'.format(difference)"/></td>
+												</tr>
+											</t>
+										</table>
+									</td>
+								</t>
+								<t t-if="not payslip_ids">
+									<td colspan="4" style="border-right: 0.5px solid black; text-align: center;"><b>R.A.S</b></td>
+								</t>
+							</tr> 
+							
+							<tr style="padding: 5px; border: 0.5px solid black;">
+								<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;"><b>Net Payment</b></td>
+								<t t-set="payslip_ids" t-value="o.get_elem_compare('NET')"/>
+								<t t-if="payslip_ids">
+									<td colspan="4" style="border-right: 0.5px solid black;">
+										<table width="100%">
+											<t t-foreach="payslip_ids" t-as="slip">
+												<t t-set="previous_slip" t-value="o.get_previous_payslip(slip)"/>
+												<t t-set="amount_1" t-value="slip.net"/>
+												<t t-set="amount_2" t-value="0"/>
+												<t t-if="previous_slip">
+													<t t-set="amount_2" t-value="previous_slip.net"/>
+												</t>
+												<t t-set="difference" t-value="amount_1 - amount_2"/>
+												<tr>
+													<td width="46%" style="padding-left: 4px; text-align: left;letter-spacing:2px;"><span t-field="slip.employee_id.name_related"/></td>
+													<t t-if="previous_slip">
+														<td width="20%" style="padding-right: 4px; text-align: right; letter-spacing:2px;"><span t-esc="'{0:,.0f}'.format(amount_2)"/></td>
+													</t>
+													<t t-if="not previous_slip">
+														<td width="20%" style="padding-right: 4px; text-align: right; letter-spacing:2px;"> - </td>
+													</t>
+													<td width="20%" style="padding-right: 4px; text-align: right; letter-spacing:2px;"><span t-esc="'{0:,.0f}'.format(amount_1)"/></td>
+													<td width="14%" style="padding-right: 4px; text-align: right; letter-spacing:2px;"><span t-esc="'{0:,.0f}'.format(difference)"/></td>
+												</tr>
+											</t>
+										</table>
+									</td>
+								</t>
+								<t t-if="not payslip_ids">
+									<td colspan="4" style="border-right: 0.5px solid black; text-align: center;"><b>R.A.S</b></td>
+								</t>
+							</tr> 
+							
+						</table>
+					</div>
+				</div> 
+				
+				<!-- <t t-foreach="o.get_pages()" t-as="page">
+									
+					
+				
+					<div class="row">
+						<div class="col-xs-12">
+							<table border="1" width="100%" style="border: 1px solid black;font-familly: Times, serif;font-size:10px;">
+								<tr style="border:1px solid black;padding: 5px;">
+									<td width="22%" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>Name</b></td>
+									<td width="7%" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>Basic</b></td>
+									<t t-foreach="o.allowance_set_ids" t-as="allowance">
+										<td width="7%" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b><span t-field="allowance.name"/></b></td>
+									</t>
+									<td width="5%" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>Other Deduct</b></td>
+									<td width="5%" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>Worked Days</b></td>
+									<td width="6%" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>Employee Tax</b></td>
+									<td width="6%" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>Employer Tax</b></td>
+									<td width="7%" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>Net Payment</b></td>
+								</tr>
+								<t t-foreach="page" t-as="slip">
+									<tr style="padding: 5px">
+										<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;"><b><span t-field="slip.employee_id.name_related"/></b></td>
+										<t t-set="previous_slip" t-value="o.get_previous_payslip(slip)"/> -->
+										
+										<!-- Basic Salary -->
+										<!-- <t t-if="not previous_slip">
+											<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;background-color: lightblue;"><b><span t-esc="'{0:,.0f}'.format(slip.basic)"/></b></td>
+										</t>
+										<t t-if="previous_slip">
+											<t t-if="previous_slip.basic == slip.basic">
+												<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><b><span t-esc="'{0:,.0f}'.format(slip.basic)"/></b></td>
+											</t>
+											<t t-if="previous_slip.basic != slip.basic">
+												<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;background-color: lightblue;"><b><u><span t-esc="'{0:,.0f}'.format(slip.basic)"/></u></b><br/><i><span t-esc="'{0:,.0f}'.format(previous_slip.basic)"/></i></td>
+											</t>
+										</t> -->
+										
+										<!-- Allowances -->
+										<!-- <t t-foreach="o.allowance_set_ids" t-as="allowance">
+											<t t-set="current_allowance" t-value="slip.get_allowance(allowance)"/>
+											<t t-if="not previous_slip">
+												<t t-if="current_allowance">
+													<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;background-color: lightblue;"><b><span t-field="current_allowance.total"/></b></td>
+												</t>
+												<t t-if="not current_allowance">
+													<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><b>-</b></td>
+												</t>
+											</t>
+											<t t-if="previous_slip">
+												<t t-set="previous_allowance" t-value="previous_slip.get_allowance(allowance)"/>
+												<t t-if="current_allowance and previous_allowance">
+													<t t-if="current_allowance.total == previous_allowance.total">
+														<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><b><span t-field="current_allowance.total"/></b></td>
+													</t>
+													<t t-if="current_allowance.total != previous_allowance.total">
+														<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;background-color: lightblue;"><b><u><span t-field="current_allowance.total"/></u></b><br/><i><span t-field="previous_allowance.total"/></i></td>
+													</t>
+												</t>
+												<t t-if="current_allowance and not previous_allowance">
+													<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;background-color: lightblue;"><b><span t-field="current_allowance.total"/></b></td>
+												</t>
+												<t t-if="previous_allowance and not current_allowance">
+													<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;background-color: lightblue;"><b>-<br/><span t-field="previous_allowance.total"/></b></td>
+												</t>
+												<t t-if="not current_allowance and not previous_allowance">
+													<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><b>-</b></td>
+												</t>
+											</t>
+										</t> -->
+										
+										<!-- Other Deductions -->
+										<!-- <t t-if="not previous_slip">
+											<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;background-color: lightblue;"><b><span t-esc="'{0:,.0f}'.format(slip.extra_deduction)"/></b></td>
+										</t>
+										<t t-if="previous_slip">
+											<t t-if="previous_slip.extra_deduction == slip.extra_deduction">
+												<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><b><span t-esc="'{0:,.0f}'.format(slip.extra_deduction)"/></b></td>
+											</t>
+											<t t-if="previous_slip.extra_deduction != slip.extra_deduction">
+												<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;background-color: lightblue;"><b><u><span t-esc="'{0:,.0f}'.format(slip.extra_deduction)"/></u></b><br/><i><span t-esc="'{0:,.0f}'.format(previous_slip.extra_deduction)"/></i></td>
+											</t>
+										</t> -->
+										
+										<!-- Other Deductions -->
+										<!-- <t t-if="not previous_slip">
+											<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;background-color: lightblue;"><b><span t-field="slip.worked_days"/></b></td>
+										</t>
+										<t t-if="previous_slip">
+											<t t-if="previous_slip.worked_days == slip.worked_days">
+												<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><b><span t-field="slip.worked_days"/></b></td>
+											</t>
+											<t t-if="previous_slip.worked_days != slip.worked_days">
+												<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;background-color: lightblue;"><b><u><span t-field="slip.worked_days"/></u></b><br/><i><span t-field="previous_slip.worked_days"/></i></td>
+											</t>
+										</t> -->
+										
+										<!-- Employee Deductions -->
+										<!-- <t t-if="not previous_slip">
+											<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;background-color: lightblue;"><b><span t-esc="'{0:,.0f}'.format(slip.employee_deduction)"/></b></td>
+										</t>
+										<t t-if="previous_slip">
+											<t t-if="previous_slip.employee_deduction == slip.employee_deduction">
+												<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><b><span t-esc="'{0:,.0f}'.format(slip.employee_deduction)"/></b></td>
+											</t>
+											<t t-if="previous_slip.employee_deduction != slip.employee_deduction">
+												<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;background-color: lightblue;"><b><u><span t-esc="'{0:,.0f}'.format(slip.employee_deduction)"/></u></b><br/><i><span t-esc="'{0:,.0f}'.format(previous_slip.employee_deduction)"/></i></td>
+											</t>
+										</t> -->
+										
+										<!-- Employer Deductions -->
+										<!-- <t t-if="not previous_slip">
+											<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;background-color: lightblue;"><b><span t-esc="'{0:,.0f}'.format(slip.employer_deduction)"/></b></td>
+										</t>
+										<t t-if="previous_slip">
+											<t t-if="previous_slip.employer_deduction == slip.employer_deduction">
+												<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><b><span t-esc="'{0:,.0f}'.format(slip.employer_deduction)"/></b></td>
+											</t>
+											<t t-if="previous_slip.employer_deduction != slip.employer_deduction">
+												<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;background-color: lightblue;"><b><u><span t-esc="'{0:,.0f}'.format(slip.employer_deduction)"/></u></b><br/><i><span t-esc="'{0:,.0f}'.format(slip.employer_deduction)"/></i></td>
+											</t>
+										</t> -->
+										
+										<!-- Net Payment -->
+										<!-- <t t-if="not previous_slip">
+											<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;background-color: lightblue;"><b><span t-esc="'{0:,.0f}'.format(slip.net)"/></b></td>
+										</t>
+										<t t-if="previous_slip">
+											<t t-if="previous_slip.net == slip.net">
+												<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><b><span t-esc="'{0:,.0f}'.format(slip.net)"/></b></td>
+											</t>
+											<t t-if="previous_slip.net != slip.net">
+												<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;background-color: lightblue;"><b><u><span t-esc="'{0:,.0f}'.format(slip.net)"/></u></b><br/><i><span t-esc="'{0:,.0f}'.format(previous_slip.net)"/></i></td>
+											</t>
+										</t>									
+									</tr>
+								</t>
+							</table>
+						</div>
+					</div>
+					<p style="page-break-after:always;"></p>
+				</t> -->
+			</div>
+		</t>	
+	</template> 
+	
+	<template id="payroll_compare_template">
+		<t t-call="report.html_container">
+			<t t-foreach="doc_ids" t-as="doc_id">
+				<t t-raw="translate_doc(doc_id,doc_model,'env.lang','hr_payroll_allowance.payroll_compare_document')"/>
+			</t>
+		</t>
+	</template>
+		
+    </data>
+</openerp>

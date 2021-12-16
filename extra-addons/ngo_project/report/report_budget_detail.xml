@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+	
+	<template id="budget_detail_document">
+		<t t-call="ghss_hr_report.payslip_layout">
+				<div class="page">
+				 	<div class="row">
+						<div class="col-xs-4" style="border: 1px solid black;">
+							<table border="1" width="100%" style="font-familly: Times, serif;font-size:12px;">
+								<tr>
+									<td style="text-align:center;letter-spacing:2px;"><h4>REPUBLIC OF CAMEROON</h4></td>
+								</tr>
+								<tr>
+									<td style="text-align:center;letter-spacing:2px;">Information Document<br/>
+									Budget Detail</td>
+								</tr>
+								<tr>
+									<td style="text-align:center;letter-spacing:2px;"><h4>BUDGET LINES</h4></td>
+								</tr>
+								<tr>
+									<td style="text-align:center;letter-spacing:2px;"><h5>(All Accounts)</h5></td>
+								</tr> 
+							</table>
+						</div>
+						<div class="col-xs-7 col-xs-offset-1">
+						<table border="0" width="100%" style="font-familly: Times, serif;font-size:12px;">
+							<tr>
+								<td width="25%"><![CDATA[&nbsp;]]></td>
+								<td width="25%"><![CDATA[&nbsp;]]></td>
+								<td width="25%"><![CDATA[&nbsp;]]></td>
+								<td width="25%"><![CDATA[&nbsp;]]></td>
+							</tr>
+							<tr>
+								<td><![CDATA[&nbsp;]]></td>
+								<td><![CDATA[&nbsp;]]></td>
+								<td><![CDATA[&nbsp;]]></td>
+								<td><![CDATA[&nbsp;]]></td>
+							</tr>
+							<tr>
+								<td style="letter-spacing:2px;"><b>Company Name</b></td>
+								<td style="letter-spacing:2px;" colspan="3"><span t-field="o.company_id.name"/></td>
+							</tr>
+							<tr>
+								<td style="letter-spacing:2px;"><b>Adsress</b></td>
+								<td style="letter-spacing:2px;" colspan="3">Mokindi Layout, Sonara Road</td>
+							</tr>
+							<tr>
+								<td style="letter-spacing:2px;"><b>P.O Box</b></td>
+								<td style="letter-spacing:2px;" colspan="3">P.O Box 732 Limbe</td>
+							</tr>
+							<tr>
+								<td style="letter-spacing:2px;"><b>Budget Name</b></td>
+								<td style="letter-spacing:2px;" colspan="3"><span t-field="o.name"/></td>
+							</tr>
+							<tr>
+								<td><![CDATA[&nbsp;]]></td>
+								<td><![CDATA[&nbsp;]]></td>
+								<td><![CDATA[&nbsp;]]></td>
+								<td><![CDATA[&nbsp;]]></td>
+							</tr>
+							<tr>
+								<td style="letter-spacing:2px;"><b>Project Name</b></td>
+								<td style="letter-spacing:2px;" colspan="3">
+									<t t-if="o.project_id">
+										<span t-field="o.project_id.name"/>
+									</t>
+									<t t-if="not o.project_id">
+										<![CDATA[&nbsp;]]>
+									</t>
+								</td>
+							</tr>
+						</table>
+						</div>
+					</div>
+				<br/>
+				<div class="row">
+					<div class="col-xs-12">
+						<div align="center" width="100%">
+							<table border="1" width="100%" style="border: 1px solid black;font-familly: Times, serif;font-size:12px;">
+								<tr style="border:1px solid black;padding: 5px;">
+									<th width="100%" scope="clogroup" colspan="2" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>Budget Line Details</b></th>
+								</tr>
+								<tr style="border:1px solid black;padding: 5px;">
+									<th width="50%" scope="col" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>Budget Lines</b></th>
+									<th width="50%" scope="col" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>Accounts</b></th>
+								</tr>
+								
+								<t t-foreach="o.crossovered_budget_line" t-as="line">
+									<tr style="padding: 5px;">
+										<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;"><b><span t-field="line.general_budget_id.code"/></b> - <span t-field="line.general_budget_id.name"/></td>
+										<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;">
+											<t t-if="line.general_budget_id.account_ids">
+												<t t-foreach="line.general_budget_id.account_ids" t-as="account">
+													<b><span t-field="account.code"/></b> - <span t-field="account.name"/><br/>
+												</t>
+											</t>
+											<t t-if="not line.general_budget_id.account_ids">
+												<![CDATA[&nbsp;]]>
+											</t>
+										</td>
+									</tr>
+								</t>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div> 
+		</t>	
+	</template> 
+	
+	<template id="budget_detail_template">
+		<t t-call="report.html_container">
+			<t t-foreach="doc_ids" t-as="doc_id">
+				<t t-raw="translate_doc(doc_id,doc_model,'env.lang','ngo_project.budget_detail_document')"/>
+			</t>
+		</t>
+	</template>
+		
+    </data>
+</openerp>

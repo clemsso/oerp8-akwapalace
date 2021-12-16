@@ -1,0 +1,125 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+	
+	<template id="budget_ytd_cfa_document">
+		<t t-call="ghss_hr_report.payslip_layout">
+			<div class="page">
+				 <div class="row">
+					<div class="col-xs-12" style="border: 1px solid black;">
+						<table border="1" width="100%" style="font-familly: Times, serif;font-size:12px;">
+							<tr>
+								<td style="text-align:center;letter-spacing:2px;"><h4>BUDGET YEAR TO DATE REPORT</h4></td>
+							</tr>
+							<tr>
+								<td style="text-align:center;letter-spacing:2px;"><h5>(All Budget Lines with expenses in CFA)</h5></td>
+							</tr> 
+						</table>
+					</div>
+				</div>
+				<br/>
+				<div class="row">
+					<div class="col-xs-12">
+						<table border="1" width="100%" style="font-familly: Times, serif;font-size:10px;border: 1px solid black;">
+							<tr style="border:1px solid black;padding: 5px;">
+								<td width="13%" style="letter-spacing:2px;border:0.5px solid black;padding: 5px;"><b>Grantee</b></td>
+								<td colspan="17" style="letter-spacing:2px;border:0.5px solid black;padding: 5px;"><b><span t-field="o.company_id.name"/></b></td>
+							</tr>
+							<tr style="border:1px solid black;padding: 5px;">
+								<td style="letter-spacing:2px;border:0.5px solid black;padding: 5px;"><b>Fiscal Year</b></td>
+								<td colspan="17" style="letter-spacing:2px;border:0.5px solid black;padding: 5px;"><b><span t-field="o.fiscalyear_id.name"/></b></td>
+							</tr>
+							<tr style="border:1px solid black;padding: 5px;">
+								<td style="letter-spacing:2px;border:0.5px solid black;padding: 5px;"><b>BUDGET<br/>CATEGORY</b></td>
+								<td width="5%" style="letter-spacing:2px;border:0.5px solid black;padding: 5px;"><b>OBJECT<br/>CLASS</b></td>
+								<td width="7%" style="letter-spacing:2px;border:0.5px solid black;padding: 5px;"><b>BUDGETED<br/>AMOUNT</b></td>
+									
+								<t t-foreach="o.period_ids" t-as="period">
+									<td width="5%" style="letter-spacing:2px;border:0.5px solid black;padding: 5px;"><b><span t-field="period.name"/></b></td>
+								</t>
+
+								<td width="5%" style="letter-spacing:2px;border:0.5px solid black;padding: 5px;"><b>Total<br/>Expenditure</b></td>
+								<td width="5%" style="letter-spacing:2px;border:0.5px solid black;padding: 5px;"><b>Balance</b></td>
+								<td width="5%" style="letter-spacing:2px;border:0.5px solid black;padding: 5px;"><b>Variance</b></td>
+							</tr>
+								
+							<t t-foreach="o.budget_category_ids" t-as="category">
+								<tr style="border:1px solid black;padding: 5px;">
+									<td style="font-size:9px; letter-spacing:2px;border:0.5px solid black;padding: 5px;"><span t-field="category.name"/></td>
+							 		<td width="5%" style="font-size:9px;letter-spacing:2px;border:0.5px solid black;padding: 5px;text-align:right;">
+										<span t-field="category.code"/></td>
+									<t t-set="category_amount"  t-value="category.planned_amount" />
+									<td width="7%" style="font-size:8px;letter-spacing:2px;border:0.5px solid black;padding: 5px;text-align:right;">
+										<span t-esc="'{0:,.0f}'.format(category_amount)"/></td>
+									
+									<t t-set="total_expenditure" t-value="0"/>
+									
+									<t t-foreach="o.period_ids" t-as="period">
+										<t t-set="pratical_amount" t-value="category.get_amount(period)[0]"/> 
+										<td style="font-size:8px;letter-spacing:2px;border:0.5px solid black;padding: 5px;text-align:right;">
+											<span t-esc="'{0:,.0f}'.format(pratical_amount)"/>
+										</td> 
+										<t t-set="total_expenditure" t-value="total_expenditure + pratical_amount"/>
+									</t> 
+									
+									<td style="font-size:8px;letter-spacing:2px;border:0.5px solid black;padding: 5px;text-align:right;">
+										<span t-esc="'{0:,.0f}'.format(total_expenditure)"/></td>
+									
+									<t t-set="balance" t-value="category_amount - total_expenditure"/>
+									<td style="font-size:8px;letter-spacing:2px;border:0.5px solid black;padding: 5px;text-align:right;">
+										<span t-esc="'{0:,.0f}'.format(balance)"/></td>
+									
+									<t t-set="variance" t-value="(total_expenditure / category_amount) * 100"/>
+									<td style="font-size:8px;letter-spacing:2px;border:0.5px solid black;padding: 5px;text-align:right;">
+										<span t-esc="'{0:,.2f}'.format(variance)"/>%</td>
+								</tr>
+							</t> 
+							
+							<tr style="border:1px solid black;padding: 5px;">
+								<td colspan="2" style="font-size:9px; letter-spacing:2px;border:0.5px solid black;padding: 5px;"><b>Total</b></td>
+								<td style="font-size:8px;letter-spacing:2px;border:0.5px solid black;padding: 5px;text-align:right;">
+										<b><span t-esc="'{0:,.0f}'.format(o.planned_amount)"/></b></td>
+								
+								<t t-set="expense_periods" t-value="o.get_expense_periods()"/>
+								<t t-set="total_expenditure" t-value="0"/>
+								
+								<t t-foreach="expense_periods[0]" t-as="expense"> 
+									<t t-set="cfa_expense" t-value="expense"/>
+									<t t-set="total_expenditure" t-value="total_expenditure + cfa_expense"/>
+									<td style="font-size:8px;letter-spacing:2px;border:0.5px solid black;padding: 5px;text-align:right;">
+										<!--	<span t-esc="'{0:,.0f}'.format(expense_periods[0] / o.currency_amount)"/> -->
+										<b><span t-esc="'{0:,.0f}'.format(cfa_expense)"/></b>
+										<!-- <span t-esc="expense_periods[0]"/> -->
+									</td>
+								</t> 
+								
+								<td style="font-size:8px;letter-spacing:2px;border:0.5px solid black;padding: 5px;text-align:right;">
+									<span t-esc="'{0:,.0f}'.format(total_expenditure)"/></td>
+								
+								<t t-set="planned_amount" t-value="o.planned_amount"/>
+								<t t-set="balance" t-value="planned_amount - total_expenditure"/>
+								<td style="font-size:8px;letter-spacing:2px;border:0.5px solid black;padding: 5px;text-align:right;">
+									<b><span t-esc="'{0:,.0f}'.format(balance)"/></b></td>
+										
+								<t t-set="variance" t-value="(total_expenditure / planned_amount) * 100"/>
+								<td style="font-size:8px;letter-spacing:2px;border:0.5px solid black;padding: 5px;text-align:right;">
+									<b><span t-esc="'{0:,.2f}'.format(variance)"/>%</b></td>
+							</tr>
+								
+						</table>
+					</div>
+				</div>
+			</div> 
+		</t>	
+	</template> 
+	
+	<template id="budget_ytd_cfa_template">
+		<t t-call="report.html_container">
+			<t t-foreach="doc_ids" t-as="doc_id">
+				<t t-raw="translate_doc(doc_id,doc_model,'env.lang','ngo_project.budget_ytd_cfa_document')"/>
+			</t>
+		</t>
+	</template>
+		
+    </data>
+</openerp>

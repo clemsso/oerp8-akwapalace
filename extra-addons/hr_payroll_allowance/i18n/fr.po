@@ -1,0 +1,492 @@
+# French translation for openobject-addons
+# Copyright (c) 2014 Rosetta Contributors and Canonical Ltd 2014
+# This file is distributed under the same license as the openobject-addons package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openobject-addons\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2014-08-14 13:09+0000\n"
+"PO-Revision-Date: 2014-08-14 16:10+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: French <fr@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2014-08-15 07:23+0000\n"
+"X-Generator: Launchpad (build 17156)\n"
+
+#. module: school_fees
+#: field:school.student.enrollment,academic_year:0
+msgid "Academic Year"
+msgstr "Année Academique"
+
+#. module: school_fees
+#: model:ir.model,name:school_fees.account_voucher
+msgid "Account Voucher"
+msgstr "Paiement"
+
+#. module: school_fees
+#: field:school.fee.fee,account_id:0
+#: field:school.fee.fee.lne,account_id:0
+msgid "Account"
+msgstr "Compte"
+
+#. module: school_fees
+#: view:website:school_fees.report_fee_receipt_document
+msgid "Allocated Amount"
+msgstr "Montant Alloué"
+
+#. module: school_fees
+#: view:school.fee.fee:school_fees.school_fee_fee_form_view
+#: view:school.fee.fee.line:school_fees.school_fee_fee_line_form_view
+#: field:school.fee.fee.line,price_subtotal:0
+#: field:school.fee.template.fee,amount:0
+#: field:school.fee.template.fee,amount1:0
+#: selection:school.fee.template.fee,type_amount:0
+#: field:school.fee.template.structure,amount:0
+#: field:school.fee.template.structure.item,amount:0
+msgid "Amount"
+msgstr "Montant"
+
+#. module: school_fees
+#: field:school.fee.template.fee,type_amount:0
+msgid "Amount Type"
+msgstr "Type de montant"
+
+#. module: school_fees
+#: view:website:school_fees.report_fee_receipt_document
+msgid "Amount paid:"
+msgstr "Montant payé:"
+
+#. module: school_fees
+#: view:website:school_fees.report_fee_receipt_document
+msgid "Class :"
+msgstr "Classe :"
+
+#. module: school_fees
+#: selection:school.fee.template.structure.item,student_type:0
+#: selection:school.fee.template.structure.item,student_sex:0
+msgid "Both"
+msgstr "Tous"
+
+#. module: school_fees
+#: sql_constraint:school.fee.template.fee:0
+#: sql_constraint:school.fee.template.structure:0
+msgid "Code has to be unique !"
+msgstr "Le code doit être unique !"
+
+#. module: school_fees
+#: view:school.student.enrollment:school_fees.school_student_enrollment_form_view
+msgid "Confirm"
+msgstr "Confirme"
+
+#. module: school_fees
+#: selection:school.student.enrollment,state:0
+msgid "Confirmed"
+msgstr "Confirmé"
+
+#. module: school_fees
+#: view:school.fee.template.structure:school_fees.school_template_structure_form_view
+msgid "Cycle Assigned"
+msgstr "Affecté au cycle"
+
+#. module: school_fees
+#: field:school.student.enrollment,fee_template_cycle_ids:0
+msgid "Cycle Fee Templates"
+msgstr "Modèle de Frais du Cycle"
+
+#. module: school_fees
+#: field:school.fee.fee,deadline:0
+#: field:school.fee.fee.line,deadline:0
+#: field:school.fee.template.fee,deadline1:0
+#: field:school.fee.template.fee,deadline:0
+#: field:school.fee.template.structure.item,deadline:0
+#: field:school.student.enrollment,deadline:0
+msgid "Deadline"
+msgstr "Date limite"
+
+#. module: school_fees
+#: field:school.fee.fee,display_name:0
+#: field:school.fee.fee.line,display_name:0
+#: field:school.fee.template.structure,display_name:0
+#: field:school.fee.template.structure.item,display_name:0
+#: field:school.student.enrollment,display_name:0
+msgid "Display Name"
+msgstr "Nom"
+
+#. module: school_fees
+#: selection:school.student.enrollment,state:0
+msgid "Draft"
+msgstr "Brouillon"
+
+#. module: school_fees
+#: field:school.fee.fee,enrollment_id:0
+#: field:account.voucher,enrollment_id:0
+#: view:school.student.enrollment:school_fees.school_student_enrollment_form_view
+msgid "Enrollment"
+msgstr "Inscription"
+
+#. module: school_fees
+#: model:ir.actions.act_window,name:school_fees.school_student_enrollment_action
+#: model:ir.ui.menu,name:school_fees.school_student_enrollment_menu
+#: view:school.student.enrollment:school_fees.school_student_enrollment_tree_view
+msgid "Enrollments"
+msgstr "Inscriptions"
+
+#. module: school_fees
+#: view:school.fee.fee:school_fees.school_fee_fee_form_view
+#: view:school.fee.fee.line:school_fees.school_fee_fee_line_form_view
+msgid "Fee"
+msgstr "Frais"
+
+#. module: school_fees
+#: model:ir.actions.act_window,name:school_fees.school_fee_fee_line_action
+#: view:school.fee.fee:school_fees.school_fee_fee_form_view
+#: field:school.fee.fee,fee_line_ids:0
+msgid "Fee Lines"
+msgstr "Lignes de Frais"
+
+#. module: school_fees
+#: field:school.fee.template.fee,type_fee:0
+msgid "Fee Type"
+msgstr "Type de Frais"
+
+#. module: school_fees
+#: model:ir.ui.menu,name:school_fees.school_fees_menu
+#: field:school.fee.fee.line,fee_id:0
+#: view:school.student.enrollment:school_fees.school_student_enrollment_form_view
+#: field:school.student.enrollment,fee_ids:0
+#: model:ir.actions.act_window,name:school_fees.school_fee_fee_action
+#: model:ir.ui.menu,name:school_fees.school_fee_fee_menu
+msgid "Fees"
+msgstr "Frais Scolaires"
+
+#. module: school_fees
+#: view:school.fee.template.fee:school_fees.school_template_fee_form_view
+msgid "Fees Included"
+msgstr "Frais Inclus"
+
+#. module: school_fees
+#: view:website:school_fees.report_fee_receipt_document
+msgid "Fee Name"
+msgstr "Nom du frais scolaire"
+
+#. module: school_fees
+#: field:school.fee.template.fee,fee_item_ids:0
+#: field:school.academic.cycle,fee_structure_id:0
+#: field:school.academic.level,fee_structure_id:0
+#: field:school.academic.section,fee_structure_id:0
+msgid "Fees Template Structure"
+msgstr "Structure de Modèle de Frais"
+
+#. module: school_fees
+#: selection:school.fee.template.structure.item,student_sex:0
+msgid "Female"
+msgstr "Fille"
+
+#. module: school_fees
+#: field:school.fee.fee,account_invoice_id:0
+msgid "Invoice"
+msgstr "Facture"
+
+#. module: school_fees
+#: field:school.fee.fee,invoice_line:0
+msgid "Invoice Lines"
+msgstr "Lignes de Facture"
+
+#. module: school_fees
+#: field:school.fee.fee,is_ok:0
+#: field:school.student.enrollment,is_ok:0
+msgid "Is ok"
+msgstr "Est O.K"
+
+#. module: school_fees
+#: field:school.student.enrollment,level_id:0
+msgid "Level"
+msgstr "Niveau"
+
+#. module: school_fees
+#: view:school.fee.template.structure:school_fees.school_template_structure_form_view
+msgid "Level Assigned"
+msgstr "Affecté au niveau"
+
+#. module: school_fees
+#: field:school.student.enrollment,fee_template_level_ids:0
+msgid "Level Fee Templates"
+msgstr "Modèle de Frais du niveau"
+
+#. module: school_fees
+#: field:school.student.enrollment,fee_template_mandatory_ids:0
+msgid "Madatory Template Fees"
+msgstr "Modèles de frais obligatoires"
+
+#. module: school_fees
+#: selection:school.fee.template.structure.item,student_sex:0
+msgid "Male"
+msgstr "Garçon"
+
+#. module: school_fees
+#: selection:school.fee.template.structure.item,type:0
+msgid "Mandatory"
+msgstr "Obligatoire"
+
+#. module: school_fees
+#: view:school.student.enrollment:school_fees.school_student_enrollment_form_view
+msgid "Mandatory Template"
+msgstr "Modèle Obligatoire"
+
+#. module: school_fees
+#: field:school.fee.template.fee,display_name:0
+#: field:school.fee.template.fee,name:0
+#: field:school.fee.template.structure,name:0
+#: field:school.fee.template.structure.item,name:0
+msgid "Name"
+msgstr "Nom"
+
+#. module: school_fees
+#: sql_constraint:school.fee.template.fee:0
+#: sql_constraint:school.fee.template.structure:0
+msgid "Name has to be unique !"
+msgstr "Le nom doit être unique !"
+
+
+#. module: school_fees
+#: view:school.academic.level:school_fees.school_academic_level1_form_view
+#: field:school.academic.level,amount_new:0
+#: field:school.fee.template.structure,amount_new:0
+#: field:school.fee.template.structure.item,amount_new:0
+#: view:school.fee.template.structure:school_fees.school_template_structure_form_view
+#: selection:school.student.enrollment,student_type:0
+msgid "New Student"
+msgstr "Nouvel Elève"
+
+#. module: school_fees
+#: view:school.academic.level:school_fees.school_academic_level1_form_view
+#: field:school.academic.level,amount_new_boy:0
+#: field:school.fee.template.structure,amount_new_boy:0
+#: field:school.fee.template.structure.item,amount_new_boy:0
+#: view:school.fee.template.structure:school_fees.school_template_structure_form_view
+msgid "New Boy"
+msgstr "Nouv. Garçon"
+
+#. module: school_fees
+#: view:school.academic.level:school_fees.school_academic_level1_form_view
+#: field:school.academic.level,amount_new_girl:0
+#: field:school.fee.template.structure,amount_new_girl:0
+#: field:school.fee.template.structure.item,amount_new_girl:0
+#: view:school.fee.template.structure:school_fees.school_template_structure_form_view
+msgid "New Girl"
+msgstr "Nouv. Fille"
+
+#. module: school_fees
+#: selection:school.fee.template.structure.item,student_type:0
+msgid "New"
+msgstr "Nouveau"
+
+#. module: school_fees
+#: field:school.fee.fee,number:0
+msgid "Number"
+msgstr "Numéro"
+
+#. module: school_fees
+#: selection:school.student.enrollment,student_type:0
+msgid "Old Student"
+msgstr "Ancien Elève"
+
+#. module: school_fees
+#: selection:school.fee.template.structure.item,student_type:0
+msgid "Old"
+msgstr "Ancien"
+
+#. module: school_fees
+#: view:school.academic.level:school_fees.school_academic_level1_form_view
+#: field:school.fee.template.structure,amount_old:0
+#: field:school.fee.template.structure.item,amount_old:0
+#: view:school.fee.template.structure:school_fees.school_template_structure_form_view
+#: selection:school.student.enrollment,student_type:0
+msgid "Old Student"
+msgstr "Ancien Elève"
+
+#. module: school_fees
+#: view:school.academic.level:school_fees.school_academic_level1_form_view
+#: field:school.academic.level,amount_old_boy:0
+#: field:school.fee.template.structure,amount_old_boy:0
+#: field:school.fee.template.structure.item,amount_old_boy:0
+#: view:school.fee.template.structure:school_fees.school_template_structure_form_view
+msgid "Old Boy"
+msgstr "Anc. Garçon"
+
+#. module: school_fees
+#: view:school.academic.level:school_fees.school_academic_level1_form_view
+#: field:school.academic.level,amount_old_girl:0
+#: field:school.fee.template.structure,amount_old_girl:0
+#: field:school.fee.template.structure.item,amount_old_girl:0
+#: view:school.fee.template.structure:school_fees.school_template_structure_form_view
+msgid "Old Girl"
+msgstr "Anc. Fille"
+
+#. module: school_fees
+#: selection:school.fee.template.structure.item,type:0
+msgid "Optionnal"
+msgstr "Optionnel"
+
+#. module: school_fees
+#: view:school.student.enrollment:school_fees.school_student_enrollment_form_view
+msgid "Optionnal Template"
+msgstr "Modèle Optionnel"
+
+#. module: school_fees
+#: field:school.student.enrollment,fee_template_optionnal_ids:0
+msgid "Optionnal Template Fees"
+msgstr "Modèles de frais optionnels"
+
+#. module: school_fees
+#: view:website:school_fees.report_fee_receipt_document
+msgid "Original Amount"
+msgstr "Montant de Base"
+
+#. module: school_fees
+#: field:school.fee.fee,reconciled:0
+msgid "Paid/Reconciled"
+msgstr "Payé/Lettré"
+
+#. module: school_fees
+#: field:school.fee.template.fee,fee_parent_id:0
+msgid "Parent Template Fee"
+msgstr "Modèle de frais parent"
+
+#. module: school_fees
+#: model:ir.ui.menu,name:school_fees.menu_fee_payment_form
+#: view:school.fee.fee:school_fees.school_fee_fee_form_view
+#: view:school.student.enrollment:school_fees.school_student_enrollment_form_view
+#: field:school.fee.fee,payment_ids:0
+#: field:school.student.enrollment,payment_ids:0
+msgid "Payments"
+msgstr "Paiements"
+
+#. module: school_fees
+#: field:school.fee.fee.line,quantity:0
+msgid "Quantity"
+msgstr "Quantité"
+
+#. module: school_fees
+#: model:ir.actions.report.xml,name:school_fees.report_fee_receipt
+msgid "Receipt"
+msgstr "Reçu"
+
+#. module: school_fees
+#: view:website:school_fees.report_fee_receipt_document
+msgid "Receipt N°:"
+msgstr "Reçu N°:"
+
+#. module: school_fees
+#: field:school.student.enrollment,remaind_amount,0
+msgid "Remaind Amount"
+msgstr "Montant Restant"
+
+#. module: school_fees
+#: view:website:school_fees.report_fee_receipt_document
+msgid "Remaining Amount:"
+msgstr "Montant Restant:"
+
+#. module: school_fees
+#: view:school.fee.template.structure:school_fees.school_template_structure_form_view
+msgid "Section Assigned"
+msgstr "Affecté à la Section"
+
+#. module: school_fees
+#: field:school.student.enrollment,fee_template_section_ids:0
+msgid "Section Fee Templates"
+msgstr "Modèles de frais de section"
+
+#. module: school_fees
+#: field:school.fee.template.structure,cycle_ids:0
+#: field:school.fee.template.structure,level_ids:0
+#: field:school.fee.template.structure,section_ids:0
+msgid "Sections Assigned"
+msgstr "Affecté aux sections"
+
+#. module: school_fees
+#: field:school.fee.template.structure.item,student_sex:0
+msgid "Sex"
+msgstr "Sexe"
+
+#. module: school_fees
+#: field:school.student.enrollment,state:0
+msgid "State"
+msgstr "Etat"
+
+#. module: school_fees
+#: field:school.fee.fee,state:0
+msgid "Status"
+msgstr "Etat"
+
+#. module: school_fees
+#: view:school.fee.template.structure.item:school_fees.school_template_item_form_view
+msgid "Structure Fees Assigned"
+msgstr "Frais affecté à la structue"
+
+#. module: school_fees
+#: view:school.fee.template.fee:school_fees.school_template_fee_form_view
+#: view,school.fee.template.structure:school_fees.school_template_structure_form_view
+#: view,school.fee.template.structure.item:school_fees.school_template_item_tree_view
+msgid "Structure Items"
+msgstr "Elements de la structure"
+
+#. module: school_fees
+#: view:school.fee.template.structure.item:school_fees.school_template_item_form_view
+msgid "Stucture Item"
+msgstr "Element de la stucture"
+
+#. module: school_fees
+#: field:account.voucher,student_id:0
+#: field:school.fee.fee,student_id:0
+#: field:school.student.enrollment,student_id:0
+#: view:website:school_fees.report_fee_receipt_document
+msgid "Student"
+msgstr "Elève"
+
+#. module: school_fees
+#: view:website:school_fees.report_fee_receipt_document
+msgid "Student:"
+msgstr "Elève:"
+
+#. module: school_fees
+#: field:school.fee.template.structure.item,student_type:0
+#: field:school.student.enrollment,student_type:0
+msgid "Student Type"
+msgstr "Type d'Elève"
+
+#. module: school_fees
+#: field:school.fee.fee,amount_untaxed:0
+msgid "Subtotal"
+msgstr "Sous-total"
+
+#. module: school_fees
+#: view:school.fee.template.fee:school_fees.school_template_fee_form_view
+#: field:school.fee.template.structure.item,template_fee_id:0
+msgid "Template Fee"
+msgstr "Modèle de frais"
+
+#. module: school_fees
+#: model:ir.actions.act_window,name:school_fees.school_template_fee_action
+#: model:ir.ui.menu,name:school_fees.school_template_fee_menu
+#: view:school.fee.template.fee:school_fees.school_template_fee_tree_view
+msgid "Template Fees"
+msgstr "Modèles de frais"
+
+#. module: school_fees
+#: model:ir.actions.act_window,name:school_fees.school_template_item_action
+#: model:ir.ui.menu,name:school_fees.school_template_item_menu
+msgid "Template Items"
+msgstr "Eléments de modèle"
+
+#. module: school_fees
+#: model:ir.actions.act_window,name:school_fees.school_template_structure_action
+#: model:ir.ui.menu,name:school_fees.school_template_structure_menu
+msgid "Template Structures"
+msgstr "Structures de modèle"
+
+

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+	<template id="custom_report_footer" inherit_id="report.external_layout_footer">
+		<xpath expr="//div[@class='footer']" position="replace">
+			<div class="footer">                
+                    <div class="text-center" style="border-top: 4px solid green;">                        
+                        <ul class="list-inline">
+                            <li>Denver-Bonamoussadi, Douala, Littoral Region, Republic of Cameroun. <br></br>P.O Box: 3918, Douala  
+                            <br></br>Phone: 691754425, Fax: +237<br></br>Website: www.ghsscm.org</li>                          
+                        </ul>                                                       
+                        
+                    </div> 
+                
+            </div>
+        </xpath>
+    </template>
+</data>
+</openerp>  

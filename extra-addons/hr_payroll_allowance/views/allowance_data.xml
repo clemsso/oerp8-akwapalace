@@ -1,0 +1,491 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+	
+		<record id="contrib_register_employeer" model="hr.contribution.register">
+            <field name="name">Employer</field>
+            <field name="partner_id" eval="False"/>
+        </record>
+
+	    <record id="hr_salary_rule_category_temp" model="hr.salary.rule.category">
+            <field name="name">Temporary</field>
+            <field name="code">IEMP</field>
+        </record>
+		
+		<record id="hr_salary_rule_category_employer" model="hr.salary.rule.category">
+            <field name="name">Employer</field>
+            <field name="code">EMP</field>
+        </record>
+		
+		<record id="hr_payroll.hr_rule_net" model="hr.salary.rule">
+            <field name="amount_python_compute">result = categories.BASIC + categories.ALW - categories.DED - OTHERDED</field>
+        </record>
+		
+		<!-- Allowances in Cameroon -->
+		
+		<record id="hr_payroll.hr_rule_basic" model="hr.salary.rule">
+            <field name="amount_python_compute">result = contract.wage * payslip.worked_days / 30</field>
+        </record>
+		
+		<!-- Taxable and Contributory Salary in Cameroon -->
+		
+		<record id="rule_taxable_salary" model="hr.salary.rule">
+            <field name="name">Taxable Salary</field>
+            <field name="sequence" eval="120"/>
+            <field name="code">TSAL</field>
+            <field name="appears_on_payslip" eval="1"/>
+            <field name="active" eval="1"/>
+            <field name="category_id" ref='hr_salary_rule_category_temp'/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+prov = BASIC
+extra = 0
+
+for elem in contract.allowance_ids:
+	if elem.set_id:
+		if elem.set_id.taxable_percentage == 100:
+			prov = prov + (elem.amount * payslip.worked_days / 30)
+
+for elem in contract.allowance_ids:
+	if elem.set_id:
+		if (elem.set_id.taxable_percentage &gt; 0) and (elem.set_id.taxable_percentage &lt; 100):
+			temp = (prov * elem.set_id.taxable_percentage) / 100
+			if temp &gt; elem.amount:
+				temp = elem.amount * payslip.worked_days / 30
+			extra = extra + temp
+
+result = prov + extra
+				</field>
+            <field name="note">Taxable Salary</field>
+        </record>
+		
+		<record id="rule_contributory_salary" model="hr.salary.rule">
+            <field name="name">Contributory Salary</field>
+            <field name="sequence" eval="100"/>
+            <field name="code">CSAL</field>
+            <field name="appears_on_payslip" eval="1"/>
+            <field name="active" eval="1"/>
+            <field name="category_id" ref='hr_salary_rule_category_temp'/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+prov = BASIC
+extra = 0
+
+for elem in contract.allowance_ids:
+	if elem.set_id:
+		if elem.set_id.contributory_percentage == 100:
+			prov = prov + (elem.amount * payslip.worked_days / 30)
+
+for elem in contract.allowance_ids:
+	if elem.set_id:
+		if (elem.set_id.contributory_percentage &gt; 0) and (elem.set_id.contributory_percentage &lt; 100):
+			temp = (prov * elem.set_id.contributory_percentage) / 100
+			if temp &gt; elem.amount:
+				temp = elem.amount * payslip.worked_days / 30
+			extra = extra + temp
+
+result = prov + extra
+				</field>
+            <field name="note">Contributory Salary</field>
+        </record>
+		
+		<!-- Employee Deductions in Cameroon -->
+		
+		<record id="rule_irpp_deduction" model="hr.salary.rule">
+            <field name="name">PIT</field>
+            <field name="sequence" eval="130"/>
+            <field name="code">PIT</field>
+            <field name="appears_on_payslip" eval="1"/>
+            <field name="active" eval="1"/>
+            <field name="category_id" ref='hr_payroll.DED'/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+base_cal = (TSAL * 12 * 7 / 10) - (CNPSE * 12) - 500000
+temp = 0
+					
+if (base_cal &lt;= 0):
+	temp = 0
+elif (base_cal &lt;= 2000000):
+	temp = base_cal * 10 / 100
+elif (base_cal &lt;= 3000000):
+	temp = 200000 + ((base_cal - 2000000.00) * 15 / 100)
+elif (base_cal &lt;= 5000000):
+	temp = 350000 + ((base_cal - 3000000) * 25 / 100)
+else:
+	temp = 850000 + ((base_cal - 5000000) * 35 / 100)
+			
+result = temp / 12
+				</field>
+            <field name="note">PIT Deduction</field>
+        </record>
+		
+		<record id="rule_act_deduction" model="hr.salary.rule">
+            <field name="name">ACT</field>
+            <field name="sequence" eval="140"/>
+            <field name="code">ACT</field>
+            <field name="appears_on_payslip" eval="1"/>
+            <field name="active" eval="1"/>
+            <field name="category_id" ref='hr_payroll.DED'/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = PIT / 10</field>
+            <field name="note">ACT Deduction</field>
+        </record>
+		
+		<record id="rule_land_bank_rate_deduction" model="hr.salary.rule">
+            <field name="name">Land Bank Rate</field>
+            <field name="sequence" eval="130"/>
+            <field name="code">LBR</field>
+            <field name="appears_on_payslip" eval="1"/>
+            <field name="active" eval="1"/>
+            <field name="category_id" ref='hr_payroll.DED'/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+coeff = 0
+
+if employee.company_id.lbr:
+	coeff = float(employee.company_id.lbr)
+			
+result = float(TSAL * coeff / 100)
+</field>
+            <field name="note">Land Bank Rate Deduction</field>
+        </record>
+		
+		<record id="rule_crtv_deduction" model="hr.salary.rule">
+            <field name="name">CRTV</field>
+            <field name="sequence" eval="130"/>
+            <field name="code">CRTV</field>
+            <field name="appears_on_payslip" eval="1"/>
+            <field name="active" eval="1"/>
+            <field name="category_id" ref='hr_payroll.DED'/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+temp = 0
+
+salary_temp = TSAL
+
+if salary_temp &lt;= 62000:
+	temp = 0
+elif salary_temp &lt;= 100000:
+	temp = 750
+elif salary_temp &lt;= 200000:
+	temp = 1950
+elif salary_temp &lt;= 300000:
+	temp = 3250
+elif salary_temp &lt;= 400000:
+	temp = 4550
+elif salary_temp &lt;= 500000:
+	temp = 5850
+elif salary_temp &lt;= 600000:
+	temp = 7150
+elif salary_temp &lt;= 700000:
+	temp = 8450
+elif salary_temp &lt;= 800000:
+	temp = 9750
+elif salary_temp &lt;= 900000:
+	temp = 11050
+elif salary_temp &lt;= 1000000:
+	temp = 12350
+else:
+	temp = 13000
+				
+result = temp
+				</field>
+            <field name="note">CRTV Deduction</field>
+        </record>
+		
+		<record id="rule_comtax_deduction" model="hr.salary.rule">
+            <field name="name">Communal Tax</field>
+            <field name="sequence" eval="130"/>
+            <field name="code">CTAX</field>
+            <field name="appears_on_payslip" eval="1"/>
+            <field name="active" eval="1"/>
+            <field name="category_id" ref='hr_payroll.DED'/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+temp = 0
+salary_temp = BASIC
+
+if salary_temp &lt;= 61999:
+	temp = 0
+elif salary_temp &lt;= 75000:
+	temp = 250
+elif salary_temp &lt;= 100000:
+	temp = 500
+elif salary_temp &lt;= 125000:
+	temp = 750
+elif salary_temp &lt;= 150000:
+	temp = 1000
+elif salary_temp &lt;= 200000:
+	temp = 1250
+elif salary_temp &lt;= 250000:
+	temp = 1500
+elif salary_temp &lt;= 300000:
+	temp = 2000
+elif salary_temp &lt;= 500000:
+	temp = 2250
+else:
+	temp = 2500
+				
+result = temp
+				</field>
+            <field name="note">Communal Tax Deduction</field>
+        </record>
+		
+		<record id="rule_cnpse_deduction" model="hr.salary.rule">
+            <field name="name">Old age pension (CNPS)</field>
+            <field name="sequence" eval="110"/>
+            <field name="code">CNPSE</field>
+            <field name="appears_on_payslip" eval="1"/>
+            <field name="active" eval="1"/>
+            <field name="category_id" ref='hr_payroll.DED'/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+temp = 0
+coeff = 0
+
+if employee.company_id.cnps_employee:
+	coeff = employee.company_id.cnps_employee
+
+if CSAL &lt;= 750000:
+	temp = CSAL * coeff / 100
+else:
+	temp = 750000 * coeff / 100
+				
+result = temp
+				</field>
+            <field name="note">Old age pension Deduction - Employee</field>
+        </record>
+		
+		<!-- Total Employee Tax Deductions in Cameroon -->
+		
+		<record id="rule_employee_deductions" model="hr.salary.rule">
+            <field name="name">Total Employee Tax Deductions</field>
+            <field name="sequence" eval="180"/>
+            <field name="code">TEMPEDED</field>
+            <field name="appears_on_payslip" eval="1"/>
+            <field name="active" eval="1"/>
+            <field name="category_id" ref='hr_salary_rule_category_temp'/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = categories.DED</field>
+            <field name="note">Total Employee Deduction</field>
+        </record>
+		
+		<!-- Other Employee Deduction -->
+		
+		<record id="rule_employee_other_deductions" model="hr.salary.rule">
+            <field name="name">Other Deductions</field>
+            <field name="sequence" eval="180"/>
+            <field name="code">OTHERDED</field>
+            <field name="appears_on_payslip" eval="1"/>
+            <field name="active" eval="1"/>
+            <field name="category_id" ref='hr_salary_rule_category_temp'/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = payslip.extra_deduction</field>
+            <field name="note">Total Employee Deduction</field>
+        </record>
+		
+		<!-- Total Employee Deductions in Cameroon -->
+		
+		<record id="rule_employee_all_deductions" model="hr.salary.rule">
+            <field name="name">Total Employee Deductions</field>
+            <field name="sequence" eval="190"/>
+            <field name="code">ALLEMPDED</field>
+            <field name="appears_on_payslip" eval="1"/>
+            <field name="active" eval="1"/>
+            <field name="category_id" ref='hr_salary_rule_category_temp'/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = TEMPEDED + OTHERDED</field>
+            <field name="note">Total Employee Deduction</field>
+        </record>
+		
+		<!-- Employer Deductions in Cameroon -->
+		
+		<record id="rule_cfc_deduction" model="hr.salary.rule">
+            <field name="name">CFC</field>
+            <field name="sequence" eval="130"/>
+            <field name="code">CFC</field>
+            <field name="appears_on_payslip" eval="1"/>
+            <field name="active" eval="1"/>
+            <field name="category_id" ref='hr_salary_rule_category_employer'/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+coeff = 0
+
+if employee.company_id.cfc:
+	coeff = employee.company_id.cfc
+
+result = TSAL * coeff / 100
+				</field>
+            <field name="note">CFC Deduction</field>
+        </record>
+		
+		<record id="rule_fne_deduction" model="hr.salary.rule">
+            <field name="name">FNE</field>
+            <field name="sequence" eval="130"/>
+            <field name="code">FNE</field>
+            <field name="appears_on_payslip" eval="1"/>
+            <field name="active" eval="1"/>
+            <field name="category_id" ref='hr_salary_rule_category_employer'/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+coeff = 0
+
+if employee.company_id.fne:
+	coeff = employee.company_id.fne
+			
+result = TSAL * coeff / 100
+				</field>
+			<field name="register_id" ref="contrib_register_employeer"/>
+            <field name="note">FNE Deduction</field>
+        </record>
+		
+		<record id="rule_fammily_deduction" model="hr.salary.rule">
+            <field name="name">Family Contribution</field>
+            <field name="sequence" eval="130"/>
+            <field name="code">FCON</field>
+            <field name="appears_on_payslip" eval="1"/>
+            <field name="active" eval="1"/>
+            <field name="category_id" ref='hr_salary_rule_category_employer'/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+temp = 0
+coeff = 0
+
+if employee.company_id.familly_contributory:
+	coeff = employee.company_id.familly_contributory
+
+if CSAL &lt;= 750000:
+	temp = CSAL * coeff / 100
+else:
+	temp = 750000 * coeff / 100
+				
+result = temp
+				</field>
+			<field name="register_id" ref="contrib_register_employeer"/>
+            <field name="note">Fammilly Deduction</field>
+        </record>
+		
+		<record id="rule_cnpsp_deduction" model="hr.salary.rule">
+            <field name="name">Old Age pension (CNPS)</field>
+            <field name="sequence" eval="110"/>
+            <field name="code">CNPSP</field>
+            <field name="appears_on_payslip" eval="1"/>
+            <field name="active" eval="1"/>
+            <field name="category_id" ref='hr_salary_rule_category_employer'/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+temp = 0
+coeff = 0
+
+if employee.company_id.cnps_employer:
+	coeff = employee.company_id.cnps_employer
+
+if CSAL &lt;= 750000.00:
+	temp = CSAL * coeff / 100
+else:
+	temp = 750000 * coeff / 100
+				
+result = temp
+			</field>
+			<field name="register_id" ref="contrib_register_employeer"/>
+            <field name="note">Old age pension Contribution - Employer</field>
+        </record>
+		
+		<record id="rule_ipa_deduction" model="hr.salary.rule">
+            <field name="name">Industrial and Professional Accident</field>
+            <field name="sequence" eval="130"/>
+            <field name="code">IPA</field>
+            <field name="appears_on_payslip" eval="1"/>
+            <field name="active" eval="1"/>
+            <field name="category_id" ref='hr_salary_rule_category_employer'/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+temp = 0
+				
+if employee.company_id.ipa:
+	if employee.company_id.ipa == 'group_a':
+		temp = CSAL * 1.75 / 100
+	elif employee.company_id.ipa == 'group_b':
+		temp = CSAL * 2.56 / 100
+	elif employee.company_id.ipa == 'group_c':
+		temp = CSAL * 5.00 / 100
+	else:
+		temp = 0
+				
+result = temp
+			</field>
+			<field name="register_id" ref="contrib_register_employeer"/>
+            <field name="note">Industrial and Professional Accident Contribution</field>
+        </record>
+		
+		<!-- Total Employer Deductions in Cameroon -->
+		
+		<record id="rule_employer_deductions" model="hr.salary.rule">
+            <field name="name">Total Employer Deductions</field>
+            <field name="sequence" eval="180"/>
+            <field name="code">TEMPYDED</field>
+            <field name="appears_on_payslip" eval="1"/>
+            <field name="active" eval="1"/>
+            <field name="category_id" ref='hr_salary_rule_category_temp'/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = categories.EMP</field>
+            <field name="note">Total Employer Deduction</field>
+        </record>
+		
+		<!-- Standard Salary Structure in Cameroon -->
+		
+		<record id="hr_structure_standard" model="hr.payroll.structure">
+            <field name="code">STDS</field>
+            <field name="name">Standard Structure</field>
+            <field name="rule_ids" eval="[(6,0,[
+				ref('hr_payroll.hr_rule_basic'),
+				ref('hr_payroll.hr_rule_taxable'),
+				ref('rule_taxable_salary'),
+				ref('rule_contributory_salary'),
+				ref('rule_irpp_deduction'),
+				ref('rule_act_deduction'),
+				ref('rule_land_bank_rate_deduction'),
+				ref('rule_crtv_deduction'),
+				ref('rule_comtax_deduction'),
+				ref('rule_cnpse_deduction'),
+				ref('rule_employee_deductions'),
+				ref('rule_employee_other_deductions'),
+				ref('rule_cfc_deduction'),
+				ref('rule_fne_deduction'),
+				ref('rule_fammily_deduction'),
+				ref('rule_cnpsp_deduction'),
+				ref('rule_ipa_deduction'),
+				ref('rule_employer_deductions'),
+				ref('hr_payroll.hr_rule_net'),
+				ref('rule_employee_all_deductions')
+				])]"/>
+        </record>	
+		
+		<!--
+				ref('rule_duty_post'),
+				ref('rule_reprensatation'),
+				ref('rule_housing'),
+				ref('rule_water_electricity'),
+				ref('rule_car'),
+				ref('rule_risk'),
+		-->
+		
+    </data>
+</openerp>

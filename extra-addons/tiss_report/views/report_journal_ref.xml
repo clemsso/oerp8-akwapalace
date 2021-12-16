@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+<template id="journal_ref_view">
+        <template id="external_layout_header_inherit_cr" 
+            inherit_id="report.external_layout_header">
+            <xpath expr="//div[@class='header']" position="replace">
+                <div class="header">
+                    <div class="row">
+                        <div class ="text-center" > 
+                            <img src ='/tiss_report/static/img/hgss.jpg' style ="height: 70px; width: 900px;margin-top:5%" /> 
+                        </div >                        
+                        <div style="float:left;width:100%;height:20px; text:center">
+                        </div>	
+                        <div class="row zero_min_height; text-center">
+                            <div class="col-xs-12">
+                                <div style="border-bottom: 4px solid yellow;"/>
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+            </xpath>
+        </template>
+
+        <div class="page">
+
+            <t t-foreach = "docs" t-as = "o">
+                <div style="text-align:center"><h4><b>GLOBAL HEALTH SYSTEMS SOLUTIONS( GHSS )-LIMBE</b></h4></div>
+                
+                <div style="float:left;width:100%;height:233px;">                                                     
+                <table class="table table-condensed table-bordered" style="padding-top:7px;  padding-bottom:7px;border: 2px solid #000011;" >                 
+                    <thead style="padding-bottom:7px;border: 1px solid #000011;">
+                        <th class="text-center" colspan="2" style="width: 100%; padding-bottom:7px;border: 1px solid #000011;"><b><span t-field = "o.project_id.name"/> -JOURNAL REFERENCES</b> </th>      
+                                                            
+                    </thead>
+                    <tbody style="padding-top:7px;  padding-bottom:7px;border: 1px solid #000011;">                        
+                        <tr style="padding-bottom:7px;border: 1px solid #000011;" >
+                           <td style="padding-bottom:7px;border: 1px solid #000011; width:20%;">Journal code</td>
+                           <td style="padding-bottom:7px;border: 1px solid #000011; width:80%;"> </td>              
+                        </tr>
+                        <tr style="padding-bottom:7px;border: 1px solid #000011;" >
+                           <td style="padding-bottom:7px;border: 1px solid #000011;">Budget Head</td>
+                           <td style="padding-bottom:7px;border: 1px solid #000011;"> </td>               
+                        </tr>
+                        <tr style="padding-bottom:7px;border: 1px solid #000011;" >
+                           <td style="padding-bottom:7px;border: 1px solid #000011;">Activity</td>
+                           <td style="padding-bottom:7px;border: 1px solid #000011;"> </td>              
+                        </tr>
+                        <tr style="padding-bottom:7px;border: 1px solid #000011;" >
+                           <td style="padding-bottom:7px;border: 1px solid #000011;">Transaction Code</td>
+                           <td style="padding-bottom:7px;border: 1px solid #000011;"> <span t-field = "o.name"/> </td>                
+                        </tr>
+                        <tr style="padding-bottom:7px;border: 1px solid #000011;" >
+                           <td style="padding-bottom:7px;border: 1px solid #000011;">Date</td>
+                           <td style="padding-bottom:7px;border: 1px solid #000011;"><span t-field = "o.date"/> </td>             
+                        </tr>
+                        <tr style="padding-bottom:7px;border: 1px solid #000011;" >
+                           <td style="padding-bottom:7px;border: 1px solid #000011;">Description</td>
+                           <td style="padding-bottom:7px;border: 1px solid #000011;"><span t-field = "o.description"/>  </td>              
+                        </tr>                    
+                    </tbody>
+                </table>
+                </div>
+                
+                <table class="table table-condensed table-bordered" style="padding-top:7px;  padding-bottom:7px;border: 2px solid #000011;" >                 
+                    <thead style="padding-bottom:7px;border: 1px solid #000011;">
+                        <th class="text-center" style="width: 20%; padding-bottom:7px;border: 1px solid #000011;"> </th>
+                        <th class="text-center" style="width: 30%; padding-bottom:7px;border: 1px solid #000011;">Account N°</th>      
+                        <th class="text-center" style="width: 25%; padding-bottom:7px;border: 1px solid #000011;"> Debit</th>      
+                        <th class="text-center" style="width: 25%; padding-bottom:7px;border: 1px solid #000011;"> Credit</th>      
+                    </thead>
+                    <tbody style="padding-top:7px;  padding-bottom:7px;border: 1px solid #000011;">    
+                        <t t-foreach="o.line_ids" t-as="line">                    
+                        <tr style="padding-bottom:7px;border: 1px solid #000011; text-align:center" >
+                           <td style="padding-bottom:7px;border: 1px solid #000011;"> </td>
+                           <td style="padding-bottom:7px;border: 1px solid #000011;"> <span t-esc = "line.account_id.name"/> </td>
+                           <td style="padding-bottom:7px;border: 1px solid #000011;"> <span t-esc = "line.debit"/></td>
+                           <td style="padding-bottom:7px;border: 1px solid #000011;"> <span t-esc = "line.credit"/></td>
+                        </tr>                        
+                        </t>                  
+                    </tbody>
+                </table>
+                <div style="float:left;width:100%;height:30px;"> 
+                <table class="table table-condensed table-bordered" style="padding-top:7px;  padding-bottom:7px;border: 2px solid #000011;" >                 
+                    <thead style="padding-bottom:7px;border: 1px solid #000011;">
+                        <th class="text-center" colspan="2" style="padding-bottom:7px;border: 1px solid #000011; width:50%;">Total </th>
+                        <th class="text-center" style="padding-bottom:7px;border: 1px solid #000011; width:25%;"> </th>      
+                        <th class="text-center" style="padding-bottom:7px;border: 1px solid #000011; width:25%;"> </th>      
+                    </thead>
+                    <tbody style="padding-top:7px;  padding-bottom:7px;border: 1px solid #000011;">                  
+                        <tr style="padding-bottom:7px;border: 1px solid #000011;">
+                           <td style="padding-bottom:7px;border: 1px solid #000011; width:20%;">Prepared by </td>
+                           <td style="padding-bottom:7px;border: 1px solid #000011; width:30%;"> <span t-field = "o.requested_by"/> </td>
+                           <td style="padding-bottom:7px;border: 1px solid #000011; width:25%;">Position</td>
+                           <td style="padding-bottom:7px;border: 1px solid #000011; width:25%;"><span t-field = "o.job_id.name"/> </td>
+                        </tr>
+                        <tr style="padding-bottom:7px;border: 1px solid #000011;" >
+                           <td style="padding-bottom:7px;border: 1px solid #000011;">Reviewed by </td>
+                           <td style="padding-bottom:7px;border: 1px solid #000011;"><span t-field = "o.reviewed_by"/> </td>
+                           <td style="padding-bottom:7px;border: 1px solid #000011;">Position</td>
+                           <td style="padding-bottom:7px;border: 1px solid #000011;"><span t-field = "o.job_reviewed_id.name"/> </td>
+                        </tr>
+                                         
+                    </tbody>
+                </table> 
+                 </div>                      
+            </t>
+        </div>
+
+    <template id="external_layout_footer_inherit_cr" 
+        inherit_id="report.external_layout_footer">
+        <xpath expr="//div[@class='footer']" position="replace">
+            <div class="footer">
+                <div class="text-center" style="border-top: 4px solid yellow;">                
+                        <ul class="list-inline">                                                       
+                            <li>P.O Box: 3918, Douala</li>                  
+                        </ul>
+                        <ul class="list-inline">
+                            <li>Phone: 691754425, Fax: +237</li>                  
+                        </ul>                                  
+                        <ul class="list-inline">                                         
+                            <li>Website: www.ghsscm.org</li>
+                        </ul>
+                    </div> 
+            </div>
+        </xpath>
+    </template>
+
+</template>
+</data>
+</openerp>

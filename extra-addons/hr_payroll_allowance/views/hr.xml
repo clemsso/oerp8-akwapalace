@@ -1,0 +1,245 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+		
+	<record model="ir.ui.view" id="hr_education_field_form_view">
+		<field name="name">hr.education.field.form</field>
+		<field name="model">hr.education.field</field>
+		<field name="arch" type="xml">
+			<form string="Education Field">
+				<sheet>
+					<label for="name"/>
+					<h2>
+						<field name="name"/>
+					</h2>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+	<record model="ir.ui.view" id="hr_education_field_tree_view">
+		<field name="name">hr.education.field.tree</field>
+		<field name="model">hr.education.field</field>
+		<field name="arch" type="xml">
+			<tree string="Education Fields">
+				<field name="name"/>
+			</tree>
+		</field>
+	</record>
+
+	<record model="ir.actions.act_window" id="hr_education_field_action">
+		<field name="name">Education Fields</field>
+		<field name="res_model">hr.education.field</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+		<field name="help" type="html">
+			<p class="oe_view_nocontent_create">Education Fields
+			</p>
+		</field>
+	</record>	
+	
+	<menuitem action="hr_education_field_action" id="hr_education_field_menu" parent="hr.menu_hr_main" sequence="50" groups="hr_payroll_allowance.group_allowance_operator"/>
+		
+		<record model="ir.ui.view" id="view_employee_extra_form_view">
+			<field name="name">hr.employee.extra.form</field>
+			<field name="model">hr.employee</field>
+			<field name="inherit_id" ref="hr.view_employee_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//label[@for='category_ids']" position="before">
+					<label for="real_name"  class="oe_edit_only"/>
+					<field name="real_name"/>
+				</xpath>
+				<xpath expr="//field[@name='work_phone']" position="after">
+					<label for="matricule" class="oe_edit_only"/>
+					<field name="matricule"/>
+				</xpath>
+				<xpath expr="//field[@name='work_location']" position="after">
+					<field name="ssnid" string="CNPS N°"/>
+				</xpath>
+				<xpath expr="//field[@name='parent_id']" position="after">
+					<field name="direct_supervisor"/>
+				</xpath>
+				<xpath expr="//field[@name='identification_id']" position="replace">
+					<field name="identification_id" string="ID Card Number" groups="base.group_hr_user"/>
+				</xpath>
+				<xpath expr="//field[@name='passport_id']" position="replace">
+					<field name="passport_id" groups="base.group_hr_user" invisible="1"/>
+					<field name="expiration_date"/>
+				</xpath>
+				<xpath expr="//field[@name='address_home_id']" position="replace">
+					<field name="address_home_id" invisible="1"
+						context="{'show_address': 1, 'default_customer': False}"
+						options='{"always_reload": True, "highlight_first_line": True}'/>
+					<field name="address_home"/>
+				</xpath>
+				<xpath expr="//page[@string='HR Settings']" position="after">
+					<page string="Bank Accounts">
+						<field name="bank_account_ids">
+							<tree  editable="bottom">
+								<field name="name"/>
+								<field name="bank_id"/>
+							</tree>
+						</field>
+                    </page>
+				</xpath>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="view_employee_extra_form2_view">
+			<field name="name">hr.employee.extra.form2</field>
+			<field name="model">hr.employee</field>
+			<field name="inherit_id" ref="hr_contract.hr_hr_employee_view_form2"/>
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='bank_account_id']" position="replace">
+					<field name="bank_account_id" context="{'display_partner':True}" invisible="1"/> 
+					<field name="first_bank_account_id"/>
+				</xpath>  
+				<xpath expr="//field[@name='vehicle']" position="replace">
+					<field name="vehicle" invisible="1"/>
+				</xpath> 
+				<xpath expr="//field[@name='vehicle_distance']" position="replace">
+					<field name="vehicle_distance" invisible="1"/>
+				</xpath> 
+			</field>
+		</record>
+		
+		<record model="ir.ui.view" id="hr_kanban_view_employees1">
+			<field name="name">hr.employee.extra.kanban</field>
+			<field name="model">hr.employee</field>
+			<field name="inherit_id" ref="hr.hr_kanban_view_employees"/>
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='job_id']" position="before">
+					<li t-if="record.matricule.raw_value"><field name="matricule"/></li>
+				</xpath>
+				<xpath expr="//kanban/field[@name='last_login']">
+					<field name="expiration_date_card"/>
+				</xpath>
+				<!-- 	<xpath expr="//div[@class='oe_employee_details']/ul/li[@t-if='record.work_email.raw_value']" position="after">
+					<li t-if="record.expiration_date_card.raw_value and (record.expiration_date_card.raw_value > 6)"><i>ID Exp. Date: </i><b><span style="color:green"><field name="expiration_date"/></span></b></li>
+					<li t-if="record.expiration_date.raw_value and (record.expiration_date_card.raw_value <= 6) and (record.expiration_date_card.raw_value > 0)"><i>ID Exp. Date: </i><b><span style="color:blue"><field name="expiration_date"/></span></b></li>
+					<li t-if="record.expiration_date.raw_value and (record.expiration_date_card.raw_value <= 0)"><i>ID Exp. Date: </i><b><span style="color:red"><field name="expiration_date"/></span></b></li>  
+				</xpath>-->
+			</field>
+		</record>
+		
+		<record model="ir.ui.view" id="view_employee_extra1_form_view">
+			<field name="name">hr.employee.extra1.form</field>
+			<field name="model">hr.employee</field>
+			<field name="inherit_id" ref="hr_employee_education.hr_employee_view_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//group[@string='Education']" position="replace">
+					<group string="Education">
+						<group>
+							<field name="education"/>
+							<field name="education_other" attrs="{'invisible': [('education', '!=', 'other')], 'required': [('education', '=', 'other')]}"/>
+							<field name="field_id"/>
+						</group>
+					</group>
+				</xpath>
+			</field>
+		</record>
+	
+		<record model="ir.ui.view" id="res_company_extra_form_view">
+			<field name="name">res.company.extra.form</field>
+			<field name="model">res.company</field>
+			<field name="inherit_id" ref="base.view_company_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//page[@string='Configuration']" position="after">
+					<page string="HR settings">
+						<group>
+							<field name="ssnid" string="CNPS N°"/>
+							<field name="niu" string="NIU"/>
+							<field name="regime" string="Regime"/>
+						</group>
+                    </page>
+				</xpath>
+			</field>
+		</record>
+	
+	<record model="ir.ui.view" id="hr_bank_form_view">
+		<field name="name">hr.bank.form</field>
+		<field name="model">hr.bank</field>
+		<field name="arch" type="xml">
+			<form string="Bank">
+				<sheet>
+					<label for="name"/>
+					<h2>
+						<field name="name"/>
+					</h2>
+					<group string="Accounts">
+						<field name="bank_account_ids" nolabel="1" widget="many2many" readonly="1">
+							<tree>
+								<field name="name"/>
+							</tree>
+						</field>
+					</group>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+	<record model="ir.ui.view" id="hr_bank_tree_view">
+		<field name="name">hr.bank.tree</field>
+		<field name="model">hr.bank</field>
+		<field name="arch" type="xml">
+			<tree string="Banks">
+				<field name="name"/>
+			</tree>
+		</field>
+	</record>
+
+	<record model="ir.actions.act_window" id="hr_bank_action">
+		<field name="name">Banks</field>
+		<field name="res_model">hr.bank</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+		<field name="help" type="html">
+			<p class="oe_view_nocontent_create">Banks
+			</p>
+		</field>
+	</record>	
+	
+	<record model="ir.ui.view" id="hr_bank_account_form_view">
+		<field name="name">hr.bank.account.form</field>
+		<field name="model">hr.bank.account</field>
+		<field name="arch" type="xml">
+			<form string="Bank Account">
+				<sheet>
+					<label for="name"/>
+					<h2>
+						<field name="name"/>
+					</h2>
+					<group>
+						<field name="bank_id"/>
+						<field name="employee_id"/>
+					</group>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+	<record model="ir.ui.view" id="hr_bank_account_tree_view">
+		<field name="name">hr.bank.account.tree</field>
+		<field name="model">hr.bank.account</field>
+		<field name="arch" type="xml">
+			<tree string="Bank Accounts">
+				<field name="name"/>
+				<field name="bank_id"/>
+				<field name="employee_id"/>
+			</tree>
+		</field>
+	</record>
+
+	<record model="ir.actions.act_window" id="hr_bank_action">
+		<field name="name">Bank Accounts</field>
+		<field name="res_model">hr.bank.account</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+		<field name="help" type="html">
+			<p class="oe_view_nocontent_create">Bank Accounts
+			</p>
+		</field>
+	</record>
+	
+    </data>
+</openerp>

@@ -1,0 +1,596 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+		<!-- integration du details des lignes budgetaires  -->
+		<record model="ir.ui.view" id="crossovered_budget_view_form_change-tiss">
+			<field name="name">crossovered.budget.form10-tiss</field>
+			<field name="model">crossovered.budget</field>
+			<field name="inherit_id" ref="ngo_project.crossovered_budget_view_form_change"/>
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='crossovered_budget_line']/form/group/group/field[@name='paid_date']" position="after">
+					<field name="category_type"/>
+					<field name="note"/>
+				</xpath>				
+				<xpath expr="//field[@name='crossovered_budget_line']/form/group" position="after">
+					<field name="crossovered_budget_detail_ids" colspan="2" nolabel="1" attrs="{'invisible':[('category_type','!=','supplier')]}">
+						<tree>
+							<field name="name"/>
+							<field name="product_id"/>
+							<field name="amount_unit"/>
+							<field name="quantity"/>
+							<field name="uom_id"/>
+							<field name="amount_subtotal" sum="amount_subtotal"/>
+                            
+                            <field name="analytic_account_id" groups="base.group_erp_manager"/>
+                            <field name="general_budget_id" groups="base.group_erp_manager"/>
+						</tree>
+						<form>
+							<group name="detail_2" colspan="4" col="2">
+								<group name="detail_2_1" colspan="1" col="2">
+									<field name="product_id"/>
+									<field name="name"/>
+								</group>
+								<group name="detail_2_2" colspan="1" col="2">
+									<field name="quantity"/>
+									<field name="amount_unit"/>
+									<field name="allowed_uom_ids" widget="many2many_tags" invisible="1"/>
+									<field name="uom_id" domain="[('id','in',allowed_uom_ids[0][2])]"/>
+									<field name="amount_subtotal"/>
+								</group>
+							</group>
+						</form>
+					</field>
+					<field name="crossovered_budget_personnel_ids" colspan="2" nolabel="1" attrs="{'invisible':[('category_type','!=','personnel')]}">
+						<tree editable="bottom">
+							<field name="prefix"/>
+							<field name="employee_id"/>
+							<field name="job_id"/>
+							<field name="basic_salary"/>
+							<field name="percentage_effort"/>
+							<field name="basic_salary_effort"/>
+							<field name="duration"/>
+							<field name="annual_pay" sum="annual_pay"/>
+                            
+                            <field name="analytic_account_id" groups="base.group_erp_manager"/>
+                            <field name="general_budget_id" groups="base.group_erp_manager"/>
+						</tree>
+						<form>
+							<group name="detail_3" colspan="4" col="2">
+								<group name="detail_3_1" colspan="1" col="2">
+									<field name="prefix"/>
+									<field name="employee_id"/>
+								</group>
+								<group name="detail_3_2" colspan="1" col="2">
+									<field name="job_id"/>
+									<field name="basic_salary"/>
+									<field name="percentage_effort"/>
+								</group>
+							</group>
+						</form>
+					</field>
+					<field name="crossovered_budget_fringe_ids" colspan="2" nolabel="1" attrs="{'invisible':[('category_type','!=','fringe')]}">
+						<tree editable="bottom">
+							<field name="product_id"/>
+							<field name="name"/>
+							<field name="percentage_effort"/>
+							<field name="basic_salary_effort"/>
+							<field name="duration"/>
+							<field name="annual_pay" sum="annual_pay"/>
+                            
+                            <field name="analytic_account_id" groups="base.group_erp_manager"/>
+                            <field name="general_budget_id" groups="base.group_erp_manager"/>
+						</tree>
+						<form>
+							<group name="detail_4" colspan="4" col="2">
+								<group name="detail_4_1" colspan="1" col="2">
+									<field name="product_id"/>
+									<field name="name"/>
+								</group>
+								<group name="detail_4_2" colspan="1" col="2">
+									<field name="duration"/>
+									<field name="percentage_effort"/>
+									<field name="annual_pay"/>
+								</group>
+							</group>
+						</form>
+					</field>
+					<field name="crossovered_budget_travel_ids" colspan="2" nolabel="1" attrs="{'invisible':[('category_type','!=','travel')]}">
+						<tree editable="bottom">
+							<field name="product_id"/>
+							<field name="name"/>
+							<field name="no_trips"/>
+							<field name="no_days"/>
+							<field name="no_person"/>
+							<field name="unit_price"/>
+							<field name="total_price" sum="total_price"/>
+                            
+                            <field name="analytic_account_id" groups="base.group_erp_manager"/>
+                            <field name="general_budget_id" groups="base.group_erp_manager"/>
+						</tree>
+						<form>
+							<group name="detail_5" colspan="4" col="2">
+								<group name="detail_5_1" colspan="1" col="2">
+									<field name="product_id"/>
+									<field name="name"/>
+									<field name="no_days"/>
+								</group>
+								<group name="detail_5_2" colspan="1" col="2">
+									<field name="no_person"/>
+									<field name="unit_price"/>
+									<field name="total_price"/>
+								</group>
+							</group>
+						</form>
+					</field>
+					<field name="crossovered_budget_other_ids" colspan="2" nolabel="1" attrs="{'invisible':[('category_type','!=','other')]}">
+						<tree editable="bottom">
+							<field name="product_id"/>
+							<field name="name"/>
+							<field name="no_trips"/>
+							<field name="no_days"/>
+							<field name="no_person"/>
+							<field name="quantity" invisible="1"/>
+							<field name="unit_price"/>
+							<field name="total_price" sum="total_price" force_save="1"/>
+						
+                            <field name="analytic_account_id" groups="base.group_erp_manager"/>
+                            <field name="general_budget_id" groups="base.group_erp_manager"/>                        
+                        </tree>
+						<form>
+							<group name="detail_6" colspan="4" col="2">
+								<group name="detail_6_1" colspan="1" col="2">
+									<field name="product_id"/>
+									<field name="name"/>
+									<field name="no_days"/>
+								</group>
+								<group name="detail_6_2" colspan="1" col="2">
+									<field name="no_person"/>
+									<field name="unit_price"/>
+									<field name="total_price"/>
+								</group>
+							</group>
+						</form>
+					</field>
+					<field name="crossovered_budget_consultancy_ids" colspan="2" nolabel="1" attrs="{'invisible':[('category_type','!=','consultancy')]}">
+						<tree editable="bottom">
+							<field name="product_id"/>
+							<field name="name"/>
+                            <field name="nber_person"/>
+                            <field name="quantity"/>
+							<field name="price" sum="price"/>
+                            <!-- <field name="total_price" sum="total_price"/>                             -->
+                        </tree>
+						<form>
+							<group name="detail_7" colspan="4" col="2">
+								<group name="detail_7_1" colspan="1" col="2">
+									<field name="product_id"/>
+									<field name="name"/>
+								</group>
+								<group name="detail_7_2" colspan="1" col="2">
+									<field name="price"/>
+								</group>
+							</group>
+						</form>
+					</field>
+					<field name="crossovered_budget_indcost_ids" colspan="2" nolabel="1" attrs="{'invisible':[('category_type','!=','indcost')]}">
+						<tree editable="bottom">
+							<field name="product_id"/>
+							<field name="name"/>
+							<field name="price" sum="price"/>                        
+                        </tree>
+						<form>
+							<group name="detail_8" colspan="4" col="2">
+								<group name="detail_8_1" colspan="1" col="2">
+									<field name="product_id"/>
+									<field name="name"/>
+								</group>
+								<group name="detail_8_2" colspan="1" col="2">
+									<field name="price"/>
+								</group>
+							</group>
+						</form>
+					</field>
+				</xpath>
+			</field>
+		</record>		
+		<record id="view_budget_spendplan_form" model="ir.ui.view">
+			<field name="name">budget.spendplan.form</field>
+			<field name="model">budget.spendplan</field>
+			<field name="arch" type="xml">
+				<form string="Spend Planning" version="7.0">
+				<header>
+					<button name="btn_upload"
+							states="draft"
+							string="Upload Budget Activity"
+							type="object"
+							class="oe_highlight"
+							/>
+					<button name="btn_send_by_mail"
+							states="upload"
+							string="Send By Mail"
+                            groups="tiss_ghss.group_fo_manager"
+							type="object"
+							class="oe_highlight"
+							/>
+					<button name="btn_delete"
+							states="upload"
+							string="Delete Spend Plan Activity"
+                            groups="tiss_ghss.group_fo_manager"
+							type="object"
+							/>
+					<button name="btn_validate"
+							states="send"
+							string="Validated"
+                            groups="tiss_ghss.group_fo_manager"
+							type="object"
+                            class="oe_highlight"
+							/>
+                           
+					<field name="state" widget="statusbar"
+						   statusbar_visible="draft,upload,send,valid,cancel"
+						   statusbar_colors='{"open":"blue"}'/>
+				</header>
+				<sheet>
+					<label for="name" string="Number" />
+					<h1>
+						<field name="name" class="oe_inline" readonly="0"/>
+					</h1>
+					<group>
+					   <group name="data">
+							<!-- <field name="project_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,}"/> -->
+							<field name="user_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,}"/>
+							<field name="budget_id" groups="account.group_account_manager"  options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,}"/>
+						</group>
+					   <group>
+							<field name="date_start"/>
+							<field name="date_end"/>
+                            <field name="currency_amount" attrs="{'invisible':[('state','in',('draft','upload'))]}"/>
+							<!-- <field name="amount" string="FCFA Amount :"/> -->
+					   </group>
+					</group>
+					<notebook>
+						<page string="Supplier">
+							<field name="spendplan_supplier_activities_ids" colspan="2" nolabel="1">
+								<tree>
+									<field name="budget_poste_id"/>
+									<field name="planned_amt" sum="planned_amt"/>
+									<field name="consummed_amt" sum="consummed_amt" force_save="1" readonly="1"/>
+									<field name="requested_amt" sum="requested_amt"/>
+								</tree>
+ 								<form>
+									<group>
+										<group>
+											<field name="budget_poste_id" domain="[('code','=','2600')]"/>
+											<field name="planned_amt"/>
+										</group>
+										<group>
+											<field name="consummed_amt" />
+											<field name="requested_amt"/>
+										</group>
+									</group>
+									<field name="spendplan_supplier_ids" colspan="2" nolabel="1" >
+										<tree editable="bottom">
+                                            <field name="analytic_account_id" groups="base.group_erp_manager"/>
+                                            <field name="general_budget_id" groups="base.group_erp_manager"/> 
+                                            <field name="crossovered_budget_detail_id" domain="[('general_budget_id','=',parent.budget_poste_id)]"/>
+                                            
+											<field name="product_id"/>
+											<field name="name"/>
+											<field name="amount_unit" force_save="1" readonly="0"/>
+											<field name="quantity"/>
+											<field name="amount_subtotal"/>
+                                            <field name="consummed_amt"/>
+										</tree>
+										<group name="detail_1" colspan="4" col="2">
+											<group name="detail_1_1" colspan="1" col="2">
+												<field name="product_id"/>
+												<field name="name"/>
+											</group>
+											<group name="detail_1_2" colspan="1" col="2">
+												<field name="amount_unit"/>
+												<field name="quantity"/>
+												<field name="allowed_uom_ids" widget="many2many_tags" invisible="1"/>
+												<field name="uom_id" domain="[('id','in',allowed_uom_ids[0][2])]"/>
+												<field name="amount_subtotal"/>
+											</group>
+										</group>
+									</field>
+								</form>
+							</field>
+						</page>
+ 						<page string="Personnel">
+							<field name="spendplan_personnel_activities_ids" colspan="2" nolabel="1">
+								<tree>
+									<field name="budget_poste_id"/>
+									<field name="planned_amt" sum="planned_amt"/>
+									<field name="consummed_amt" sum="consummed_amt" force_save="1" readonly="1"/>
+									<field name="requested_amt" sum="requested_amt"/>
+								</tree>
+ 								<form>
+									<group>
+										<group>
+											<field name="budget_poste_id" domain="[('code','=','1100')]"/>
+											<field name="planned_amt"/>
+										</group>
+										<group>
+											<field name="consummed_amt"/>
+											<field name="requested_amt"/>
+										</group>
+									</group>
+                                    <field name="spendplan_personnel_ids" colspan="2" nolabel="1" >
+                                        <tree editable="bottom">
+                                            <field name="analytic_account_id" groups="base.group_erp_manager"/>
+                                            <field name="general_budget_id" groups="base.group_erp_manager"/> 
+                                            <field name="crossovered_budget_detail_id" domain="[('general_budget_id','=',parent.budget_poste_id)]"/>
+                                            
+                                            <field name="prefix" force_save="1" readonly="1"/>
+                                            <field name="employee_id" force_save="1" readonly="1"/>
+                                            <field name="job_id" force_save="1" readonly="1"/>
+                                            <field name="basic_salary" force_save="1" readonly="1"/>
+                                            <field name="duration"/>
+                                            <field name="percentage_effort" force_save="1" readonly="1"/>
+                                            <field name="basic_salary_effort" force_save="1" readonly="1"/>
+                                            <field name="annual_pay" force_save="1" readonly="0" sum="annual_pay"/>
+                                            <field name="consummed_amt"/>
+                                        </tree>
+                                        <form>
+                                            <group name="detail_3" colspan="4" col="2">
+                                                <group name="detail_3_1" colspan="1" col="2">
+                                                    <field name="prefix"/>
+                                                    <field name="employee_id"/>
+                                                </group>
+                                                <group name="detail_3_2" colspan="1" col="2">
+                                                    <field name="job_id"/>
+                                                    <field name="basic_salary"/>
+                                                    <field name="percentage_effort"/>
+                                                </group>
+                                            </group>
+                                        </form>
+                                    </field>
+                                </form>
+                            </field>
+						</page>
+						<page string="Fringe">
+                            <field name="spendplan_fringe_activities_ids" colspan="2" nolabel="1">
+                                <tree>
+                                    <field name="budget_poste_id" />
+                                    <field name="planned_amt" sum="planned_amt"/>
+                                    <field name="consummed_amt" sum="consummed_amt" force_save="1" readonly="1"/>
+                                    <field name="requested_amt" sum="requested_amt"/>
+                                </tree>
+                                <form>
+                                    <group>
+                                        <group>
+                                            <field name="budget_poste_id" domain="[('code','=','1200')]"/>
+                                            <field name="planned_amt"/>
+                                        </group>
+                                        <group>
+                                            <field name="consummed_amt"/>
+                                            <field name="requested_amt"/>
+                                        </group>
+                                    </group>
+                                    <field name="spendplan_fringe_ids" colspan="2" nolabel="1">
+                                        <tree editable="bottom">
+                                            <field name="analytic_account_id" groups="base.group_erp_manager"/>
+                                            <field name="general_budget_id" groups="base.group_erp_manager"/> 
+                                            <field name="crossovered_budget_detail_id" domain="[('general_budget_id','=',parent.budget_poste_id)]"/>
+                                            
+                                            <field name="name" force_save="1" readonly="1"/>
+                                            <field name="product_id" force_save="1" readonly="1"/>
+                                            <field name="percentage_effort"/>
+                                            <field name="duration"/>
+                                            <field name="basic_salary_effort"/>
+                                            <field name="annual_pay" force_save="1" readonly="1"/>
+                                            <field name="consummed_amt"/>
+                                        </tree>
+                                        <form>
+                                            <group name="detail_4" colspan="4" col="2">
+                                                <group name="detail_4_1" colspan="1" col="2">
+                                                    <field name="product_id"/>
+                                                    <field name="name"/>
+                                                </group>
+                                                <group name="detail_4_2" colspan="1" col="2">
+                                                    <field name="duration"/>
+                                                    <field name="percentage_effort"/>
+                                                    <field name="annual_pay"/>
+                                                </group>
+                                            </group>
+                                        </form>
+                                    </field>
+                                </form>
+                            </field>
+						</page>
+						<page string="Travels">
+	                        <field name="spendplan_travel_activities_ids" colspan="2" nolabel="1">
+                                <tree>
+                                    <field name="budget_poste_id"/>
+                                    <field name="planned_amt" sum="planned_amt"/>
+                                    <field name="consummed_amt" sum="consummed_amt" force_save="1" readonly="1"/>
+                                    <field name="requested_amt" sum="requested_amt"/>
+                                </tree>
+                                <form>
+                                    <group>
+                                        <group>
+                                            <field name="budget_poste_id" domain="[('code','=','2100')]"/>
+                                            <field name="planned_amt"/>
+                                        </group>
+                                        <group>
+                                            <field name="consummed_amt"/>
+                                            <field name="requested_amt"/>
+                                        </group>
+                                    </group>						
+                                    <field name="spendplan_travel_ids" colspan="2" nolabel="1" >
+                                        <tree editable="bottom">
+                                            <field name="analytic_account_id" groups="base.group_erp_manager"/>
+                                            <field name="general_budget_id" groups="base.group_erp_manager"/> 
+                                            <field name="crossovered_budget_detail_id" domain="[('general_budget_id','=',parent.budget_poste_id)]"/>
+                                            
+                                            <field name="name" force_save="1" readonly="1"/>
+                                            <field name="product_id" force_save="1" readonly="1"/>
+                                            <field name="no_trips" />
+                                            <field name="no_days"/>
+                                            <field name="no_person"/>
+                                            <field name="unit_price" force_save="1" readonly="1"/>
+                                            <field name="total_price"/>
+                                            <field name="consummed_amt"/>
+                                        </tree>
+                                        <form>
+                                            <group name="detail_5" colspan="4" col="2">
+                                                <group name="detail_5_1" colspan="1" col="2">
+                                                    <field name="product_id"/>
+                                                    <field name="name"/>
+                                                    <field name="no_days"/>
+                                                </group>
+                                                <group name="detail_5_2" colspan="1" col="2">
+                                                    <field name="no_person"/>
+                                                    <field name="unit_price"/>
+                                                    <field name="total_price"/>
+                                                </group>
+                                            </group>
+                                        </form>
+                                    </field>
+                                </form>
+                            </field>
+						</page>
+						<page string="Others">
+	                        <field name="spendplan_other_activities_ids" colspan="2" nolabel="1">
+                                <tree>
+                                    <field name="budget_poste_id"/>
+                                    <field name="planned_amt" sum="planned_amt"/>
+                                    <field name="consummed_amt" sum="consummed_amt" force_save="1" readonly="1"/>
+                                    <field name="requested_amt" sum="requested_amt"/>
+                                </tree>
+                                <form>
+                                    <group>
+                                        <group>
+                                            <field name="budget_poste_id" domain="[('code','=','4100')]"/>
+                                            <field name="planned_amt"/>
+                                        </group>
+                                        <group>
+                                            <field name="consummed_amt"/>
+                                            <field name="requested_amt"/>
+                                        </group>
+                                    </group>
+                                    <field name="spendplan_other_ids" colspan="2" nolabel="1" >
+                                        <tree editable="bottom">
+                                            <field name="analytic_account_id" groups="base.group_erp_manager"/>
+                                            <field name="general_budget_id" groups="base.group_erp_manager"/> 
+                                            <field name="crossovered_budget_detail_id" domain="[('general_budget_id','=',parent.budget_poste_id)]"/>
+                                            
+                                            <field name="name"/>
+                                            <field name="product_id"/>
+                                            <field name="no_trips"/>
+                                            <field name="no_days"/>
+                                            <field name="no_person"/>
+                                            <field name="quantity"/>
+                                            <field name="unit_price"/>
+                                            <field name="total_price"/>
+                                            <field name="consummed_amt"/>                                            
+                                        </tree>
+                                        <form>
+                                            <group name="detail_5" colspan="4" col="2">
+                                                <group name="detail_5_1" colspan="1" col="2">
+                                                    <field name="product_id"/>
+                                                    <field name="name"/>
+                                                    <field name="no_days"/>
+                                                </group>
+                                                <group name="detail_5_2" colspan="1" col="2">
+                                                    <field name="no_person"/>
+                                                    <field name="unit_price"/>
+                                                    <field name="total_price"/>
+                                                </group>
+                                            </group>
+                                        </form>
+                                    </field>
+                                </form>
+                            </field>
+						</page>
+						<page string="Consultancy">
+							<field name="spendplan_consultancy_activities_ids" colspan="2" nolabel="1">
+								<tree>
+									<field name="budget_poste_id"/>
+									<field name="planned_amt" sum="planned_amt"/>
+									<field name="consummed_amt" sum="consummed_amt" force_save="1" readonly="1"/>
+									<field name="requested_amt" sum="requested_amt"/>
+								</tree>
+ 								<form>
+									<group>
+										<group>
+											<field name="budget_poste_id" domain="[('code','=','2500')]"/>
+											<field name="planned_amt"/>
+										</group>
+										<group>
+											<field name="consummed_amt" />
+											<field name="requested_amt"/>
+										</group>
+									</group>
+									<field name="spendplan_consultancy_ids" colspan="2" nolabel="1" >
+										<tree editable="bottom">
+                                            <field name="analytic_account_id" groups="base.group_erp_manager"/>
+                                            <field name="general_budget_id" groups="base.group_erp_manager"/> 
+                                            <field name="crossovered_budget_detail_id" domain="[('general_budget_id','=',parent.budget_poste_id)]"/>
+                                            
+											<field name="product_id"/>
+											<field name="name"/>
+											<field name="price"/>
+                                            <field name="consummed_amt"/>
+										</tree>
+										<group name="detail_6" colspan="4" col="2">
+											<group name="detail_6_1" colspan="1" col="2">
+												<field name="product_id"/>
+												<field name="name"/>
+											</group>
+											<group name="detail_6_2" colspan="1" col="2">
+												<field name="price"/>
+												<field name="consummed_amt"/>
+											</group>
+										</group>
+									</field>
+								</form>
+							</field>
+						</page>
+					</notebook>
+				</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="view_budget_spendplan_list" model="ir.ui.view">
+			<field name="name">budget.spendplan.list</field>
+			<field name="model">budget.spendplan</field>
+			<field name="arch" type="xml">
+				<tree string="Spend Planning">
+					<field name="name"/>
+					<field name="budget_id"/>
+					<field name="user_id"/>
+					<field name="state"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="view_budget_spendplan_search" model="ir.ui.view">
+			<field name="name">budget.spendplan.search</field>
+			<field name="model">budget.spendplan</field>
+			<field name="arch" type="xml">
+				<search string="Spend Planning">
+					<group expand="0" string="Group By"/>
+				</search>
+			</field>
+		</record>
+
+		<record id="action_budget_spendplan" model="ir.actions.act_window">
+			<field name="name">Spend Planning</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">budget.spendplan</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<menuitem id="menu_budget_spendplan"
+				  name="Spend Planning"
+				  action="action_budget_spendplan"
+				  parent="account_budget.next_id_31"
+				  sequence="2"/>
+	
+    </data>
+</openerp>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <report 
+            id="cash_receipt_report"
+            model="ghss.cash.receipt"
+            string="Cash Receipt"
+            report_type="qweb-pdf"
+            name="tiss_report.cash_receipt_report_view"
+            file="tiss_report.cash_receipt_report_view"
+            />  
+    </data>
+</openerp>

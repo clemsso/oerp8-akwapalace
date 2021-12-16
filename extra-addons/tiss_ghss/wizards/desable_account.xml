@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="desable_account_view" model="ir.ui.view">
+            <field name="name">Desable Account</field>
+            <field name="model">desable.account</field>
+            <field name="arch" type="xml">
+            <form string="Desable accounts">
+                <separator string="Desable selected Accounts"/>
+                <label string="THIS HELP TO AUTOMATICALLY DESABLE ONE OR MANY ACCOUNT"/>
+                <footer>
+                    <button string="Desable" name="desable_account" type="object" default_focus="1" class="btn-primary"/>
+                    <button string="Cancel" class="btn-default" special="cancel"/>
+                </footer>
+            </form>
+            </field>
+        </record>
+
+        <act_window id="action_desable_account"
+            multi="True"
+            key2="client_action_multi" name="Desable Accounts"
+            res_model="desable.account" src_model="account.account"
+            view_mode="form" target="new" view_type="form" />
+    </data>
+</openerp>

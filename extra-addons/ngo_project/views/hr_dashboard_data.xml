@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<openerp>
+    <data noupdate="0">
+
+		<record id="custom_hr_payroll_dashboard" model="hr.payroll.dashboard">
+			<field name="name">Payroll Batch Dashboard</field>
+			<field name="color">1</field>
+		</record>
+	
+    </data>
+</openerp>

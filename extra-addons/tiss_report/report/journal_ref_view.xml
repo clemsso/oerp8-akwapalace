@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <report 
+            id="journal_ref"
+            model="account.move.double"
+            string="Journal References"
+            report_type="qweb-pdf"
+            name="tiss_report.journal_ref_view"
+            file="tiss_report.journal_ref_view"
+            />  
+    </data>
+</openerp>

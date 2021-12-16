@@ -1,0 +1,3 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+access_ngo_project_budget_category_manager,access_ngo_project_budget_category_manager,model_ngo_budget_category,account.group_account_manager,1,1,1,1
+access_ngo_project_budget_category_operator,access_ngo_project_budget_category_operator,model_ngo_budget_category,account.group_account_user,1,1,0,0

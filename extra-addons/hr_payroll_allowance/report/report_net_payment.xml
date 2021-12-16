@@ -1,0 +1,124 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+	
+	<template id="wire_transfert_project_document">
+		<t t-call="ghss_hr_report.payslip_layout">
+			<div class="page">
+			<t t-set="nb_bank" t-value="1"/>
+			<t t-foreach="o.bank_ids" t-as="bank">
+
+					<div class="row">
+						<div class="col-xs-4" style="border: 1px solid black;">
+							<table border="1" width="100%" style="font-familly: Times, serif;font-size:12px;">
+								<tr>
+									<td style="text-align:center;letter-spacing:2px;"><h4>REPUBLIC OF CAMEROON</h4></td>
+								</tr>
+								<tr>
+									<td style="text-align:center;letter-spacing:2px;">Information Document<br/>
+									Bank Transaction</td>
+								</tr>
+								<tr>
+									<td style="text-align:center;letter-spacing:2px;"><h4>WIRE TRANSFER</h4></td>
+								</tr>
+								<tr>
+									<td style="text-align:center;letter-spacing:2px;"><h5>(<span t-field="o.project_id.name"/>)</h5></td>
+								</tr>
+							</table>
+						</div>
+						<div class="col-xs-7 col-xs-offset-1">
+						<table border="0" width="100%" style="font-familly: Times, serif;font-size:12px;">
+							<tr>
+								<td width="25%"><![CDATA[&nbsp;]]></td>
+								<td width="25%"><![CDATA[&nbsp;]]></td>
+								<td width="25%"><![CDATA[&nbsp;]]></td>
+								<td width="25%"><![CDATA[&nbsp;]]></td>
+							</tr>
+							<tr>
+								<td><![CDATA[&nbsp;]]></td>
+								<td><![CDATA[&nbsp;]]></td>
+								<td><![CDATA[&nbsp;]]></td>
+								<td><![CDATA[&nbsp;]]></td>
+							</tr>
+							<tr>
+								<td style="letter-spacing:2px;"><b>Company Name</b></td>
+								<td style="letter-spacing:2px;" colspan="3"><span t-field="o.company_id.name"/></td>
+							</tr>
+							<tr>
+								<td style="letter-spacing:2px;"><b>Adsress</b></td>
+								<td style="letter-spacing:2px;" colspan="3">Mokindi Layout, Sonara Road</td>
+							</tr>
+							<tr>
+								<td style="letter-spacing:2px;"><b>P.O Box</b></td>
+								<td style="letter-spacing:2px;" colspan="3">P.O Box 732 Limbe</td>
+							</tr>
+							<tr>
+								<td style="letter-spacing:2px;"><b>Payroll Month</b></td>
+								<td style="letter-spacing:2px;" colspan="3"><span t-field="o.month"/></td>
+							</tr>
+						</table>
+						</div>
+					</div>
+					<br/>
+
+					<br/>
+					<div class="row">
+						<div class="col-xs-12">
+							<table border="1" width="100%" style="border: 1px solid black;font-family:Times;font-size:12px;">
+								<tr style="border:1px solid black;padding: 5px;">
+									<th width="100%" colspan="3" scope="colgroup" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b><span t-field="bank.name"/></b></th>
+								</tr>
+					
+								<tr style="border:1px solid black;padding: 5px;">
+									<th width="50%" scope="col" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>Employee Name</b></th>
+									<th width="30%" scope="col" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>Account Bank</b></th>
+									<th width="20%" scope="col" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>Amount</b></th>
+								</tr>
+								<t t-set="total_net_payment" t-value="0"/>
+								<t t-foreach="o.payslip_with_bank_account_ids" t-as="payslip">
+                                    <t t-set="perc" t-value="1"/>
+                                    <t t-foreach="payslip.contract_id.contract_job_ids" t-as="project">
+                                        <t t-if="project.project_id.id == o.project_id.id">
+                                            <t t-if="len(payslip.contract_id.contract_job_ids)>1">
+                                                <t t-set="perc" t-value="project.percentage/100.00"/>
+                                            </t>
+                                        </t>
+                                    </t>
+									<t t-if="payslip.employee_id.bank_account_ids[0].bank_id.id == bank.id">
+										<tr style="padding: 5px;">
+											<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:2px;"><span t-field="payslip.employee_id.real_name"/></td>
+											<td style="border:0.5px solid black;text-align:left;padding: 5px;letter-spacing:1px;"><span t-field="payslip.employee_id.bank_account_ids[0].name"/></td>
+											<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:1px;"><span t-field="payslip.net*perc"/></td>
+										</tr>
+										<t t-set="total_net_payment" t-value="total_net_payment + payslip.net*perc"/>
+									</t>
+								</t>
+								<tr style="border:1px solid black;padding: 5px;">
+									<td colspan="2" style="border:0.5px solid black;text-align:center;padding: 5px;letter-spacing:2px;"><b>Total</b></td>
+									<td style="border:0.5px solid black;text-align:right;padding: 5px;letter-spacing:2px;"><b><span t-esc="'{0:,.1f}'.format(int(total_net_payment))"/></b></td>
+								</tr>
+							</table> 
+						</div>
+					</div>
+				
+				<t t-if="nb_bank &lt; o.nb_bank">
+					<p style="page-break-after:always"></p>
+					<t t-set="nb_bank" t-value="nb_bank + 1"/>
+				</t>
+				
+			</t>
+
+			</div>
+		</t>	
+	</template> 
+	
+	<template id="wire_transfert_project_template">
+		<t t-call="report.html_container">
+			<t t-foreach="doc_ids" t-as="doc_id">
+				<t t-raw="translate_doc(doc_id,doc_model,'env.lang','hr_payroll_allowance.wire_transfert_project_document')"/>
+			</t>
+		</t>
+	</template>
+		
+    </data>
+</openerp>

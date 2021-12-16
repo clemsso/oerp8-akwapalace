@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+    <record id="view_ghss_cash_receipt_form" model="ir.ui.view">
+        <field name="name">ghss.cash.receipt.form</field>
+        <field name="model">ghss.cash.receipt</field>
+        <field name="arch" type="xml">
+            <form string="Cash Receipt Form" version="7.0">
+			<header>
+				<button name="button_receive"
+						states="paid"
+						string="Receive"
+						type="object"
+						class="oe_highlight"/>
+				<field name="state" widget="statusbar"
+					   statusbar_visible="paid,receive"
+					   statusbar_colors='{"open":"blue"}'/>
+			</header>
+		    <sheet>
+				<label for="name" string="Transaction Code" />
+				<h1>
+					<field name="name" class="oe_inline" readonly="1"/>
+				</h1>
+			   <group>
+				   <group name="data">
+						<field name="project_id" />
+						<field name="user_id"/>
+						<field name="acc_bank_statement_id" groups="base.group_erp_manager"/>
+					</group>
+				   <group>
+						<field name="budget_id" groups="account.group_account_manager"/>
+						<field name="date"/>
+						<field name="amount" string="FCFA Amount :"/>
+				   </group>
+			   </group>
+			   <group>
+					<field name="amount_to_text" nolabel="1"/>
+				</group>
+			   <group>
+				   <group>
+						<field name="purpose" />
+					</group>
+				</group>
+
+			</sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_ghss_cash_receipt_list" model="ir.ui.view">
+        <field name="name">ghss.cash.receipt.list</field>
+        <field name="model">ghss.cash.receipt</field>
+        <field name="arch" type="xml">
+            <tree string="Cash Receipt">
+				<field name="project_id"/>
+                <field name="user_id"/>
+				<field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_ghss_cash_receipt_search" model="ir.ui.view">
+        <field name="name">ghss.cash.receipt.search</field>
+        <field name="model">ghss.cash.receipt</field>
+        <field name="arch" type="xml">
+            <search string="Cash Receipt">
+                <group expand="0" string="Group By"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_ghss_cash_receipt" model="ir.actions.act_window">
+        <field name="name">Cash Receipt Acknowledgement</field>
+		<field name="type">ir.actions.act_window</field>
+        <field name="res_model">ghss.cash.receipt</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_ghss_cash_receipt"
+              name="Cash Receipt Acknowledgement"
+              action="action_ghss_cash_receipt"
+              parent="tiss_ghss.menu_petty_cash_form"
+			  groups="tiss_ghss.group_petty_user"
+			  sequence="4"/>
+
+	
+</data>
+</openerp>

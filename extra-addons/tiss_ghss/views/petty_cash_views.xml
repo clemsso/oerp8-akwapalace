@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+	<!-- Cash Count Forms --> 
+	<record id="view_cash_control_view_form" model="ir.ui.view">
+		<field name="name">account.bank.statement.form</field>
+		<field name="model">account.bank.statement</field>
+		<field name="arch" type="xml">
+			<form string="Statement">
+			<header>
+				<button name="button_save" states="open" string="Save" type="object" class="oe_highlight"/>
+				<button name="button_lock_transaction" states="open" string="Lock Transactions" type="object" class="oe_highlight"/>
+				<field name="state" widget="statusbar" nolabel="1" statusbar_visible="draft,confirm"/>
+			</header>
+			<sheet string="Statement">
+				<label for="name" class="oe_edit_only" attrs="{'invisible':[('name','=','/')]}"/>
+				<h1><field name="name" class="oe_inline" attrs="{'invisible':[('name','=','/')]}"/></h1>
+				<group>
+					<group>
+						<!-- <field name="journal_id" on_change="onchange_journal_id(journal_id)" widget="selection" domain="[('type', '=', 'cash')]" /> -->
+						<field name="user_id" attrs="{'readonly':[('state','!=','draft')]}" string="Responsible"/>
+						<field name="project_id" string="Fund:" readonly="1"/>
+					</group>
+					<group>
+						<field name="date" attrs="{'readonly':[('state','!=','draft')]}"  on_change="onchange_date(date, company_id)"/>
+<!-- 						<field name="closing_date" readonly="1"/>
+						<field name="period_id" class="oe_inline"/>
+						<field name="currency" invisible="1"/> -->
+						<field name="cash_control" groups="base.group_erp_manager"/>
+						<field name="petty_cash_fund" groups="base.group_erp_manager"/>
+					</group>
+				</group>
+				<notebook>
+					<page string="Cash Control" attrs="{'invisible' : [('cash_control', '=', False)]}">
+						<group col="2" expand="1">
+<!-- 							<group string="Opening Cash Control" attrs="{'invisible' : [('state', '!=', 'draft')]}">
+								<field name="opening_details_ids" colspan="2" nolabel="1">
+									<tree string="Opening Cashbox Lines" editable="bottom">
+										<field name="pieces"/>
+										<field name="number_opening" on_change="on_change_sub_opening(pieces, number_opening)" />
+										<field name="subtotal_opening" string="Opening Subtotal" sum="Total"/>
+									</tree>
+								</field>
+							</group> -->
+							<group>
+<!-- 								<group string="Opening Cash Control" attrs="{'invisible' : [('state', '=', 'draft')]}">
+									<field name="details_ids" colspan="2" nolabel="1" attrs="{'readonly' : [('state', '!=', 'draft')]}">
+										<tree string="Opening Cashbox Lines" editable="bottom">
+											<field name="pieces"/>
+											<field name="number_opening" on_change="on_change_sub_opening(pieces, number_opening)"/>
+											<field name="subtotal_opening" string="Opening Subtotal" sum="Total"/>
+										</tree>
+									</field>
+								</group> -->
+								<group string="Closing Cash Control" attrs="{'invisible' : [('state', '=', 'draft')]}">
+									<field name="closing_details_ids" colspan="2" nolabel="1" attrs="{'readonly' : [('state', '=', 'confirm')]}">
+										<tree string="Closing Cashbox Lines" editable="bottom">
+											<field name="pieces" readonly="1" />
+											<field name="number_closing" on_change="on_change_sub_closing(pieces, number_closing)"/>
+											<field name="subtotal_closing" string="Closing Subtotal" sum="Total"/>
+										</tree>
+									</field>
+								</group>
+							</group>
+						</group>
+					</page>
+				</notebook>
+				<group>
+					<group class="oe_subtotal_footer oe_right">
+						<label for="balance_start" class="oe_subtotal_footer_separator oe_open_balance" string="Opening Balance" style="padding-right: 23px !important; padding-top: 6px !important;"/>
+						<field name="balance_start" attrs="{'readonly' : ['|', ('cash_control', '=', True), ('state', '=', 'confirm')]}" nolabel="1" widget="monetary" class="oe_subtotal_footer_separator oe_open_balance" options="{'currency_field': 'currency'}" help="Total of opening cash control lines"/>
+						<label for="total_entry_encoding" string="+ Transactions" class="oe_force_bold oe_mini_subtotal_footer_separator" style="padding-right: 20px !important;"/>
+						<field name="total_entry_encoding" nolabel="1" class="oe_bold oe_account_total" widget="monetary" options="{'currency_field': 'currency'}"/>
+						<label for="balance_end" string="= Theoretical Closing Balance" class="oe_force_bold oe_mini_subtotal_footer_separator" style="padding-right: 20px !important;" help="Sum of opening balance and transactions."/>
+						<field name="balance_end" nolabel="1" class="oe_bold oe_account_total" widget="monetary" options="{'currency_field': 'currency'}"/>
+					</group>
+					<div>
+						<group class="oe_subtotal_footer oe_right" attrs="{'invisible': [('state', '=', 'draft')]}">
+							<label for="balance_end_real" class="oe_subtotal_footer_separator oe_real_closing_balance" string="GL Closing Balance" style="padding-right: 23px !important; padding-top: 6px !important;"/>
+							<field name="balance_end_real" attrs="{'readonly' : ['|', ('cash_control', '=', True), ('state', '=', 'confirm')]}" nolabel="1" class="oe_subtotal_footer_separator oe_real_closing_balance" widget="monetary" options="{'currency_field': 'currency'}" help="Total of closing cash control lines."/>
+						</group>
+						<group/>
+						<group/>
+						<group class="oe_subtotal_footer oe_right" attrs="{'invisible': [('state', '=', 'draft')]}">
+							<label for="difference" string="Diff. (Should be zero)" class="oe_subtotal_footer_separator oe_difference" style="padding-right: 20px !important;"/>
+							<field name="difference" nolabel="1" class="oe_subtotal_footer_separator oe_difference" widget="monetary" options="{'currency_field': 'currency'}"/>
+						</group>
+					</div>
+				</group>
+			</sheet>
+			</form>
+		</field>
+	</record>
+	
+    <record id="view_petty_cash_form" model="ir.ui.view">
+        <field name="name">ghss.pettycash.fund.form</field>
+        <field name="model">ghss.pettycash.fund</field>
+        <field name="arch" type="xml">
+            <form string="Petty Cash" version="7.0">
+			<header>
+				<button name="button_opened"
+						states="draft"
+						string="Open"
+						type="object"
+						class="oe_highlight"
+						groups="tiss_ghss.group_cashier_user"/>
+<!-- 				<button name="button_closed"
+						states="open"
+						string="Closed"
+						type="object"
+						class="oe_highlight"
+						groups="account.group_account_user"/> -->
+				<field name="state" widget="statusbar"
+					   statusbar_visible="draft,open,closed"
+					   statusbar_colors='{"open":"blue"}'/>
+			</header>
+		    <!-- <sheet> -->
+				<label for="name" string="Name" />
+				<h1>
+					<field name="name" class="oe_inline" readonly="1"/>
+				</h1>
+			   <group>
+				   <group name="data">
+					   <field name="journal_id" attrs="{'readonly': [('state','!=','draft')]}"
+					   options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,}"/>
+					   <field name="user_id" attrs="{'readonly': [('state','!=','draft')]}"
+					   options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,}"/>
+					   <field name="date" attrs="{'readonly': [('state','!=','draft')]}"/>
+				   </group>
+				   <group name="petty_cash">
+						<field name="project_id" string="Fund" invisible="0"
+						options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,}"/>
+					   <field name="petty_cash_limit" attrs="{'readonly': [('state','!=','draft')]}"/>
+					   <field name="petty_cash_min" attrs="{'readonly': [('state','!=','draft')]}"/>
+					   <field name="petty_cash_balance"/>
+				   </group>
+			   </group>
+			   <notebook attrs="{'invisible': [('state','=','draft')]}">
+					<page string="Transactions" >
+						<button name="button_cash_count"
+								string="Cash Count"
+								type="object"
+								class="oe_highlight"
+								icon = "fa-gears"
+								groups="account.group_account_invoice"/>
+						<field name="line_ids">
+							<tree editable="bottom" string="lines" default_order='id asc'>
+								<field name="sequence" widget="handle"/>
+								<field name="pr_id" invisible="0" groups="base.group_erp_manager"/>
+                                <field name="pcv_id" invisible="0" groups="base.group_erp_manager"/>
+                                <field name="pv_id" invisible="0" groups="base.group_erp_manager"/>
+                                
+								<field name="name" string="Num. Voucher" readonly="1" />
+								<field name="lock_line" invisible="1"/>
+								<field name="date" attrs="{'readonly':[('lock_line','=',True)]}"/>
+								<field name="ref" attrs="{'readonly':[('lock_line','=',True)]}"/>
+								<field name="note" string="Description" required="1" attrs="{'readonly':[('lock_line','=',True)]}"/>
+								<field name="partner_id" attrs="{'readonly':[('lock_line','=',True)]}"/>
+								<field name="cash_in" attrs="{'readonly':[('lock_line','=',True)]}"/>
+								<field name="cash_out" attrs="{'readonly':[('lock_line','=',True)]}"/>
+								<field name="balance"/>
+								<field name="voucher_number" invisible="1" attrs="{'readonly':[('lock_line','=',True)]}"/>
+								<field name="budget_id" groups="account.group_account_manager"/>
+								<field name="budget_post_id" groups="account.group_account_manager"/>
+								<field name="analytic_account_id" groups="account.group_account_manager"/>
+								<field name="cash_register" invisible="1"/>
+								<field name="ackwnolegement" invisible="1"/>
+								<button name="print_receipt" string="⇒Print" type="object" class="oe_stat_button" />
+								<button name="puch_to_cash" string="⇒Puch" type="object" class="oe_link oe_right" attrs="{'invisible': [('cash_register','=',True)]}"/>
+								<field name="cash_count" groups="account.group_account_invoice"/>
+							</tree>
+						</field>
+					</page>
+                    <page string="Inter Project Petty Cash">
+                        <field name="inter_project_pettycash_ids">
+                            <tree editable="bottom">
+                                <field name="state" invisible="1"/>
+                                <field name="date" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="name" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="pc_project_inneed_id" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="amount" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="pc_project_provider_id" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <button name="button_send" string="⇒Send" type="object" class="oe_highlight" attrs="{'invisible':[('state','!=','draft')]}"/>
+                                <field name="requested_by" force_save="1" readonly="1"/>
+                                <field name="approved_by" force_save="1" readonly="1"/>
+                            </tree>
+                            <form>
+                                <group>
+                                    <field name="date" />
+                                    <field name="amount"/>
+                                    <field name="requested_by"/>
+                                    <field name="approved_by"/>
+                                </group>
+                                <group>
+                                    <field name="pc_project_inneed_id" />
+                                    <field name="name" required="1"/>
+                                    <field name="pc_project_provider_id"/>
+                                </group>
+                            </form>
+                        </field>
+                    </page>
+				</notebook>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_petty_cash_list" model="ir.ui.view">
+        <field name="name">ghss.pettycash.fund.list</field>
+        <field name="model">ghss.pettycash.fund</field>
+        <field name="arch" type="xml">
+            <tree string="Petty Cash">
+				<field name="project_id"/>
+                <field name="user_id"/>
+				<field name="journal_id"/>
+                <field name="petty_cash_limit" sum="Limit"/>
+				<field name="petty_cash_min" sum="Limit"/>
+                <field name="petty_cash_balance" sum="Balance"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_petty_cash_search" model="ir.ui.view">
+        <field name="name">ghss.pettycash.fund.search</field>
+        <field name="model">ghss.pettycash.fund</field>
+        <field name="arch" type="xml">
+            <search string="Petty Cash">
+                <group expand="0" string="Group By"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_petty_cash" model="ir.actions.act_window">
+        <field name="name">Petty Cash</field>
+		<field name="type">ir.actions.act_window</field>
+        <field name="res_model">ghss.pettycash.fund</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_petty_cash_search"/>
+        <field name="view_id" ref="view_petty_cash_list"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Create a new petty cash holder
+            </p>
+        </field>
+    </record>
+	
+	<menuitem
+		id="menu_petty_cash_root_mgt"
+		name="Petty Cash"
+		groups="tiss_ghss.group_petty_user"/>
+		
+    <menuitem id="menu_petty_cash_form"
+              name="Petty Cash Forms"
+              parent="tiss_ghss.menu_petty_cash_root_mgt"
+			  groups="tiss_ghss.group_petty_user"/>		
+
+    <menuitem id="menu_petty_cash"
+              name="Petty Cash"
+              action="action_petty_cash"
+              parent="tiss_ghss.menu_petty_cash_form"
+			  groups="tiss_ghss.group_cashier_user"
+			  sequence="1"/>
+              
+    <!-- Inter Project Petty Cash Form -->
+    <record id="view_petty_cash_interproject_form" model="ir.ui.view">
+        <field name="name">ghss.pettycash.interproject.line.form</field>
+        <field name="model">ghss.pettycash.interproject.line</field>
+        <field name="arch" type="xml">
+            <form string="Inter Project Petty cash Form" version="7.0" create="0" delete="0">
+			<header>
+<!-- 				<button name="button_send"
+						states="draft"
+						string="To Prepare"
+						type="object"
+						class="oe_highlight"
+						groups="account.group_account_user"/> -->
+				<button name="button_approve"
+						states="send"
+						string="Approved"
+						type="object"
+						class="oe_highlight"
+						groups="account.group_account_manager"/>        
+				<field name="state" widget="statusbar"
+					   statusbar_visible="draft,send,approve,done"
+					   statusbar_colors='{"open":"blue"}'/>
+			</header>
+		    <sheet>
+				<label for="name" string="Name" />
+				<h1>
+					<field name="name" class="oe_inline" readonly="1"/>
+				</h1>
+			    <group>
+				    <group >
+					    <field name="date" attrs="{'readonly':[('state','!=','draft')]}"/>
+                        <field name="pc_project_inneed_id" attrs="{'readonly':[('state','!=','draft')]}" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,}"/>
+					    <field name="pc_project_provider_id" attrs="{'readonly':[('state','in',['send'])],'invisible':[('state','in',['draft'])]}" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,}"/>
+					    <field name="amount" force_save="1" readonly="1"/>
+                    </group>
+				    <group>
+                        <field name="petty_cash_fund" invisible="0"/>
+                        <field name="requested_by" attrs="{'readonly':[('state','!=','draft')]}" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,}"/>
+					    <field name="approved_by" attrs="{'readonly':[('state','in',['send'])],'invisible':[('state','in',['draft'])]}" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,}"/>
+					</group>
+			    </group>
+			</sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_petty_cash_interproject_list" model="ir.ui.view">
+        <field name="name">ghss.pettycash.interproject.line.list</field>
+        <field name="model">ghss.pettycash.interproject.line</field>
+        <field name="arch" type="xml">
+            <tree string="Inter Project Petty Cash Form" create="0" delete="0">
+				<field name="name"/>
+                <field name="date"/>
+				<field name="pc_project_inneed_id"/>
+                <field name="pc_project_provider_id"/>
+				<field name="amount"/>
+                <field name="requested_by"/>
+                <field name="approved_by"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+    <record id="action_inter_project_pettycash" model="ir.actions.act_window">
+        <field name="name">Inter Project Petty Cash Form</field>
+		<field name="type">ir.actions.act_window</field>
+        <field name="res_model">ghss.pettycash.interproject.line</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_petty_cash_interproject_list"/>
+    </record>
+    <menuitem name="Inter Project Petty Cash Form" parent="account.menu_finance_bank_and_cash" 
+    id="menu_inter_project_pettycash" sequence="52" action="action_inter_project_pettycash"
+    groups="account.group_account_manager"/>    
+    
+</data>
+</openerp>
